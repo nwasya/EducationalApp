@@ -1,0 +1,108 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/main4.css' %}">
+    <div class="news-bg">
+        <div class="hero-text">
+
+        </div>
+    </div>
+    <br>
+    <div class="container" >
+
+            <div class="row ">
+                <div class="col d-flex flex-wrap text-uppercase justify-content-center">
+
+                    <h1 class="section-title-special mx-1">اخبار</h1>
+                </div>
+            </div>
+    </div>
+    <hr>
+
+
+    <section >
+
+
+        <section id="blog" class="blog">
+
+
+            <div class="container" data-aos="fade-up">
+
+                <div class="row">
+                    {% for new in page_obj %}
+
+                        <div class="col-lg-12  entries" style="padding-left: 80px;padding-right: 80px">
+
+                            <article class="entry">
+
+                                <div class="entry-img">
+                                    <img class="img-fluid" src="{% if new.image %}{{ new.image.url }} {% endif %}"
+                                         style="max-height: 500px;width:1000px" alt="">
+                                </div>
+
+                                <h2 class="entry-title">
+                                    <a>{{ new.title }}</a>
+                                </h2>
+
+                                <div class="entry-meta">
+                                    <ul>
+                                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a
+                                        >{{ new.user_name }}</a></li>
+                                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a
+                                        >
+                                            <time datetime="2020-01-01">{{ new.upload_time }}, {{ new.upload_date }}</time>
+                                        </a></li>
+
+                                    </ul>
+                                </div>
+
+                                <div class="entry-content">
+                                    <p>
+                                        {{ new.text }}
+                                    </p>
+
+                                </div>
+
+                            </article><!-- End blog entry -->
+
+
+                        </div><!-- End blog entries list -->
+
+                    {% endfor %}
+
+
+                </div>
+
+            </div>
+        </section><!-- End Blog Section -->
+
+
+        <nav class=" text-center">
+
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                        << </a></li>
+                {% endif %}
+                {% for page in paginator.page_range %}
+                    {% if page == page_obj.number %}
+                        <li class="active page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}"> >> </a>
+                    </li>
+                {% endif %}
+            </ul>
+
+        </nav>
+
+    </section>
+
+
+
+{% endblock %}

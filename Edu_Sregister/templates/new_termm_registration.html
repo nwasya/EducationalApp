@@ -1,0 +1,131 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+{% load render_partial %}
+{% block content %}
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+
+    <div class="container">
+
+
+        <div class="col d-flex flex-wrap text-uppercase justify-content-center" style="padding-top: 90px">
+            <h1 class="font-weight-bold align-self-center mx-1">ثبت نام</h1>
+            <h1 class="section-title-special mx-1">ترم جدید</h1>
+        </div>
+        <div class="content" style="padding-top: 30px">
+            <div class="row align-items-stretch no-gutters contact-wrap text-center mx-auto">
+
+
+                {% if course is None %}
+
+
+
+                    <div class="card" style="margin-bottom: 300px">
+                        <div class="card-header" >
+                            کلاسی برای ثبت نام یافت نشد.
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">کلاسی که برای شما تعریف گردیده است با موفقیت ثبت نام نموده اید.</h5>
+                            <p class="card-text">توجه داشته باشید برای فعال شدن پنل ثبت نام برای ترم جدید بایستی نمرات ترم توسط دبیر وارد سامانه گردد.
+                                در صورت کسب نمره قبولی قادر به ثبت نام خواهید بود.
+                                لازم به ذکر ات نمره قبولی برای گذراندن هر ترم حداقل 70 می باشد.
+                            در صورت هرگونه ابهام سوالات خود را با مدیریت در میان بگذارید.
+
+                            </p>
+
+                        </div>
+                    </div>
+
+                {% else %}
+                    <div class="col-md-6 ">
+
+                        <div class="card mb-4" style="max-width: 400px ">
+                            <img class="card-img-top img-fluid" src="{{ course.image.url }}" alt="Card image cap "
+                                 style="max-height: 400px;max-width: 600px">
+                            <div class="card-body ">
+                                <h5 class="card-title">{{ course.title }}</h5>
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" id="course_id" name="course_id" value="{{ course.id }}">
+
+                                    <button type="submit" class="btn btn-success btn-block">ثبت نام</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6" style="max-width: 400px">
+                        <div class="form h-100">
+
+
+                            <a class="btn btn-info btn-lg text-center my-4" data-toggle="collapse"
+                               data-target="#collapseExample" aria-expanded="false"
+                               aria-controls="collapseExample">
+                                برای مشاهده اطلاعات بیشتر اینجا کلیک کنید.
+                            </a>
+
+                            <div class="collapse" id="collapseExample">
+                                <div class="card card-body">
+                                    <h6 style="font-weight: bold">دبیر:</h6>
+                                    <p>
+                                        {{ course.teacher }}
+                                    </p>
+                                    <h6 style="font-weight: bold">هزینه:</h6>
+                                    <p>
+                                        {{ course.price }} تومان
+                                    </p>
+                                    <h6 style="font-weight: bold">توضیحات:</h6>
+                                    <p>
+                                        {{ course.description }}
+                                    </p>
+                                </div>
+                            </div>
+
+
+                            <section style="padding-top: 20px">
+
+                                <div class="service-box mx-auto " style="">
+                                    <div>
+                                        <i class="icon far fa-credit-card"></i>
+                                        <h3 style="font-weight: bold">لطفا جهت ثبت نام به موارد زیر توجه فرمایید</h3>
+                                        <p>قبل از پرداخت از صحت نام کلاس و مقدار شهریه اطمینان حاصل فرمایید. در صورت
+                                            مغایرت با شماره تماس 04133437583 در میان بگذارید.
+                                        </p>
+                                        <p> پس از پرداخت کد رهگیری و کارت کلاسی خود را نزد خود نگه دارید.
+                                        </p>
+                                        <p>
+                                            جهت ثبت نام و اتصال به درگاه پرداخت اینترنتی از دکمه سبز رنگ "ثبت نام"
+                                            استفاده
+                                            نمایید
+                                        </p>
+                                        <p>
+                                            قبل از پرداخت حتما پروکسی یا وی پی ان خود را خاموش نمایید.
+                                        </p>
+
+                                    </div>
+                                </div>
+
+                            </section>
+
+
+                        </div>
+                    </div>
+
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+

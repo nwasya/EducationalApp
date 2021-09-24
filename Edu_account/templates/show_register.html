@@ -1,0 +1,75 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+{% load render_partial %}
+{% block content %}
+
+
+
+
+    <div class="container">
+        <link rel="stylesheet" href="{% static 'css/main3.css' %}">
+        <div class="content">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-md-12" style="overflow-x:auto;">
+                        <h2 class="title text-center">درخواست های ثبت نام</h2>
+                        <hr>
+                        <br>
+
+
+                        <table class="table table-hover  table-striped table-bordered  text-center" style="width: 100%">
+                            <thead class="thead thead-dark text-center" style="width: 100%">
+                            <tr>
+                                <th>ردیف</th>
+                                <th>نام</th>
+                                <th>کدملی</th>
+                                <th>آخرین دوره</th>
+                                <th>آدرس</th>
+                                <th>تاریخ تولد</th>
+                                <th>شماره تماس</th>
+
+                                <th >توضیحات</th>
+                                <th class="table-success">تایید</th>
+                                <th class="table-danger">حذف</th>
+
+                            </tr>
+                            </thead>
+
+                            <tbody style="width: 100%">
+
+                                      {% for item in page_obj %}
+                                <tr>
+
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ item.full_name }}</td>
+                                    <td>{{ item.id_num }}</td>
+                                    <td>{{ item.latest_course }}</td>
+                                    <td>{{ item.address }}</td>
+                                    <td>{{ item.birth }}</td>
+                                    <td>{{ item.phone }}</td>
+                                    <td>{{ item.description }}</td>
+
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/main4.css' %}">
+    <div class="about-us-bg">
+        <div class="hero-text">
+
+        </div>
+    </div>
+    <br>
+    <div class="container" >
+
+
+    </div>
+
+    <section >
+
+
+        <section id="blog" class="blog">
+
+
+            <div class="container" data-aos="fade-up">
+
+                <div class="row">
+
+
+                        <div class="col-lg-12  entries" style="padding-left: 80px;padding-right: 80px">
+
+                            <article class="entry">
+
+                                <h2 class="entry-title">
+                                    <a>کانون زبان انگلیسی استقلال سهند</a>
+                                </h2>
+
+                                <div class="entry-meta">
+                                    <ul>
+                                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a
+                                        >{{ new.user_name }}</a></li>
+                                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a
+                                        >
+                                            <time datetime="2020-01-01">{{ new.upload_time }}, {{ new.upload_date }}</time>
+                                        </a></li>
+
+                                    </ul>
+                                </div>
+
+                                <div class="entry-content">
+                                    <p class="text-justify" style="font-size: 18px">
+                                      کانون زبان استقلال از سال ۱۳۹۳ فعالیت خود را در شهر جدید سهند واقع در استان آذربایجان شرقی  اغاز کرد و تا کنون در زمینه تدریس زبان  انگلیسی  فعالیت مستمر داشته است.
+ما  با بهره گیری از اساتید کارآزموده ، حرفه ای ، جوان و  با بکارگیری جدیدترین متدهای آموزش زبان  تحت نظارت سیستم مدیریت کیفیت دوره های عمومی و تخصصی برگزار میکنیم. برگزاری منظم ، منسجم و دقیق کلاسها بر اساس تقویم سالیانه و برنامه ترمی از دیگر ویژگی های بارز ماست.
+ما مجموعه ای کیفیت محور, پیشرو و پویا هستیم که بر اساس استانداردهای روز و در قالب متد CLT  (فراگیری از طریق ارتباط) به آموزش کاربردی زبان می پردازیم.در این روش زبان آموزان در هر سطحی (حتی در سطوح ابتدایی) در موقعیت های کاربردی روزمره قرار میگیرند و دروس فراگرفته را از همان ابتدا به گفتار تبدیل میکنند.
+اینجا  تنها ملاک ارزیابی کیفیت آموزش،  استانداردهای تعیین شده ی بین المللی است و سلایق شخصی در شیوه ی تدریس نقش قابل ملاحظه ای ندارند.
+                                    </p>
+
+                                    <hr>
+                                    <p class="font-weight-bold" style="font-size: 20px">
+                                        ادرس :آذربایجان شرقی  شهر جدید سهند فاز ۲ خیابان نگین روبروی داروخانه نظری
+                                    </p>
+                                    <hr>
+                                    <p class="font-weight-bold" style="font-size: 20px">تلفن  ۳۳۴۰۸۶۹۸. و ۰۹۳۳۸۰۶۳۱۸۱
+                                    </p>
+                                    <hr>
+                                    <p class="font-weight-bold" style="font-size: 20px">تماس در واتس اپ ۰۹۳۳۸۰۶۳۱۸۱
+                                    </p>
+
+                                </div>
+
+                            </article><!-- End blog entry -->
+
+
+                        </div><!-- End blog entries list -->
+
+
+
+                </div>
+
+            </div>
+        </section><!-- End Blog Section -->
+
+
+        <nav class=" text-center">
+
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                        << </a></li>
+                {% endif %}
+                {% for page in paginator.page_range %}
+                    {% if page == page_obj.number %}
+                        <li class="active page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}"> >> </a>
+                    </li>
+                {% endif %}
+            </ul>
+
+        </nav>
+
+    </section>
+
+
+
+{% endblock %}

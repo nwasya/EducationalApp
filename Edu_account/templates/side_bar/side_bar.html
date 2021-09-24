@@ -1,0 +1,142 @@
+
+<style>
+.button {
+  background-color: wheat; /* Green */
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button-white {
+  background-color: white; /* Green */
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.button3 {width: 100%;}
+</style>
+
+<div class="col col-md-4 pull-right">
+            <ul class="list-group">
+
+                {% if request.user.profile.role == 'Manager' %}
+                <div class="list-group-item btn-group-vertical"  role="group" >
+
+                  <div class="btn-group" role="group">
+                    <button class="button button3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      زبان آموزان
+                      <span class="caret"></span>
+                    </button>
+                    <ul  class="dropdown-menu  button3">
+                      <li><a href="{% url 'addstudent' %}">افزودن زبان آموز</a></li>
+                      <li><a href="{% url 'deletestudent' %}">حذف زبان آموز</a></li>
+                    </ul>
+                  </div>
+                  <div class="btn-group" role="group">
+                    <button class="button-white button3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      دوره ها
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu button3">
+                      <li><a href="{% url 'addcourse' %}">افزودن دوره</a></li>
+                      <li><a href="{% url 'deletecourse' %}">حذف دوره</a></li>
+                      <li><a href="{% url 'editcourse' %}">ویرایش دوره</a></li>
+                    </ul>
+                  </div>
+                  <div class="btn-group" role="group">
+                    <button  class="button button3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      دبیران
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu  button3">
+                      <li><a href="{% url 'addteacher' %}">افزودن دبیر</a></li>
+                      <li><a href="{% url 'deleteteacher' %}">حذف دبیر</a></li>
+                      <li><a href="{% url 'editteacher' %}">ویرایش دبیر</a></li>
+                    </ul>
+                  </div>
+                    <div class="btn-group" role="group">
+                    <button class="button-white button3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      سفارشات و صورتحساب
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu button3">
+                      <li><a href="{% url 'recent_orders' %}">سفارشات اخیر</a></li>
+                      <li><a href="{% url 'order_detail' %}">جزعیات سفارشات</a></li>
+                      <li><a href="{% url 'recent_registration' %}">ثبت نام های اخیر</a></li>
+                    </ul>
+                  </div>
+                  <div class="btn-group" role="group">
+                    <button class="button-white button3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      کتاب ها
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu  button3">
+                      <li><a href="{% url 'addbooks' %}">افزودن کتاب</a></li>
+                      <li><a href="{% url 'deletebook' %}">حذف کتاب</a></li>
+                      <li><a href="{% url 'editbook' %}">ویرایش کتاب</a></li>
+                    </ul>
+                  </div>
+                  <div class="btn-group" role="group">
+                    <button class="button button3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      اخبار سایت
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu button3">
+                      <li><a href="{% url 'addnews' %}">افزودن خبر</a></li>
+                      <li><a href="{% url 'deletenews' %}">حذف خبر</a></li>
+                      <li><a href="{% url 'editnews' %}">ویرایش خبر</a></li>
+                    </ul>
+                  </div>
+                  <div class="btn-group" role="group">
+                    <button  class="button-white button3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      ارتباطات
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu button3">
+                      <li><a href="{% url 'unconfirmedcomments' %}">نظر های تایید نشده</a></li>
+                      <li><a href="{% url 'showcomments' %}">حذف نظر های اخیر</a></li>
+                      <li><a href="{% url 'showregistration' %}">درخواست های ثبت نام</a></li>
+                      <li><a href="{% url 'showcontact' %}">ارتباط ها</a></li>
+                    </ul>
+                  </div>
+
+                </div>
+                {% endif %}
+
+
+
+
+                {% if request.user.profile.role == 'Teacher' %}
+
+                    <li><a href="{% url 'enter-mark' %}" class="button button3 ">وارد کردن نمره</a></li>
+                    <li><a href="{% url 'delete-mark' %}" class="button-white button3">حذف نمره</a></li>
+                    <li><a href="{% url 'addnews' %}" class="button button3">ایجاد خبر</a></li>
+                    <li><a href="{% url 'deletenews' %}" class="button-white button3">حذف خبر</a></li>
+{#                    <li><a href="{% url 'change_password' %}" class="button button3">تغییر رمز</a></li>#}
+
+                {% endif %}
+
+                {% if request.user.profile.role == 'Student' %}
+
+                <li><a href="{% url 'final-report' %}" class="button button3">مشاهده کارنامه</a></li>
+                <li><a href="{% url 'new_term_registration' %}" class="button-white button3">ثبت نام ترم جدید</a></li>
+                <li><a href="{% url 'new_term_book_registration' %}" class="button button3">خرید کتاب</a></li>
+
+                <li><a href="/open-order" class="button-white button3">سبد خرید</a></li>
+                <li><a href="" class="button button3">تغییر رمز</a></li>
+                <li><a href="{% url 'logout' %}" class="button-white button3">خروج</a></li>
+                {% endif %}
+           </ul>
+    </div>

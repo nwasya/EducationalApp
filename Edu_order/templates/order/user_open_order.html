@@ -1,0 +1,123 @@
+{% extends 'shared/_MainLayout.html' %}
+{% block content %}
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+
+
+    <div class="order-bg">
+        <div class="hero-text">
+        </div>
+    </div>
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb text-right">
+                <li class="breadcrumb-item"><a href="#">صفحه اصلی</a></li>
+                <li class="breadcrumb-item"><a href="#">پنل کاربری</a></li>
+                <li class="breadcrumb-item"><a href="#">سبد خرید</a></li>
+                <li class="breadcrumb-item active" aria-current="page">لیست محصولات موجود در سبد خرید شما</li>
+            </ol>
+        </nav>
+{% if order != None and details|length > 0 %}
+     <section style="padding-top: 10px">
+            <div class="container mt-5 mb-5">
+                <div class="d-flex justify-content-center row">
+                    <div class="col-md-8">
+                        <div class="row mb-5">
+                <div class="col d-flex flex-wrap text-uppercase justify-content-center">
+                    <h1 class="font-weight-bold align-self-center mx-1">سبد</h1>
+                    <h1 class="section-title-special mx-1">خرید</h1>
+                </div>
+            </div>
+                        {% for detail in details %}
+                            <div class="d-flex flex-row justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded">
+
+                             {% if detail.product.image %}
+    <div class="mr-1"><img class="rounded" src="{{ detail.product.image.url }}" width="70">
+                            </div>
+{% endif %}
+
+
+                            <div class="d-flex flex-column align-items-center product-details"><span
+                                    class="font-weight-bold">{{ detail.product.title }}</span>
+                                <div class="d-flex flex-row product-desc">
+                                    <div class="size mr-1"><span class="text-grey">شناسه:</span><span
+                                            class="font-weight-bold">&nbsp;{{ detail.product.id_num }}</span></div>
+
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center qty">
+                                <h5 class="text-grey mt-1 mr-1 ml-1">{{ detail.count }}</h5>
+                            </div>
+                            <div>
+                                <h5 class="text-grey">{{ detail.get_detail_sum }} تومان</h5>
+                            </div>
+                            <a href="/remove-order-detail/{{ detail.id }}" class="d-flex align-items-center"><i class="fa fa-trash mb-1 text-danger"></i></a>
+                        </div>
+
+                            <hr>
+                        {% endfor %}
+{##}
+{#                        <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded"><input type="text"#}
+{#                                                                                                         class="form-control border-0 gift-card"#}
+{#                                                                                                         placeholder="کد تخفیف را همینجا وارد کنید" style="background-color: #bbbbbb">#}
+{##}
+{#                        </div>#}
+{#                        <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded">#}
+{#                            <button class="btn btn-warning  ml-2 pay-button" type="button">بررسی کد تخفیف#}
+{#                            </button>#}
+{#                        </div>#}
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    {% else %}
+    <div class="container" style="background: #CC3434;height:35px">
+        <p class="text-center mt-1 my-auto" style="font-weight: bold;color: whitesmoke">هیچ محصولی در سبد خرید شما یافت نشد</p>
+        </div>
+    {% endif %}
+
+
+
+
+
+        <section style="padding-top: 20px">
+
+            <div class="service-box ">
+                <div>
+                    <i class="icon fas fa-bell"></i>
+                    <h3>آیا می خواهید خریدتان را نهایی کنید؟</h3>
+                    <p style="margin-bottom: 15px">لطفا از تعداد محصولات موجود در سبد خریدتان اطمینان حاصل فرمایید.با کلیک بر روی دکمه پرداخت زیر،به صفحه پرداخت هدایت خواهید شد.لطفا پس از دریافت کد پیگیری،آن را تا تحویل محصولات نزد خود نگه دارید.</p>
+
+                </div>
+            </div>
+
+        </section>
+
+        <div class=" container total_area col-sm-6">
+            <ul class="list-group">
+                <li class="list-group-item">{{ total }} تومان<span>مجمـوع سبـد خریـد</span></li>
+                <li class="list-group-item">رایگان<span>هزینـه حمل و نقـل</span></li>
+                <li class="list-group-item">{{ total }} تومان<span>مجمـوع</span></li>
+
+            </ul>
+            <div class="row mx-auto">
+                <a href="/open-order" class="btn btn-warning btn-lg mx-2" style="background: #ffd23c">به روز رسانی سبد خرید</a>
+                <a href="/request" class="btn btn-success btn-lg mx-2" style="background: #91d443">پرداخت</a>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+{% endblock %}

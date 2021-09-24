@@ -1,0 +1,104 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load render_partial %}
+{% block content %}{% load static %}
+    {##}
+    {#<link href="{% static 'css/multiselect.css' %}" rel="stylesheet">#}
+
+    <div class="container">
+        <link rel="stylesheet" href="{% static 'css/main3.css' %}">
+        <div class="content">
+
+            <div class="container">
+                <div class="row align-items-stretch no-gutters contact-wrap">
+                    <div class="col-md-12">
+                        <div class="form h-100">
+                            <h3 class="text-center"><strong>ثبت کتاب جدید</strong></h3>
+                            <form method="post" enctype="multipart/form-data">
+
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                      {{ form.title }}
+                                    </div>
+                                    <div class="col-md-6">
+                                {{ form.id_num }}
+                                    </div>
+
+
+                                </div>
+
+                                <br>
+                                <br>
+
+                            <div class="row">
+                                    <div class="col-md-6">
+                                              {{ form.description }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ form.price }}
+                                    </div>
+                            </div>
+
+                                <br>
+
+
+                                <br>
+
+
+                            {{ form.image.label_tag }}
+                                <div class="row">
+                                    {{ form.image }}
+                                </div>
+                                <br>
+                                <br>
+
+                                <hr>
+
+
+                                {{ form.courseList.label_tag }}
+                                <br>
+                                <br>
+
+                                <div class="text-right pr-5">
+                                    <select id='testSelect1' multiple name="dropdown"
+                                            style="height: 320px;alignment: bottom ">
+
+                                        <option value='NONE'>بدون دوره</option>
+
+                                        {% for course in course_list %}
+                                            <option value='{{ course.id }}'>{{ course.title }}</option>
+                                        {% endfor %}
+
+
+                                    </select>
+                                </div>
+
+                                <br>
+
+
+                                <br>
+
+
+                                <div class="form-group col-md-12 pull-right">
+                                    <input type="submit" name="submit" class="btn btn-primary pull-right" value="send">
+                                </div>
+                            </form>
+
+                            <div id="form-message-warning mt-4"></div>
+                            <div id="form-message-success">
+                                اطلاعات با موفقیت ثبت شد
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}
+
+<script src="{% static 'js/multiselect.min.js' %}"></script>

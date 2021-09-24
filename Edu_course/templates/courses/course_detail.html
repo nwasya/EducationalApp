@@ -1,0 +1,160 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+{% load render_partial %}
+
+{% block content %}
+
+    <section class="mb-5 container" style="padding-top:80px">
+
+        <div class="row">
+            <div class="col-md-4 mb-4 mb-md-0">
+
+                <div id="mdb-lightbox-ui"></div>
+
+                <div class="mdb-lightbox">
+
+                    <div class="row product-gallery mx-1 pt-5">
+
+                        <div class="col-12 mb-0">
+                            <figure class="view overlay rounded z-depth-1 main-img">
+                                <a href="{{ product.image.url }}"
+                                   data-size="710x823">
+                                    <img src="{{ product.image.url }}"
+                                         class="img-fluid z-depth-1" style="height: 318px;width: auto;">
+                                </a>
+                            </figure>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-md-6 ">
+
+                <h5 class="car-value text-center  py-2 px-3">
+                    <span class="car-price">{{ product.title }}</span>
+                </h5>
+                <p class="mb-2 text-muted text-uppercase small">شناسه:{{ product.id_num }}</p>
+
+                <span class="fa fa-star checked" style="color: #005cbf"></span>
+                <span class="fa fa-star checked" style="color: #005cbf"></span>
+                <span class="fa fa-star checked" style="color: #005cbf"></span>
+                <span class="fa fa-star" style="color: #005cbf"></span>
+                <span class="fa fa-star" style="color: #005cbf"></span>
+                <p><span class="mr-1"><strong> {% if  request.user.is_authenticated %} هر ترم: {{ product.price }} تومان
+
+
+                {% else %}
+                    برای اطلاع از هزینه این ترم با دفتر زبانکده به شماره 04133437583 تماس حاصل فرمایید
+                {% endif %}   </strong></span></p>
+                <p><span class="mr-1"><strong>  دبیر: {{ product.teacher }}   </strong></span></p>
+                <hr>
+                <pre class="pt-1 text-justify" style="white-space: pre-wrap;
+                                word-break: break-word;font-family: sans-serif">{{ product.description }}</pre>
+
+                <hr>
+
+
+            </div>
+
+
+        </div>
+        </div>
+
+    </section>
+    <section>
+
+        <div class="container">
+            <div class="section question py-5 mb-5">
+                <div class="container">
+                    <div class="row">
+                        <!-- single question first -->
+                        <div class="col-10 mx-auto my-2 col-md-6 d-flex justify-content-between
+        question-yellow p-4">
+                            <a href="#" class="question-icon mr-3">
+                                <i class="fas fa-comments fa-fw"></i>
+                            </a>
+                            <div class="question-text w-75">
+                                <h4 class="question-title text-capitalize font-weight-bold">
+                                    نظرات
+                                </h4>
+                                <p class="question-info">
+                                    نظر خود را در مورد همین دوره با ما درمیان بگذارید.نظرات پس از تایید نمایش داده
+                                    خواهند شد</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form class="form-block container" method="post">
+                {% csrf_token %}
+                {{ form.captcha }}
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group ">
+
+                            <input name="full_name" class="form-input" type="text" placeholder="Your name">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 ">
+                        <div class="form-group">
+
+                            <input name="email" class="form-input" type="text" placeholder="Your email">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 ">
+                    <div class="form-group">
+
+                            <textarea name="text" style="height: 100%" class="form-input" type="text"
+                                      placeholder="Your comment"></textarea>
+                    </div>
+                </div>
+                <div class=" text-center">
+                    <button type="submit" class="btn btn-primary ">ارسال</button>
+                </div>
+            </form>
+            <div style="height: 20px;"></div>
+
+            <div class="comment-line text-center align-self-center">نظرات سایر کاربران</div>
+            <div class="be-comment-block">
+
+
+                {% for comment in comments %}
+                    <div class="be-comment">
+                    <div class="be-img-comment">
+                        <a>
+                            <img src="{% static 'my-img/unknown-person-icon-5.jpg' %}" alt="" class="be-ava-comment">
+                        </a>
+                    </div>
+
+                    <div class="be-comment-content">
+
+				<span class="be-comment-name">
+					<a href="blog-detail-2.html">{{ comment.full_name }}</a>
+					</span>
+                        <span class="be-comment-time">
+					<i class="fa fa-clock"></i>
+					{{ comment.date }}, {{ comment.time }}
+				</span>
+
+                        <p class="be-comment-text">
+                            {{ comment.text }}
+                        </p>
+                    </div>
+                {% empty %}
+                    <div class="alert alert-primary">
+                        <strong>هنوز هیچ نظری ثبت نشده است</strong> شما اولین نفر باشید
+                    </div>
+                {% endfor %}
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

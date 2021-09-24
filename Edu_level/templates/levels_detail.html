@@ -1,0 +1,60 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+{% load render_partial %}
+
+{% block content %}
+
+    <section class="mb-5 container" style="padding-top:80px">
+
+        <div class="row">
+            <div class="col-md-4 mb-4 mb-md-0">
+
+                <div id="mdb-lightbox-ui"></div>
+
+                <div class="mdb-lightbox">
+
+                    <div class="row product-gallery mx-1 pt-5">
+
+                        <div class="col-12 mb-0">
+                            <figure class="view overlay rounded z-depth-1 main-img">
+                                <a href="{{ product.image.url }}"
+                                   data-size="710x823">
+                                    <img src="{{ product.image.url }}"
+                                         class="img-fluid z-depth-1" style="height: 318px;width: auto;">
+                                </a>
+                            </figure>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-md-6 ">
+
+                <h5 class="car-value text-center  py-2 px-3">
+                    <span class="car-price">{{ product.title }}</span>
+                </h5>
+
+
+
+
+
+                <pre class="pt-2 text-justify" style="white-space: pre-wrap;
+                                word-break: break-word;font-family: sans-serif">{{ product.description }}</pre>
+
+                <hr>
+
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+{% endblock %}

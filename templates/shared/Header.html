@@ -1,0 +1,224 @@
+{% load static %}
+
+
+<!-- nav element -->
+<nav class="navbar navbar-dark fixed-top navbar-expand-lg px3" id="navBar">
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#myNav">
+            <span class="navbar-icon">
+                <i class="fas fa-bars"></i>
+            </span>
+    </button>
+    {% if  request.user.is_authenticated %}
+
+        <button class="openbtn" onclick="openNav()">&#9776; حساب کاربری</button>
+
+
+    {% else %}
+        <a class="openbtn" href="{% url 'login' %}">ورود</a>
+    {% endif %}
+
+
+    <div class="collapse navbar-collapse" id="myNav">
+        <ul class="navbar-nav mx-auto">
+            <li class="nav-item nav-item-text font-weight-bold active"><a href="/" class="nav-link">خانه </a>
+            </li>
+            <li class="nav-item nav-item-text font-weight-bold"><a href="{% url 'courses-active-courses' %}"
+                                                                   class="nav-link"> کلاس ها</a>
+            </li>
+            <li class="nav-item nav-item-text font-weight-bold"><a href="{% url 'products' %}" class="nav-link"> کتاب
+                ها</a>
+            </li>
+            {#            <li class="nav-item nav-item-text font-weight-bold"><a href="{% url 'register' %}" class="nav-link"> ثبت نام</a>#}
+            {#            </li>#}
+            {% if  request.user.is_authenticated %}
+                <li class="nav-item nav-item-text font-weight-bold"><a href="/open-order" class="nav-link"> سبد خرید</a>
+                </li>
+            {% endif %}
+            <li class="nav-item nav-item-text font-weight-bold"><a href="{% url 'news_page' %}" class="nav-link">
+                اخبار</a>
+            </li>
+            <li class="nav-item nav-item-text font-weight-bold"><a href="{% url 'contact_us' %}" class="nav-link"> تماس
+                با ما</a>
+            </li>
+            <li class="nav-item nav-item-text font-weight-bold"><a href="{% url 'about-us' %}" class="nav-link"> درباره
+                ما</a>
+            </li>
+            {% if  request.user.is_authenticated %}
+                <li class="nav-item nav-item-text font-weight-bold" style="color: white !important;"><a
+                        href="{% url 'logout' %}" class="nav-link"> خروج</a>
+                </li>
+            {% endif %}
+        </ul>
+        <!--socials-->
+        <div class="nav-icon d-none d-lg-block">
+            <a class="nav-icon">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a class="nav-icon">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a class="nav-icon">
+                <i class="fab fa-instagram"></i>
+            </a>
+
+        </div>
+        <!--end socials-->
+    </div>
+
+
+</nav>
+
+
+<div id="mySidepanel" class="sidepanel" style="">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+    <div class="profile">
+        <img src="{% static 'my-img/Daco_4880035.png' %}" alt="" class="img-fluid ">
+        <h1 class="text-light text-center"><a>{{ request.user.first_name }} {{ request.user.last_name }}</a></h1>
+        {% if request.user.profile.role == 'Student' %}
+            <h1 class="text-light text-center"><a>{{ course_name }}</a></h1>{% endif %}
+
+    </div>
+
+    {% if request.user.profile.role == 'Manager' %}
+
+        <div class="dropdown show">
+            <a class="sidebar-btn dropdown-toggle" href="#" role="button" id="sidebar-students" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                زبان آموزان
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="sidebar-students">
+                <li><a href="{% url 'addstudent' %}">افزودن زبان آموز</a></li>
+                <li><a href="{% url 'deletestudent' %}">حذف زبان آموز</a></li>
+                <li><a href="{% url 'transfer_student' %}">انتقال زبان آموز</a></li>
+            </div>
+        </div>
+        <div class="dropdown show">
+            <a class="sidebar-btn dropdown-toggle" href="#" role="button" id="sidebar-teachers" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                دبیران
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="sidebar-teachers">
+                <li><a href="{% url 'addteacher' %}">افزودن دبیر</a></li>
+                <li><a href="{% url 'deleteteacher' %}">حذف دبیر</a></li>
+                <li><a href="{% url 'editteacher' %}">ویرایش دبیر</a></li>
+            </div>
+        </div>
+        <div class="dropdown show">
+            <a class="sidebar-btn dropdown-toggle" href="#" role="button" id="sidebar-courses" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                دوره ها
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="sidebar-courses">
+                <li><a href="{% url 'addcourse' %}">افزودن دوره</a></li>
+                <li><a href="{% url 'deletecourse' %}">حذف دوره</a></li>
+                <li><a href="{% url 'editcourse' %}">ویرایش دوره</a></li>
+            </div>
+        </div>
+        <div class="dropdown show">
+            <a class="sidebar-btn dropdown-toggle" href="#" role="button" id="sidebar-teachers" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                مدیریت سطح ها
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="sidebar-teachers">
+                <li><a href="{% url 'add-level' %}">افزودن سطح</a></li>
+                <li><a href="{% url 'delete-level' %}">حذف سطح</a></li>
+                <li><a href="{% url 'edit-level' %}">ویرایش سطح</a></li>
+            </div>
+        </div>
+        <div class="dropdown show">
+            <a class="sidebar-btn dropdown-toggle" href="#" role="button" id="sidebar-orders" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                سفارشات و صورت حساب
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="sidebar-orders">
+                <li><a href="{% url 'recent_orders' %}">سفارشات اخیر</a></li>
+                <li><a href="{% url 'order_detail' %}">جزعیات سفارشات</a></li>
+                <li><a href="{% url 'recent_registration' %}">ثبت نام های اخیر</a></li>
+            </div>
+        </div>
+        <div class="dropdown show">
+            <a class="sidebar-btn dropdown-toggle" href="#" role="button" id="sidebar-books" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                کتاب ها
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="sidebar-books">
+                <li><a href="{% url 'addbooks' %}">افزودن کتاب</a></li>
+                <li><a href="{% url 'deletebook' %}">حذف کتاب</a></li>
+                <li><a href="{% url 'editbook' %}">ویرایش کتاب</a></li>
+            </div>
+        </div>
+        <div class="dropdown show">
+            <a class="sidebar-btn dropdown-toggle" href="#" role="button" id="sidebar-news" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                اخبار
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="sidebar-news">
+                <li><a href="{% url 'addnews' %}">افزودن خبر</a></li>
+                <li><a href="{% url 'deletenews' %}">حذف خبر</a></li>
+                <li><a href="{% url 'editnews' %}">ویرایش خبر</a></li>
+            </div>
+        </div>
+        <div class="dropdown show">
+            <a class="sidebar-btn dropdown-toggle" href="#" role="button" id="sidebar-contacts" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                ارتباطات
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="sidebar-contacts">
+                <li><a href="{% url 'addnews' %}">افزودن خبر</a></li>
+                <li><a href="{% url 'unconfirmedcomments' %}">نظر های تایید نشده</a></li>
+                <li><a href="{% url 'showcomments' %}">حذف نظر های اخیر</a></li>
+                <li><a href="{% url 'showregistration' %}">درخواست های ثبت نام</a></li>
+                <li><a href="{% url 'showcontact' %}">ارتباط ها</a></li>
+
+
+            </div>
+
+        </div>
+        <li><a href="{% url 'logout' %}" class="button-white button3">خروج</a></li>
+
+    {% endif %}
+
+
+
+    {% if request.user.profile.role == 'Student' %}
+        <li><a href="{{ course_link }}" class="button button3">ورود به کلاس آنلاین</a></li>
+        <li><a href="{% url 'final-report' %}" class="button button3">مشاهده کارنامه</a></li>
+        <li><a href="{% url 'new_term_registration' %}" class="button-white button3">ثبت نام ترم جدید</a></li>
+        <li><a href="{% url 'new_term_book_registration' %}" class="button button3">خرید کتاب</a></li>
+
+        <li><a href="/open-order" class="button-white button3">سبد خرید</a></li>
+        {#        <li><a href="" class="button button3">تغییر رمز</a></li>#}
+        <li><a href="{% url 'logout' %}" class="button-white button3">خروج</a></li>
+
+    {% endif %}
+
+    {% if request.user.profile.role == 'Teacher' %}
+
+        <li><a href="http://webinar.sahand-esteglal.ir/b/rooms" class="button button3 ">ورود به کلاس آنلاین</a></li>
+        <li><a href="{% url 'add_online_class_link' %}" class="button button3 ">تعریف لینک کلاسی</a></li>
+        <li><a href="{% url 'enter-mark' %}" class="button button3 ">وارد کردن نمره</a></li>
+        <li><a href="{% url 'view_student_report' %}" class="button button3 ">مشاهده نمرات </a></li>
+        <li><a href="{% url 'edit_mark' %}" class="button button3 ">ویرایش نمرات </a></li>
+
+        <li><a href="{% url 'addnews' %}" class="button button3">ایجاد خبر</a></li>
+        <li><a href="{% url 'deletenews' %}" class="button-white button3">حذف خبر</a></li>
+        <li><a href="{% url 'logout' %}" class="button-white button3">خروج</a></li>
+        {#                    <li><a href="{% url 'change_password' %}" class="button button3">تغییر رمز</a></li>#}
+
+    {% endif %}
+
+</div>
+
+{% include 'shared/messages_alert.html' %}
+<!-- end nav element -->

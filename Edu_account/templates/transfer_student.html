@@ -1,0 +1,173 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load render_partial %}
+{% load static %}
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/enter_mark_cards.css' %}">
+
+    <div class="container">
+        <link rel="stylesheet" href="{% static 'css/main3.css' %}">
+
+
+        <div class="content">
+
+
+            <div class="container">
+                <div class="row align-items-stretch no-gutters contact-wrap">
+                    <div class="col-md-12">
+                        <div class="form h-100 text-center">
+
+                            <h2 class="title text-center">انتقال زبان آموز</h2>
+                            <hr class="solid">
+                            <br>
+
+
+
+                            {% if course_flag is True %}
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div>
+                                        <h5 style="font-weight: bold
+">کلاس زبان آموزانی که مایل به انتقال آن هستید را انتخاب نمایید</h5>
+
+
+                                    </div>
+
+
+                                    <div class="form-group text-center mt-5 mb-2">
+                                        <select class="form-control" style="alignment: bottom " name="course">
+
+
+                                            {% for course in course_items %}
+                                                <option value='{{ course.id }}'>{{ course.title }}</option>
+                                            {% endfor %}
+
+
+                                        </select>
+
+
+                                    </div>
+
+                                    <button type="submit" name="جستجو" class="btn btn-lg  btn-primary text-center ">
+                                        ادامه
+                                    </button>
+
+
+                                    <br>
+                                    <br>
+
+
+                                </form>
+
+                            {% endif %}
+
+
+
+                            {% if student_flag is True %}
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div>
+                                        <h5 for="exampleFormControlSelect1" style="font-weight: bold
+">زبان آموزان را انتخاب نمایید. امکان انتخاب بیش از یک زبان آموز ممکن است.</h5>
+
+
+                                    </div>
+
+                                    <div class="form-group text-center mt-5 mb-2">
+                                        <select class="form-control" id='testSelect1' multiple name="students"
+                                                style="alignment: bottom ">
+
+
+                                            {% for stu in student %}
+                                                <option value='{{ stu.id_num }}'>{{ stu.first_name }} {{ stu.last_name }}</option>
+                                            {% endfor %}
+
+
+                                        </select>
+
+
+                                    </div>
+                                    <button type="submit" name="" class="btn btn-lg btn-primary text-center ">ادامه
+                                    </button>
+
+                                </form>
+
+
+
+
+
+                            {% endif %}
+
+                            {% if des_course_flag is True %}
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+                                    <div>
+                                        <h5 for="exampleFormControlSelect1" style="font-weight: bold
+">کلاس مقصد را انتخاب نمایید.زبان آموزان انتخاب شده به این کلاس انتقال خواهند یافت.</h5>
+
+
+                                    </div>
+
+
+                                    <div class="form-group text-center mt-5 mb-2">
+                                        <select class="form-control" style="alignment: bottom " name="des_course">
+
+
+                                            {% for course in course_items %}
+                                                <option value='{{ course.id }}'>{{ course.title }}</option>
+                                            {% endfor %}
+
+
+                                        </select>
+
+
+                                    </div>
+                                    <button type="button" class="btn btn-lg btn-primary" data-toggle="modal"
+                                            data-target="#exampleModal">
+                                        انتقال
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+
+                                                <div class="modal-body" style="font-weight: bold">
+                                                    آیا از انتقال مطمعن هستید؟
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger"
+                                                            data-dismiss="modal">بستن
+                                                    </button>
+                                                    <button type="submit" name="جستجو"
+                                                            class="btn btn-success text-center ">انتقال
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
+
+
+                                </form>
+
+                            {% endif %}
+
+                            <div id="form-message-warning mt-4"></div>
+                            <div id="form-message-success">
+                                اطلاعات با موفقیت ثبت شد
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

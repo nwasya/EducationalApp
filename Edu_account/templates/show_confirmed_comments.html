@@ -1,0 +1,137 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+{% load render_partial %}
+{% block content %}
+
+
+
+    <div class="container">
+        <link rel="stylesheet" href="{% static 'css/main3.css' %}">
+        <div class="content">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-md-12" style="overflow-x:auto;">
+                        <h2 class="title text-center">دوره ها</h2>
+                        <hr>
+                        <br>
+
+
+                        <table class="table table-hover  table-striped table-bordered  text-center" style="width: 100%">
+                            <thead class="thead thead-dark text-center" style="width: 100%">
+                            <tr>
+                                <th>ردیف</th>
+                                <th>نام</th>
+                                <th>ایمیل</th>
+
+                                <th>متن پیام</th>
+                                <th class="table-success">تایید</th>
+                                <th class="table-danger">حذف</th>
+
+                            </tr>
+                            </thead>
+
+                            <tbody style="width: 100%">
+
+                            {% for comment in course_comments %}
+                                <tr>
+
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ comment.full_name }}</td>
+                                    <td>{{ comment.email }}</td>
+
+                                    <td>{{ comment.text }}</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <div class="container">
+        <link rel="stylesheet" href="{% static 'css/main3.css' %}">
+        <div class="content">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-md-12" style="overflow-x:auto;">
+                        <h2 class="title text-center">محصولات</h2>
+                        <hr>
+                        <br>
+
+
+                        <table class="table table-hover  table-striped table-bordered  text-center" style="width: 100%">
+                            <thead class="thead thead-dark text-center" style="width: 100%">
+                            <tr>
+                                <th>ردیف</th>
+                                <th>نام</th>
+                                <th>ایمیل</th>
+
+                                <th>متن پیام</th>
+                                <th class="table-success">تایید</th>
+                                <th class="table-danger">حذف</th>
+
+                            </tr>
+                            </thead>
+
+                            <tbody style="width: 100%">
+
+                         {% for comment in product_comments %}
+
+                                <tr>
+
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ comment.full_name }}</td>
+                                    <td>{{ comment.email }}</td>
+
+                                    <td>{{ comment.text }}</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+
+                                {% empty %}
+                                      <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    هیچ کامنتی یافت نشد
+                </div>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+{% endblock %}
+<form name="form" method="post">
+                                                    {% csrf_token %}
+                                                    <div class="form-group col-md-12 pull-right">
+                                                        <a  type="submit" class="btn btn-danger" href="/showcomments/{{ item.id }}" >حذف</a>
+                                                    </div>
+                                                </form>

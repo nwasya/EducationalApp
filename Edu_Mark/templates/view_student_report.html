@@ -1,0 +1,384 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load render_partial %}
+{% load static %}
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/enter_mark_cards.css' %}">
+
+    <div class="container">
+        <link rel="stylesheet" href="{% static 'css/main3.css' %}">
+
+
+        <div class="content">
+
+
+            <div class="container">
+                <div class="row align-items-stretch no-gutters contact-wrap">
+                    <div class="col-md-12">
+                        <div class="form h-100 text-center">
+
+                            <h2 class="title text-center">مشاهده نمره</h2>
+                            <hr class="solid">
+                            <br>
+
+
+
+                            {% if course_flag is True %}
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div>
+                                        <h5 for="exampleFormControlSelect1" style="font-weight: bold
+">کلاس مورد نظر
+                                            خود را انتخاب کنید</h5>
+
+
+                                    </div>
+
+                                    <div class="row ">
+
+
+                                        {% for item in course %}
+                                            <div class="card col-md-4 my-2 ">
+                                                <img class=" img-fluid" style="width: 100%;height: 300px"
+                                                     src="{{ item.image.url }}" alt="avatar">
+
+                                                <div class="card-footer text-center">
+
+                                                    <div class="row justify-content-center">
+                                                        <p class="text-center">{{ item.title }}</p>
+                                                    </div>
+                                                    <div class="mb-3">
+
+                                                        <button type="submit"
+                                                                class="btn btn-outline-secondary btn-block "
+                                                                name="course" value="{{ item.id }}">ثبت نمره
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+
+                                    <br>
+                                    <br>
+
+
+                                </form>
+
+                            {% endif %}
+
+
+
+                            {% if student_flag is True %}
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+
+                                    <div>
+
+
+                                        <div class="row justify-content-center">
+                                            {% for item in student %}
+                                                <div class="card col-md-4  my-1 mx-1">
+                                                    <img src="{% static "my-img/Daco_4880035.png" %}" alt="John"
+                                                         style="width: auto">
+                                                    <h3 class="mt-2">{{ item.first_name }} {{ item.last_name }}</h3>
+                                                    {#                                            <p class="title">CEO & Founder, Example</p>#}
+                                                    {#                                            <p>Harvard University</p>#}
+                                                    {#                                            <p>#}
+                                                    <button class="btn btn-outline-dark" name="student"
+                                                            value="{{ item.id_num }}">ثبت نمره
+                                                    </button>
+                                                    </p>
+                                                </div>
+
+                                                {% empty %}
+
+                                                <div class="alert alert-danger">
+                                                هیچ دانش آموزی برای این کلاس تعریف نشده است.
+                                                </div>
+
+
+                                            {% endfor %}
+
+                                        </div>
+
+
+                                    </div>
+
+                                </form>
+
+
+
+
+
+                            {% endif %}
+
+                            {% if mark_flag is True %}
+
+
+
+                                {% if marks is None %}
+                                    <div class="container"
+                                         style="background: #c5e1a5;color: #0d0d0d;font-size: 20px;border-radius: 10rem">
+
+
+                                        شما در حال مشاهده نمره <span style="font-weight: bold"> {{ full_name }} </span>
+                                        در
+                                        کلاس <span style="font-weight: bold;"> {{ class_name }} </span> هستید
+                                        <span> <a href="/view-student-report"
+                                                  style="color: #CC3434;font-size: 15px !important;">برای انتخاب مجدد اینجا کلیک نمایید</a> </span>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <br>
+
+                                    <b>هنوز هیچ نمره ای وارد نشده است</b>
+
+                                {% else %}
+
+                                    <div class="container"
+                                         style="background: #c5e1a5;color: #0d0d0d;font-size: 20px;border-radius: 10rem">
+
+
+                                        شما در حال مشاهده نمره <span style="font-weight: bold"> {{ full_name }} </span>
+                                        در
+                                        کلاس <span style="font-weight: bold;"> {{ class_name }} </span> هستید
+                                        <span> <a href="/view-student-report"
+                                                  style="color: #CC3434;font-size: 15px !important;">برای انتخاب مجدد اینجا کلیک نمایید</a> </span>
+                                    </div>
+
+                                    <div class="col-md-12">
+
+
+                                        <style>
+                                            table {
+                                                font-family: arial, sans-serif;
+                                                border-collapse: collapse;
+                                                width: 80%;
+                                            }
+
+                                            td, th {
+                                                border: 1px solid #dddddd;
+                                                text-align: left;
+                                                padding: 8px;
+                                            }
+
+                                            tr:nth-child(even) {
+                                                background-color: #dddddd;
+                                            }
+                                        </style>
+
+                                        <table class="col-md-12 ">
+                                            <tr>
+                                                <td>{{ marks.course_name }}</td>
+                                                <th>Course</th>
+
+                                            </tr>
+                                            <tr>
+                                                <td>{{ full_name }}</td>
+                                                <th>Student Name</th>
+
+                                            </tr>
+                                            <tr>
+                                                <td>{{ marks.total_work }}</td>
+                                                <th>Total work</th>
+
+                                            </tr>
+                                            <tr>
+                                                <td>{{ marks.class_activity }}1</td>
+                                                <th>Class Activity</th>
+
+                                            </tr>
+                                            <tr>
+                                                <td>{{ marks.quizzes }}</td>
+                                                <th>Quizzes</th>
+
+                                            </tr>
+                                            <tr>
+                                                <td>{{ marks.midterm }}</td>
+                                                <th>Midterm</th>
+
+                                            </tr>
+                                            <tr>
+                                                <td>{{ marks.final }}</td>
+                                                <th>Final</th>
+
+                                            </tr>
+                                            <tr>
+                                                <td>{{ marks.total_mark }}</td>
+                                                <th>Total Mark</th>
+
+                                            </tr>
+
+                                        </table>
+                                        <br>
+                                        <hr class="dotted">
+                                        <br>
+
+                                        <strong class="fadeInDown">activity</strong>
+                                        <div class=" fadeInDown text-center mx-5">
+                                            <div class="progress" style="height:30px">
+                                                <div class="progress-bar
+                                            {% if activity == 100 %}
+                                            bg-success
+                                            {% elif activity == 75 %}
+                                            bg-primary
+                                            {% elif activity == 50 %}
+                                            bg-warning
+                                            {% else %}
+                                            bg-danger
+                                            {% endif %}"
+                                                     role="progressbar" style="width: {{ activity }}%;height:30px"
+                                                     aria-valuenow="{{ activity }}" aria-valuemin="0"
+                                                     aria-valuemax="100">{{ activity }}</div>
+                                            </div>
+                                        </div>
+
+                                        <strong class="fadeInDown">speaking</strong>
+                                        <div class=" fadeInDown text-center mx-5">
+                                            <div class="progress" style="height:30px">
+                                                <div class="progress-bar
+                                            {% if speaking == 100 %}
+                                            bg-success
+                                            {% elif speaking == 75 %}
+                                            bg-primary
+                                            {% elif speaking == 50 %}
+                                            bg-warning
+                                            {% else %}
+                                            bg-danger
+                                            {% endif %}"
+                                                     role="progressbar" style="width: {{ speaking }}%;height:30px"
+                                                     aria-valuenow="{{ speaking }}" aria-valuemin="0"
+                                                     aria-valuemax="100">{{ speaking }}</div>
+                                            </div>
+                                        </div>
+
+                                        <strong class="fadeInDown">listening</strong>
+                                        <div class=" fadeInDown text-center mx-5">
+                                            <div class="progress" style="height:30px">
+                                                <div class="progress-bar
+                                            {% if listening == 100 %}
+                                            bg-success
+                                            {% elif listening == 75 %}
+                                            bg-primary
+                                            {% elif listening == 50 %}
+                                            bg-warning
+                                            {% else %}
+                                            bg-danger
+                                            {% endif %}"
+                                                     role="progressbar" style="width: {{ listening }}%;height:30px"
+                                                     aria-valuenow="{{ listening }}" aria-valuemin="0"
+                                                     aria-valuemax="100">{{ listening }}</div>
+                                            </div>
+                                        </div>
+
+                                        <strong class="fadeInDown">writing</strong>
+                                        <div class=" fadeInDown text-center mx-5">
+                                            <div class="progress" style="height:30px">
+                                                <div class="progress-bar
+                                            {% if writing == 100 %}
+                                            bg-success
+                                            {% elif writing == 75 %}
+                                            bg-primary
+                                            {% elif writing == 50 %}
+                                            bg-warning
+                                            {% else %}
+                                            bg-danger
+                                            {% endif %}"
+                                                     role="progressbar" style="width: {{ writing }}%;height:30px"
+                                                     aria-valuenow="{{ writing }}" aria-valuemin="0"
+                                                     aria-valuemax="100">{{ writing }}</div>
+                                            </div>
+                                        </div>
+
+                                        <strong class="fadeInDown">homework</strong>
+                                        <div class=" fadeInDown text-center mx-5">
+                                            <div class="progress" style="height:30px">
+                                                <div class="progress-bar
+                                            {% if homework == 100 %}
+                                            bg-success
+                                            {% elif homework == 75 %}
+                                            bg-primary
+                                            {% elif homework == 50 %}
+                                            bg-warning
+                                            {% else %}
+                                            bg-danger
+                                            {% endif %}"
+                                                     role="progressbar" style="width: {{ homework }}%;height:30px"
+                                                     aria-valuenow="{{ homework }}" aria-valuemin="0"
+                                                     aria-valuemax="100">{{ homework }}</div>
+                                            </div>
+                                        </div>
+
+                                        <strong class="fadeInDown">total_work</strong>
+                                        <div class=" fadeInDown text-center mx-5">
+                                            <div class="progress" style="height:40px">
+                                                <div class="progress-bar
+                                            {% if total_work == 100 %}
+                                            bg-success
+                                            {% elif total_work == 75 %}
+                                            bg-primary
+                                            {% elif total_work == 50 %}
+                                            bg-warning
+                                            {% else %}
+                                            bg-danger
+                                            {% endif %}"
+                                                     role="progressbar" style="width: {{ total_work }}%;height:40px"
+                                                     aria-valuenow="{{ total_work }}" aria-valuemin="0"
+                                                     aria-valuemax="100">{{ total_work }}</div>
+
+
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <br>
+                                    {% if marks.description %}
+                                        <div class="card text-center fadeInDown">
+                                            <div class="card-header">
+                                                {{ full_name }} عزیز
+                                            </div>
+                                            <div class="card-body">
+
+                                        <pre style="font-family: sans-serif"
+                                             class="card-text">{{ marks.description }}</pre>
+                                            </div>
+                                            <div class="card-footer text-muted">
+                                                {{ teacher }}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+
+
+
+
+
+
+                                {% endif %}
+
+
+                                </div>
+
+
+
+                            {% endif %}
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+{% endblock %}

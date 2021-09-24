@@ -1,0 +1,298 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load render_partial %}
+{% load static %}
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/enter_mark_cards.css' %}">
+
+    <div class="container">
+        <link rel="stylesheet" href="{% static 'css/main3.css' %}">
+
+
+        <div class="content">
+
+
+            <div class="container">
+                <div class="row align-items-stretch no-gutters contact-wrap">
+                    <div class="col-md-12">
+                        <div class="form h-100 text-center">
+
+                            <h2 class="title text-center">ویرایش نمره</h2>
+                            <hr class="solid">
+                            <br>
+
+
+
+                            {% if course_flag is True %}
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div>
+                                        <h5 for="exampleFormControlSelect1" style="font-weight: bold
+">کلاس مورد نظر
+                                            خود را انتخاب کنید</h5>
+
+
+                                    </div>
+
+                                    <div class="row ">
+
+
+                                        {% for item in course %}
+                                            <div class="card col-md-4 my-2 ">
+                                                <img class=" img-fluid" style="width: 100%;height: 300px"
+                                                     src="{{ item.image.url }}" alt="avatar">
+
+                                                <div class="card-footer text-center">
+
+                                                    <div class="row justify-content-center">
+                                                        <p class="text-center">{{ item.title }}</p>
+                                                    </div>
+                                                    <div class="mb-3">
+
+                                                        <button type="submit"
+                                                                class="btn btn-outline-secondary btn-block "
+                                                                name="course" value="{{ item.id }}">ویرایش نمره
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+
+                                    <br>
+                                    <br>
+
+
+                                </form>
+
+                            {% endif %}
+
+
+
+                            {% if student_flag is True %}
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+
+                                    <div>
+
+
+                                    <div class="row justify-content-center">
+                                        {% for item in student %}
+                                         <div class="card col-md-4  my-1 mx-1">
+                                            <img src="{% static "my-img/Daco_4880035.png" %}" alt="John" style="width: auto" >
+                                            <h3 class="mt-2">{{ item.first_name}} {{ item.last_name }}</h3>
+{#                                            <p class="title">CEO & Founder, Example</p>#}
+{#                                            <p>Harvard University</p>#}
+{#                                            <p>#}
+                                                <button class="btn btn-outline-dark" name="student" value="{{ item.id_num }}">ویرایش نمره</button>
+                                            </p>
+                                        </div>
+                                            {% empty %}
+                                            <div class="alert alert-danger">
+                                            <h3>هیچ دانش آموزی برای این کلاس یافت نشد</h3>
+                                            </div>
+                                        {% endfor %}
+
+
+                                    </div>
+
+
+
+                                    </div>
+
+                                </form>
+
+
+
+
+
+                            {% endif %}
+
+                            {% if mark_flag is True %}
+                                <div class="container"
+                                     style="background: #c5e1a5;color: #0d0d0d;font-size: 20px;border-radius: 10rem">
+
+
+                                    شما در حال ویرایش کردن نمره <span style="font-weight: bold"> {{ full_name }} </span>
+                                    در
+                                    کلاس <span style="font-weight: bold;"> {{ class_name }} </span> هستید
+                                    <span> <a href="/edit-mark" style="color: #CC3434;font-size: 15px !important;">برای انتخاب مجدد اینجا کلیک نمایید</a> </span>
+                                </div>
+
+                                <br>
+                                <hr class="solid">
+                                <br>
+
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+
+                                    <div class="row">
+                                        <div class="col-md-6" style="font-weight: bold">
+                                            {{ form.class_activity.label_tag }}
+                                            {{ form.class_activity }}
+                                        </div>
+                                        <div class="col-md-6" style="font-weight: bold">
+                                            {{ form.quizzes.label_tag }}
+                                            {{ form.quizzes }}
+                                        </div>
+                                    </div>
+                               <br>
+
+                                    <div class="row">
+                                        <div class="col-md-6" style="font-weight: bold">
+                                            {{ form.midterm.label_tag }}
+                                            {{ form.midterm }}
+                                        </div>
+                                        <div class="col-md-6" style="font-weight: bold">
+                                            {{ form.final.label_tag }}
+                                            {{ form.final }}
+                                        </div>
+                                    </div>
+
+                                    <br>
+
+                                    <div class="row">
+                                        <div class="col-md-6" style="font-weight: bold">
+                                            {{ form.extra_mark.label_tag }}
+                                            {{ form.extra_mark }}
+                                        </div>
+                                        <div class="col-md-6" style="font-weight: bold">
+                                            {{ form.total_mark.label_tag }}
+                                            {{ form.total_mark }}
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <hr class="solid">
+                                    <br>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <label style="font-weight: bold"
+                                                   for="exampleFormControlSelect1">homework</label>
+                                            <select required class="form-control" name="homework">
+                                                <option value="" selected="selected" >انتخاب کنید</option>
+                                                <option value="Out_Standing">Out Standing</option>
+                                                <option value="Good">Good</option>
+                                                <option value="Satisfactory">Satisfactory</option>
+                                                <option value="Weak">Weak</option>
+
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            <label for="exampleFormControlSelect1"
+                                                   style="font-weight: bold">writing</label>
+                                            <select required class="form-control" name="writing">
+                                                <option value="" selected="selected" >انتخاب کنید</option>
+                                                <option value="Out_Standing">Out Standing</option>
+                                                <option value="Good">Good</option>
+                                                <option value="Satisfactory">Satisfactory</option>
+                                                <option value="Weak">Weak</option>
+
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="exampleFormControlSelect1"
+                                                   style="font-weight: bold">listening</label>
+                                            <select required class="form-control" name="listening">
+                                                <option value="" selected="selected" >انتخاب کنید</option>
+                                                <option value="Out_Standing">Out Standing</option>
+                                                <option value="Good">Good</option>
+                                                <option value="Satisfactory">Satisfactory</option>
+                                                <option value="Weak">Weak</option>
+
+                                            </select>
+                                        </div>
+
+
+                                    </div>
+
+                                    <br>
+                                    <br>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <label for="exampleFormControlSelect1"
+                                                   style="font-weight: bold">speaking</label>
+                                            <select required class="form-control" name="speaking">
+                                                <option value="" selected="selected" >انتخاب کنید</option>
+                                                <option value="Out_Standing">Out Standing</option>
+                                                <option value="Good">Good</option>
+                                                <option value="Satisfactory">Satisfactory</option>
+                                                <option value="Weak">Weak</option>
+
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            <label for="exampleFormControlSelect1" style="font-weight: bold">
+                                                activity</label>
+                                            <select required class="form-control" name="activity">
+                                                <option value="" selected="selected" >انتخاب کنید</option>
+                                                <option value="Out_Standing">Out Standing</option>
+                                                <option value="Good">Good</option>
+                                                <option value="Satisfactory">Satisfactory</option>
+                                                <option value="Weak">Weak</option>
+
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+
+                                    <br>
+                                    <hr class="solid">
+                                    <br>
+                                    <div class="form-group" name="total_work">
+                                        <label for="exampleFormControlSelect1" style="font-weight: bold">عملکرد
+                                            کلی</label>
+                                        <select required class="form-control" name="total_work">
+                                            <option value="" selected="selected" >انتخاب کنید</option>
+                                            <option value="Out_Standing">Out Standing</option>
+                                            <option value="Good">Good</option>
+                                            <option value="Satisfactory">Satisfactory</option>
+                                            <option value="Weak">Weak</option>
+
+                                        </select>
+                                    </div>
+
+
+                                    <br>
+                                    <hr class="solid">
+                                    <br>
+
+                                    <div class="row" style="font-weight: bold">
+                                        {{ form.description.label }}
+                                        {{ form.description }}
+                                    </div>
+                                    <br>
+                                    <hr class="solid">
+                                    <br>
+                                    <div class="form-group col-md-12 pull-right">
+                                        <input type="submit" name="ارسال" class="btn btn-primary pull-right"
+                                               value="ارسال">
+                                    </div>
+                                </form>
+
+                            {% endif %}
+
+
+                            <div id="form-message-warning mt-4"></div>
+                            <div id="form-message-success">
+                                اطلاعات با موفقیت ثبت شد
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

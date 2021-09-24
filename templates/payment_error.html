@@ -1,0 +1,107 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+{% load render_partial %}
+{% block content %}{% load static %}
+
+
+<style type="text/css">
+
+    body
+    {
+padding-top: 120px;
+        padding-bottom: 120px;
+        background:#f2f2f2;
+        border-radius:50px 50px 50px 50px;
+
+    }
+
+    .payment
+	{
+		border:1px solid #f2f2f2;
+		height:280px;
+        border-radius:20px;
+        background:#fff;
+
+
+
+	}
+   .payment_header
+   {
+	   background: #ffdf7e;
+       padding: 20px;
+
+       border-radius:0px 0px 50px 50px;
+
+   }
+
+   .check
+   {
+	   margin:0px auto;
+	   width:50px;
+	   height:50px;
+	   border-radius:100%;
+	   background:#fff;
+	   text-align:center;
+   }
+
+   .check i
+   {
+	   vertical-align:middle;
+	   line-height:50px;
+	   font-size:30px;
+   }
+
+    .content
+    {
+        text-align:center;
+    }
+
+    .content  h1
+    {
+        font-size:25px;
+        padding-top:25px;
+    }
+
+    .content a
+    {
+        width:200px;
+        height:35px;
+        color:#fff;
+        border-radius:30px;
+        padding:5px 10px;
+
+        transition:all ease-in-out 0.3s;
+    }
+
+    .content a:hover
+    {
+        text-decoration:none;
+        background:#000;
+    }
+
+</style>
+
+
+    
+<div class="container">
+   <div class="row">
+      <div class="col-md-6 mx-auto" style="padding-bottom: 120px">
+         <div class="payment fadeIn">
+            <div class="payment_header">
+               <div class="check" style="color: #ff5a67" ><i class="fa fa-times  fa-3x" aria-hidden="true"></i></div>
+            </div>
+            <div class="content ">
+               <h1 style="font-weight: bold;color: #ff5a67">عملیات با خطا مواجه شد!</h1>
+
+               <p>این خطا ممکن است به خاطر بروز مشکل بر روی سرور بانکی یا وبسایت رخ داده باشد! لطفا ساعاتی بعد دوباره امتحان نمایید و در صورت رفع نشدن مشکل آن را با پشتیبانی سایت و یا مدیریت در میان بگذارید</p>
+               <a style=" background: #ff5a67;" href="/">بازگشت به صفحه اصلی سایت</a>
+            </div>
+
+
+         </div>
+      </div>
+   </div>
+</div>
+
+{% endblock %}
+

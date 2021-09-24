@@ -1,0 +1,92 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+{% block content %}
+
+
+    <div class="container">
+        <link rel="stylesheet" href="{% static 'css/main3.css' %}">
+        <div class="content">
+
+            <div class="container">
+                <div class="row align-items-stretch no-gutters contact-wrap">
+                    <div class="col-md-12">
+                        <div class="form h-100">
+                            <h3 class="text-center"><strong>ثبت نام</strong></h3>
+                            <form class="mb-5" method="post" id="contactForm" name="contactForm">
+                                {% csrf_token %}
+                                {{ register_form.captcha }}
+                                <div class="row">
+                                    <div class="col-md-6 form-group mb-5">
+
+                                        <input type="text" class="form-control" name="full_name" id="name"
+                                               placeholder="نام و نام خانوادگی">
+                                    </div>
+                                    <div class="col-md-6 form-group mb-5">
+
+                                        <input type="text" class="form-control" name="id_num" id="id_num"
+                                               placeholder="کد ملی">
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 form-group mb-5">
+
+                                        <input type="text" class="form-control" name="phone_num" id="phone_num"
+                                               placeholder="شماره تماس">
+                                    </div>
+                                    <div class="col-md-6 form-group mb-5">
+
+                                        <input type="text" class="form-control" name="latest_course" id="latest_course"
+                                               placeholder="آخرین دوره که شرکت کردید">
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 form-group mb-5">
+
+                                        <input type="text" class="form-control" name="birth" id="birth"
+                                               placeholder="سال تولد">
+                                    </div>
+                                    <div class="col-md-6 form-group mb-5">
+
+                                        <input type="text" class="form-control" name="address" id="address"
+                                               placeholder="آدرس محل زندگی">
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-12 form-group mb-5">
+
+                                        <textarea class="form-control" name="text" id="text" cols="30" rows="4"
+                                                  placeholder="توضیحات بیشتر اگر دارید همینجا برامون بنویسید"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 form-group text-center">
+                                        <input type="submit" value="send" class="btn btn-primary rounded-0 py-2 px-4">
+
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div id="form-message-warning mt-4"></div>
+                            <div id="form-message-success">
+                                پیام شما با موفقیت ارسال شد،در کوتاه ترین زمان پاسخ داده خواهد شد
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--/form-->
+
+
+{% endblock %}

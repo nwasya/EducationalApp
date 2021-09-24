@@ -1,0 +1,68 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+{% load render_partial %}
+{% block content %}
+
+
+    <div class="container">
+        <link rel="stylesheet" href="{% static 'css/main3.css' %}">
+        <div class="content">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-md-12" style="overflow-x:auto;">
+                        <h2 class="title text-center">پیام های دریافت شده</h2>
+                        <hr>
+                        <br>
+
+
+                        <table class="table table-hover  table-striped table-bordered  text-center" style="width: 100%">
+                            <thead class="thead thead-dark text-center" style="width: 100%">
+                            <tr>
+                                <th>ردیف</th>
+                                <th>نام</th>
+                                <th>موضوع</th>
+                                <th>ایمیل</th>
+
+                                <th>متن پیام</th>
+                                <th class="table-success">تایید</th>
+                                <th class="table-danger">حذف</th>
+
+                            </tr>
+                            </thead>
+
+                            <tbody style="width: 100%">
+
+                                      {% for item in page_obj %}
+                                <tr>
+
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ item.full_name }}</td>
+                                    <td>{{ item.subject }}</td>
+                                    <td>{{ item.email }}</td>
+
+                                    <td>{{ item.text }}</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+{% endblock %}
+
+

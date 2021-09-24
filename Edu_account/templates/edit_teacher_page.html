@@ -1,0 +1,91 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+{% load render_partial %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/main3.css' %}">
+    <div class="container">
+        <div class="content">
+            <div class="container">
+                <div class="row align-items-stretch no-gutters contact-wrap">
+                    <div class="col-md-12">
+                        <div class="form h-100">
+                            <h2 class="title text-center">ویرایش دبیر</h2>
+                        <hr>
+                        <br>
+
+                            <form method="post" enctype="multipart/form-data" class="text-center">
+                                {% csrf_token %}
+
+
+                                <select name="dropdown">
+                                    <option selected="selected" disabled>نام دبیر :</option>
+                                    {% for teacher in teacher_list %}
+
+                                        <option value="{{ teacher.id_num }}"
+                                                {% ifequal teacher_id_num teacher.id_num %}selected{% endifequal %}>{{ teacher }}</option>
+                                    {% endfor %}
+                                </select>
+                                <br>
+                                <br>
+
+
+                                <div class="form-group col-md-12 pull-right">
+                                    <input type="submit" name="جستجو" class="btn btn-primary pull-right" value="جستجو">
+                                </div>
+                            </form>
+
+
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+
+
+                                <br>
+                                <div class="row justify-content-between">
+                                    <div class="col-md-6 ">
+
+                                        <b>{{ edit_form.first_name.label_tag }}</b>
+                                        {{ edit_form.first_name }}
+                                        <br>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <div class="row">
+
+                                            <div class="col-md-12">
+                                                 {{ edit_form.last_name }}
+                                        <br>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            <br>
+
+                                <div class="col-md-8">
+                                    <b>{{ edit_form.phone_number.label_tag }}</b>
+                                {{ edit_form.phone_number }}
+                                <br>
+                                </div>
+                                <br>
+
+                                {% if confirm is True %}
+
+                                    <div class="form-group col-md-12 pull-right">
+                                        <input type="submit" name="ذخیره" class="btn btn-primary pull-right"
+                                               value="ذخیره">
+                                    </div>
+                                    </form>
+
+                                {% endif %}
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}

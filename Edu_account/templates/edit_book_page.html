@@ -1,0 +1,87 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+{% load render_partial %}
+{% block content %}
+
+    <div class="container">
+        <link rel="stylesheet" href="{% static 'css/main3.css' %}">
+        <div class="content">
+            <div class="container">
+                <div class="row align-items-stretch no-gutters contact-wrap">
+                    <div class="col-md-12 ">
+                        <div class="form h-100 ">
+                            <h3 class="text-center"><strong>ویرایش کتاب</strong></h3>
+                        <hr>
+                        <br>
+                            <form method="post" enctype="multipart/form-data" >
+                                {% csrf_token %}
+
+                                <b>کد کتاب:</b>
+
+                                <br>
+
+                                <div class="row col-md-6 text-center">
+
+                                    {{ form.id_num }}
+                                </div>
+
+                                <br>
+
+                                <div class="form-group col-md-12 pull-right">
+                                    <input type="submit" name="جستجو" class="btn btn-primary pull-right" value="جستجو">
+                                </div>
+                            </form>
+
+
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <br>
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <b>{{ edit_form.title.label_tag }}</b>
+                                        {{ edit_form.title }}
+                                        <br>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>{{ edit_form.id_num.label_tag }}</b>
+                                        {{ edit_form.id_num }}
+                                        <br>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <b>{{ edit_form.description.label_tag }}</b>
+                                {{ edit_form.description }}
+                                <br>
+
+                                <br>
+                                <b>{{ edit_form.price.label_tag }}</b>
+                                {{ edit_form.price }}
+                                <br>
+                                <br>
+
+                                <br>
+                                {% if confirm is True %}
+                                    <div class="form-group col-md-12 pull-right">
+                                        <input type="submit" name="ذخیره" class="btn btn-primary pull-right"
+                                               value="ذخیره">
+                                    </div>
+
+                                {% endif %}
+
+
+                            </form>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

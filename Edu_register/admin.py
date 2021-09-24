@@ -11,3 +11,6 @@ class RegisterAdmin(admin.ModelAdmin):
 
 admin.site.register(Register,RegisterAdmin)
 
+
+
+

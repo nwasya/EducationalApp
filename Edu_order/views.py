@@ -92,8 +92,8 @@ mobile = '09337814796'  # Optional
 # client = Client('https://sandbox.zarinpal.com/pg/services/WebGate/wsdl')
 client = Client('https://zarinpal.com/pg/services/WebGate/wsdl')
 CallbackURL = 'http://127.0.0.1:8000/verify'
-# CallbackURLregister = 'http://127.0.0.1:8000/verify_register'
-CallbackURLregister = 'http://sahand-esteglal.ir/verify_register'
+# CallbackURL = 'http://sahand-esteglal.ir/verify'
+
 
 
 #

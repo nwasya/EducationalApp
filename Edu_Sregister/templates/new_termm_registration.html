@@ -56,7 +56,32 @@
                                     {% csrf_token %}
                                     <input type="hidden" id="course_id" name="course_id" value="{{ course.id }}">
 
-                                    <button type="submit" class="btn btn-success btn-block">ثبت نام</button>
+                                    <button type="button" class="btn btn-success btn-block" data-toggle="modal"
+                                            data-target="#exampleModal">ثبت نام</button>
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+
+                                                <div class="modal-body" style="font-weight: bold">
+
+                                                    <p>شما در حال ثبت نام برای کلاس {{ course }} هستید.</p>
+                                                    <p>مقدار شهریه پرداختی {{ course.price }} هزار تومان می باشد.</p>
+                                                    <p>آیا مایل به ادامه هستید؟</p>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger"
+                                                            data-dismiss="modal">بستن
+                                                    </button>
+                                                    <button type="submit"
+                                                            class="btn btn-success text-center ">ادامه
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </form>
                             </div>
                         </div>

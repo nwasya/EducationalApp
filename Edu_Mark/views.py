@@ -9,7 +9,7 @@ from Edu_Mark.models import Mark
 from Edu_course.models import Course
 from Edu_teacher.models import TeacherClass
 from Edu_user.models import UserProfile, Student
-
+#test git
 
 @login_required(login_url='/login')
 def enter_mark_page(request):
@@ -279,7 +279,6 @@ def final_report(request):
     course_name = Student.objects.filter(id_num=id_num).first().course
     context['teacher'] = course_name.teacher
     marks = Mark.objects.filter(student_name__id_num=id_num, course_name=course_name).first()
-
     if marks is not None:
         context['activity'] = get_mark_value(marks.activity)
         context['speaking'] = get_mark_value(marks.speaking)

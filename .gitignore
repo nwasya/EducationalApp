@@ -70,3 +70,6 @@ manage.py
 settings.py
 .settings
 /settings
+settings.py
+..idea
+/idea

@@ -62,6 +62,7 @@ def about_us(request):
 
 
 def home_page(request, *args, **kwargs):
+    print('okkkkkkkkkk')
     available_courses = Course.objects.get_active_courses().order_by('-id')
 
     available_products = Product.objects.get_main_products().distinct()

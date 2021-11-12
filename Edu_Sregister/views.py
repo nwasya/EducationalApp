@@ -20,8 +20,8 @@ description = "توضیحات مربوط به تراکنش را در این قس
 email = 'Ehraghi.aysan@gmail.com'  # Optional
 mobile = '09337814796'  # Optional
 
-client = Client('https://sandbox.zarinpal.com/pg/services/WebGate/wsdl')
-# client = Client('https://zarinpal.com/pg/services/WebGate/wsdl')
+# client = Client('https://sandbox.zarinpal.com/pg/services/WebGate/wsdl')
+client = Client('https://zarinpal.com/pg/services/WebGate/wsdl')
 
 # CallbackURLregister = 'http://127.0.0.1:8000/verify_register'
 CallbackURLregister = 'http://sahand-esteglal.ir/verify_register'
@@ -59,8 +59,8 @@ def send_request_register(request, *args, **kwargs):
         MERCHANT, course_obj.price, description, email, mobile, f"{CallbackURLregister}/{course_id}/{student_id}"
     )
     if result.Status == 100:
-        return redirect('https://sandbox.zarinpal.com/pg/StartPay/' + str(result.Authority))
-        # return redirect('https://zarinpal.com/pg/StartPay/' + str(result.Authority))
+        # return redirect('https://sandbox.zarinpal.com/pg/StartPay/' + str(result.Authority))
+        return redirect('https://zarinpal.com/pg/StartPay/' + str(result.Authority))
     else:
         return HttpResponse('Error code: ' + str(result.Status))
 

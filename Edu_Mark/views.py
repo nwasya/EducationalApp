@@ -54,6 +54,10 @@ def enter_mark_page(request):
         if 'ارسال' in request.POST:
             print('here')
             mark_form = CreateMarkForm(request.POST)
+            x = Mark.objects.filter(student_name=student_name,course_name=course_name)
+            if x.count != 0:
+                messages.info(request, "برای این دانش آموز قبلا نمره ای ثبت شده است. می توانید از پنل ویرایش نمره آن را ویرایش کنید")
+                return HttpResponseRedirect('/add-mark')
 
             if mark_form.is_valid():
 

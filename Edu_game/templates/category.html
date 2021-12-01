@@ -1,0 +1,28 @@
+
+
+
+{% extends 'shared/_MainLayout.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<section>
+<div class="container " style="padding-top: 150px">
+    {% if category %}
+    <ul>
+        {% for cat in category %}
+            <li><a href="{% url 'play' cat.id %}">{{ cat}}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No categories are available.</p>
+{% endif %}
+
+
+</div>
+</section>
+
+
+{% endblock %}
+

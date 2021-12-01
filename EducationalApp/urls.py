@@ -54,6 +54,7 @@ urlpatterns = [
     path('', include('Edu_order.urls')),
     path('', include('Edu_level.urls')),
     path('', include('Edu_Sregister.urls')),
+    path('', include('Edu_game.urls')),
 
 
 

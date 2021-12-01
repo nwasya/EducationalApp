@@ -1,0 +1,38 @@
+{% extends 'shared/_MainLayout.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+<section>
+<div class="container" style="padding: 150px;">
+
+<div><h2>category :{{ category }} </h2>
+</div>
+<div>
+   <form method="POST">
+        {% csrf_token %}
+
+        <legend><h1>{{ question }}</h1></legend>
+
+        {% for choice in options %}
+            <input type="radio" name="choice" id="Choice{{ forloop.counter }}" value="{{ choice }}">
+            <label for="Choice{{ forloop.counter }}">{{ choice }}</label><br>
+
+        {% endfor %}
+        <input type="submit" value="answer">
+        <input type="submit" name="next" value="next">
+        <input type="submit" name="results" value="results">
+   </form>
+
+
+</div>
+
+
+
+</div>
+</section>
+
+
+{% endblock %}

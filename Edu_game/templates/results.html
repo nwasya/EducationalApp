@@ -1,0 +1,23 @@
+{% extends 'shared/_MainLayout.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<section>
+<div class="container" style="padding-top: 150px">
+    <div>
+    <h3>Your score is:</h3>
+    <h1>{{ score }}%</h1>
+</div>
+<div>
+
+    <a class="btn btn-success" href="/play/{{ game_id }}">Play Again</a>
+    <a class="btn btn-primary" href="/category">Categories</a>
+    <a class="btn btn-danger" href="/">Exit</a>
+
+</div>
+</div>
+</section>
+
+{% endblock %}

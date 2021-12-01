@@ -648,9 +648,13 @@ def recent_orders(request):
             temp = []
             li.append(item.product.id_num)
             title = Product.objects.get(id_num=item.product.id_num).title
+            payment_date = item.order.payment_date
+
 
             temp.append(item.count)
             temp.append(title)
+            temp.append(payment_date)
+
 
             dic[item.product.id_num] = temp
 
@@ -693,6 +697,7 @@ def order_detail(request):
                 temp.append(detail.count)
                 temp.append(title)
 
+
                 inner_dic[detail.product.id_num] = temp
 
         temp = []
@@ -705,6 +710,7 @@ def order_detail(request):
         temp.append(inner_dic)
         inner_dic = {}
         temp.append(serial_num)
+        temp.append(item.payment_date)
         main_dic[counter] = temp
         counter += 1
         print(main_dic)
@@ -777,7 +783,7 @@ def transfer_student(request):
     context['course_flag'] = True
     context['des_course_flag'] = False
     context['student_flag'] = False
-    context['course_items'] = Course.objects.all()
+    context['course_items'] = Course.objects.all().order_by('id_num')
 
     if request.method == 'POST':
 

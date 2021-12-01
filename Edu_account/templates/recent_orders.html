@@ -34,8 +34,8 @@
                                 <th>کد کتاب</th>
 
                                 <th>تعداد سفارش</th>
-                                <th class="table-success">تایید</th>
-                                <th class="table-danger">حذف</th>
+                                <th class="table-success">تاریخ سفارش</th>
+
 
                             </tr>
                             </thead>
@@ -50,8 +50,8 @@
                                     <td>{{ key }}</td>
 
                                     <td>{{ value.0 }}</td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{ value.2 }}</td>
+
                                 </tr>
                             {% endfor %}
                             </tbody>

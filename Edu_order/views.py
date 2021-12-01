@@ -91,8 +91,8 @@ mobile = '09337814796'  # Optional
 
 # client = Client('https://sandbox.zarinpal.com/pg/services/WebGate/wsdl')
 client = Client('https://zarinpal.com/pg/services/WebGate/wsdl')
-CallbackURL = 'http://127.0.0.1:8000/verify'
-# CallbackURL = 'http://sahand-esteglal.ir/verify'
+# CallbackURL = 'http://127.0.0.1:8000/verify'
+CallbackURL = 'http://sahand-esteglal.ir/verify'
 
 
 
@@ -102,11 +102,12 @@ CallbackURL = 'http://127.0.0.1:8000/verify'
 
 def send_request(request, *args, **kwargs):
     total_price = 0
-    open_order: Order = Order.objects.filter(is_paid=False, owner_id=request.user.id).first()
+    owner_id = request.user.id
+    open_order: Order = Order.objects.filter(is_paid=False, owner_id=owner_id).first()
     if open_order is not None:
         total_price = open_order.get_total_price()
         result = client.service.PaymentRequest(
-            MERCHANT, total_price, description, email, mobile, f"{CallbackURL}/{open_order.id}"
+            MERCHANT, total_price, description, email, mobile, f"{CallbackURL}/{open_order.id}/{owner_id}"
         )
         if result.Status == 100:
             return redirect('https://zarinpal.com/pg/StartPay/' + str(result.Authority))
@@ -118,13 +119,14 @@ def send_request(request, *args, **kwargs):
 
 def verify(request, *args, **kwargs):
     order_id = kwargs.get('order_id')
-    order = Order.objects.filter(is_paid=False, owner_id=request.user.id).first()
+    owner_id = kwargs.get('owner_id')
+    order = Order.objects.filter(is_paid=False, owner_id=owner_id).first()
     # if order is not None:
     if request.GET.get('Status') == 'OK':
 
         result = client.service.PaymentVerification(MERCHANT, request.GET['Authority'], order.get_total_price())
         if result.Status == 100:
-            order_detail = OrderDetail.objects.filter(order__owner__username=request.user.username, is_delivered=False)
+            order_detail = OrderDetail.objects.filter(order__owner__id=owner_id, is_delivered=False)
             for order in order_detail:
                 order.is_delivered = True
                 order.save()
@@ -139,8 +141,10 @@ def verify(request, *args, **kwargs):
             return redirect(f"/payment-success/{result['RefID']}")
 
             # return HttpResponse('Transaction success.\nRefID: ' + str(result.RefID))
-        # elif result.Status == 101:
-        #     return HttpResponse('Transaction submitted : ' + str(result.Status))
+        elif result.Status == 101:
+            return redirect(f"/payment-success/{result['RefID']}")
+
+            # return HttpResponse('Transaction submitted : ' + str(result.Status))
         else:
             return redirect('/payment-error')
             # return HttpResponse('Transaction failed.\nStatus: ' + str(result.Status))

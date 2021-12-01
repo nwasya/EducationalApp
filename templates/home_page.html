@@ -2,6 +2,12 @@
 {% load static %}
 
 {% block content %}
+<meta name='description' content='برگزاری کلاسها در تمامی سطوح خردسالان،کودکان،نوجوانان و بزرگسالان بصورت گروهی یا خصوصی،آنلاین یا حضوری '/>
+<meta name='keywords' content='زبانکده, زبان انگلیسی, استقلال esteglal ,language ,institute'/>
+<meta name="geo.region" content="IR" />
+<meta name="geo.placename" content="sahand" />
+<meta name="geo.position" content="37.93998;46.12441" />
+<meta name="ICBM" content="37.93998, 46.12441" />
 
 
 
@@ -397,7 +403,11 @@
                                 <div class="card">
                                     <img class="card-img-top img-fluid embed-responsive"
                                          style=" min-height: 320px ; max-height: 320px"
-                                         src="{{ course.image.url }}"
+                                         src={% if  course.image  %}
+                                         {{ course.image.url }}
+                                         {% else %}
+                                         ""
+                                         {% endif %}
                                          alt="Card image cap">
                                     <div class="card-body">
                                         <h4 class="card-title text-center font-weight-bold">{{ course.title }}</h4>
@@ -496,7 +506,11 @@
                                 <div class="card">
                                     <img class="card-img-top img-fluid embed-responsive"
                                          style=" min-height: 320px ; max-height: 320px"
-                                         src="{{ course.image.url }}"
+                                         src={% if  course.image  %}
+                                         {{ course.image.url }}
+                                         {% else %}
+                                         ""
+                                         {% endif %}
                                          alt="Card image cap">
                                     <div class="card-body">
                                         <h4 class="card-title text-center font-weight-bold">{{ course.title }}</h4>

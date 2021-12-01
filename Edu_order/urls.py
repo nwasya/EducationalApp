@@ -13,7 +13,7 @@ urlpatterns = [
     path('add-link-order-via-productlist/<productId>', add_user_order_via_link),
     path('request', send_request, name='request'),
 
-    path('verify/<order_id>', verify, name='verify'),
+    path('verify/<order_id>/<owner_id>', verify, name='verify'),
 
 
 ]

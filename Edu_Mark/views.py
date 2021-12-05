@@ -50,14 +50,28 @@ def enter_mark_page(request):
 
             context['full_name'] = f"{student_name.first_name} {student_name.last_name}"
             context['class_name'] = course_name.title
+            x = Mark.objects.filter(student_name=student_name, course_name=course_name).exists()
+            if  x:
+                student = Student.objects.filter(course=course_name)
+                context['student'] = student
+                messages.info(request,
+                              "برای این دانش آموز قبلا نمره ای ثبت شده است. می توانید از پنل ویرایش نمره آن را ویرایش کنید")
+                context['student_flag'] = True
+                context['course_flag'] = False
+                context['mark_flag'] = False
+                user_id = request.user.username
+
+                teacher = TeacherClass.objects.filter(id_num=user_id).first()
+
+                course = Course.objects.filter(teacher=teacher, active=True)
+                context['course'] = course
+
+                context['form'] = mark_form
+                return render(request, 'enter_mark.html', context)
 
         if 'ارسال' in request.POST:
-            print('here')
             mark_form = CreateMarkForm(request.POST)
-            x = Mark.objects.filter(student_name=student_name,course_name=course_name)
-            if x.count != 0:
-                messages.info(request, "برای این دانش آموز قبلا نمره ای ثبت شده است. می توانید از پنل ویرایش نمره آن را ویرایش کنید")
-                return HttpResponseRedirect('/add-mark')
+
 
             if mark_form.is_valid():
 

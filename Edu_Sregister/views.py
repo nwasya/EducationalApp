@@ -182,7 +182,7 @@ def new_term_book_registration(request):
 
     next_course_id_num = Student.objects.get(id_num=request.user.username).course.id_num
 
-    next_term_books = Product.objects.filter(course__id_num=next_course_id_num)
+    next_term_books = Product.objects.filter(course__id_num=next_course_id_num,active=True)
     order_detail = OrderDetail.objects.filter(order__owner__username=request.user.username, is_delivered=True)
     if next_term_books == None:
         context['main_products'] = None

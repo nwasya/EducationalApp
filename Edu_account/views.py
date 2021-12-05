@@ -672,7 +672,7 @@ def order_detail(request):
     main_dic = {}
     inner_dic = {}
 
-    orders = Order.objects.filter(is_paid=True)
+    orders = Order.objects.filter(is_paid=True).order_by('-payment_date')
     counter = 0
 
     for item in orders:

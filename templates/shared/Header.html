@@ -2,6 +2,10 @@
 
 
 <!-- nav element -->
+
+
+
+
 <nav class="navbar navbar-dark fixed-top navbar-expand-lg px3" id="navBar">
 
     <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -39,9 +43,9 @@
             <li class="nav-item nav-item-text font-weight-bold"><a href="{% url 'news_page' %}" class="nav-link">
                 اخبار</a>
             </li>
-            <li class="nav-item nav-item-text font-weight-bold"><a href="{% url 'contact_us' %}" class="nav-link"> تماس
-                با ما</a>
-            </li>
+{#            <li class="nav-item nav-item-text font-weight-bold"><a href="{% url 'contact_us' %}" class="nav-link"> تماس#}
+{#                با ما</a>#}
+{#            </li>#}
             <li class="nav-item nav-item-text font-weight-bold"><a href="{% url 'about-us' %}" class="nav-link"> درباره
                 ما</a>
             </li>
@@ -139,7 +143,7 @@
             </a>
 
             <div class="dropdown-menu" aria-labelledby="sidebar-orders">
-                <li><a href="{% url 'recent_orders' %}">سفارشات اخیر</a></li>
+                {#                <li><a href="{% url 'recent_orders' %}">سفارشات اخیر</a></li>#}
                 <li><a href="{% url 'order_detail' %}">جزعیات سفارشات</a></li>
                 <li><a href="{% url 'recent_registration' %}">ثبت نام های اخیر</a></li>
             </div>
@@ -193,7 +197,7 @@
 
     {% if request.user.profile.role == 'Student' %}
         <li><a href="{{ course_link }}" class="button button3">ورود به کلاس آنلاین</a></li>
-        <li><a href="{% url 'final-report' %}" class="button button3">مشاهده کارنامه</a></li>
+        <li><a href="/final-report/{{ course_id }}" class="button button3">مشاهده کارنامه</a></li>
         <li><a href="{% url 'new_term_registration' %}" class="button-white button3">ثبت نام ترم جدید</a></li>
         <li><a href="{% url 'new_term_book_registration' %}" class="button button3">خرید کتاب</a></li>
 

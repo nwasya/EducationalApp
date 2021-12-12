@@ -65,7 +65,6 @@ def send_request_register(request, *args, **kwargs):
         return HttpResponse('Error code: ' + str(result.Status))
 
 
-
 @login_required(login_url='/login')
 def new_term_registration(request):
     if UserProfile.objects.get(user__username=request.user.username).role != 'Student':
@@ -77,99 +76,31 @@ def new_term_registration(request):
 
         return redirect(f"/request_regiter/{course_id}")
 
-    current_course_id_num = Student.objects.get(id_num=request.user.username).course.id_num
-    next_course_id_num = int(current_course_id_num) + 1
-    current_course_title = Student.objects.get(id_num=request.user.username).course.title
+    current_course = Student.objects.get(id_num=request.user.username).course
+    next_course = Course.objects.get(id=current_course.id).next_course
 
-    course_objects = Course.objects.filter(id_num=current_course_id_num)
-    if course_objects.count() > 1:
-
-        if 'girl' in current_course_title or 'دختر' in current_course_title:
-            next_course_obj = Course.objects.filter(id_num=next_course_id_num, title__icontains='girl')
-            mark_obj = Mark.objects.filter(student_name__id_num=request.user.username,
-                                           course_name__id_num=current_course_id_num,
-                                           course_name__title__exact=current_course_title).first()
-            if mark_obj is not None:
-                total_mark = int(float(mark_obj.total_mark))
-            else:
-                total_mark = 0
-
-            if not next_course_obj.exists() or next_course_obj.count() != 1 or total_mark < 70:
-                next_course_obj = None
-            else:
-                next_course_obj = Course.objects.filter(id_num=next_course_id_num, title__icontains='girl'
-                                                        ).first()
-
-            context['course'] = next_course_obj
-
-        elif 'boy' in current_course_title or 'پسر' in current_course_title:
-
-            next_course_obj = Course.objects.filter(id_num=next_course_id_num, title__icontains='boy',
-                                                    )
-
-            mark_obj = Mark.objects.filter(student_name__id_num=request.user.username,
-
-                                           course_name__id_num=current_course_id_num,
-
-                                           course_name__title__exact=current_course_title).first()
-
-            if mark_obj is not None:
-
-                total_mark = int(float(mark_obj.total_mark))
-
-            else:
-
-                total_mark = 0
-
-            if not next_course_obj.exists() or next_course_obj.count() != 1 or total_mark < 70:
-                next_course_obj = None
-            else:
-
-                next_course_obj = Course.objects.filter(id_num=next_course_id_num, title__icontains='boy',
-                                                        ).first()
-            context['course'] = next_course_obj
-
-        elif 'online' in current_course_title or 'آنلاین' in current_course_title:
-
-            next_course_obj = Course.objects.filter(id_num=next_course_id_num, title__icontains='online',
-                                                    )
-
-            mark_obj = Mark.objects.filter(student_name__id_num=request.user.username,
-
-                                           course_name__id_num=current_course_id_num,
-
-                                           course_name__title__exact=current_course_title).first()
-
-            if mark_obj is not None:
-
-                total_mark = int(float(mark_obj.total_mark))
-
-            else:
-
-                total_mark = 0
-
-            if not next_course_obj.exists() or next_course_obj.count() != 1 or total_mark < 70:
-                next_course_obj = None
-            else:
-                next_course_obj = Course.objects.filter(id_num=next_course_id_num, title__icontains='online',
-                                                        ).first()
-            context['course'] = next_course_obj
-
+    if next_course is None:
+        print('no next course')
+        context['course'] = None
     else:
-
-        next_course_obj = Course.objects.filter(id_num=next_course_id_num)
         mark_obj = Mark.objects.filter(student_name__id_num=request.user.username,
-                                       course_name__id_num=current_course_id_num).first()
+
+                                       course_name=current_course,
+
+                                       ).first()
+
         if mark_obj is not None:
+
             total_mark = int(float(mark_obj.total_mark))
+
         else:
+
             total_mark = 0
 
-        if not next_course_obj.exists() or next_course_obj.count() != 1 or total_mark < 70:
-            next_course_obj = None
-        else:
-            next_course_obj = Course.objects.get(id_num=next_course_id_num)
-        context['course'] = next_course_obj
+        if  total_mark < 70:
+            next_course = None
+
+        context['course'] = next_course
 
     return render(request, 'new_termm_registration.html', context)
 
@@ -180,10 +111,28 @@ def new_term_book_registration(request):
         return redirect('/')
     context = {}
 
-    next_course_id_num = Student.objects.get(id_num=request.user.username).course.id_num
+    course = Student.objects.get(id_num=request.user.username).course
+    course_id_num = course.id_num
+    register_date = RegisteredStudent.objects.filter(course=course,student__id_num=request.user.username)
+    if register_date.count() == 1:
+        register_date = register_date.first().time
+        register_date = register_date.replace(tzinfo=None)
+        now = datetime.now()
+        dd = (now - register_date).days
+    else:
+        dd = 200
 
-    next_term_books = Product.objects.filter(course__id_num=next_course_id_num,active=True)
-    order_detail = OrderDetail.objects.filter(order__owner__username=request.user.username, is_delivered=True)
+
+    if dd < 7:
+
+        next_term_books = Product.objects.filter(course__id_num=course_id_num, active=True)
+        order_detail = OrderDetail.objects.filter(order__owner__username=request.user.username, is_delivered=True)
+    else:
+        next_term_books = None
+        order_detail = []
+
+
+
     if next_term_books == None:
         context['main_products'] = None
     else:
@@ -195,7 +144,6 @@ def new_term_book_registration(request):
             elif order.product in minor_books:
                 minor_books.remove(order.product)
 
-        print(minor_books)
         context['main_products'] = main_books
         context['minor_products'] = minor_books
         if len(minor_books) == 0 and len(main_books) == 0:

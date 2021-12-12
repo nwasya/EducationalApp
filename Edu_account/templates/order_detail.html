@@ -32,7 +32,9 @@
                                 <th>ردیف</th>
                                 <th>نام سفارش دهنده</th>
                                 <th>سفارشات</th>
+                                <th>قیمت</th>
                                 <th>تعداد سفارش</th>
+
                                 <th>کد محصول</th>
                                 <th>کد پیگیری</th>
                                 <th class="table-success">تاریخ پرداخت</th>
@@ -59,7 +61,17 @@
                                         </table>
                                     </td>
 
+                                    <td>
+                                        {% for key1, value1 in value.1.items %}
+                                            <table class="table table-hover table-striped m-0">
+                                                <tr>
+                                                    <td>{{ value1.2 }}</td>
 
+                                                </tr>
+
+                                            </table>
+                                        {% endfor %}
+                                    </td>
                                     <td>
                                         {% for key1, value1 in value.1.items %}
                                             <table class="table table-hover table-striped m-0">
@@ -71,6 +83,7 @@
                                             </table>
                                         {% endfor %}
                                     </td>
+
                                     <td>
                                         {% for key1, value1 in value.1.items %}
                                             <table class="table table-hover table-striped m-0">

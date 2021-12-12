@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 from Edu_course.models import Course
+from Edu_teacher.models import TeacherClass
 from Edu_user.models import Student
 
 
@@ -27,6 +28,7 @@ class Mark(models.Model):
     speaking = models.CharField(max_length=15, choices=RESULT,default='Out_Standing')
     activity = models.CharField(max_length=15, choices=RESULT,default='Out_Standing')
     description = models.TextField(max_length=500,null=True)
+    teacher = models.ForeignKey(TeacherClass, on_delete=models.SET_NULL, null=True)
 
 
     class Meta:

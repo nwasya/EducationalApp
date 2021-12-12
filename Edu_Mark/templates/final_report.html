@@ -15,9 +15,54 @@
                     <div class="col-md-12">
                         <div class="form h-100 text-center">
 
-                            <h2 class="title text-center"> کارنامه</h2>
-                            <hr>
-                            <br>
+
+                        <div class="row">
+
+<div class="col-4">
+
+</div>
+
+
+                             <div class="col-4">
+                                                            <h2 class="title text-center"> کارنامه</h2>
+
+                            </div>
+                            <div class="col-4 float-left">
+
+
+<div class="dropdown text-left" style="padding: 8px">
+  <button class="bt btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+    سوابق تحصیلی
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      {% for mark in pre_marks %}
+    <a class="dropdown-item" href="/final-report/{{ mark.course_name.id }}">{{ mark.total_mark }} </a>
+    {% endfor %}
+  </div>
+</div>
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+                            <!-- Large button groups (default and split) -->
+
+
+
+
+
+
+
+<hr>
+
+
+<br>
+
+
 
 
                             {% if marks is None %}
@@ -91,8 +136,8 @@
 
                                     </table>
                                     <br>
-                                <hr class="dotted">
-                                <br>
+                                    <hr class="dotted">
+                                    <br>
 
                                     <strong class="fadeInDown">activity</strong>
                                     <div class=" fadeInDown text-center mx-5">
@@ -207,8 +252,6 @@
                                                  aria-valuemax="100">{{ total_work }}</div>
 
 
-
-
                                         </div>
 
 
@@ -217,26 +260,28 @@
                                 </div>
 
 
-<br>
-<section>
-<hr class="dotted">
-    <br>
-<div >
-    <h6 class="text-center animated fadeInDown" style="padding-top: 10px">نمودار وضعیت نهایی زبان اموز</h6>
-</div>
- <div class="">
+                                <br>
+                                <section>
+                                    <hr class="dotted">
+                                    <br>
+                                    <div>
+                                        <h6 class="text-center animated fadeInDown" style="padding-top: 10px">نمودار
+                                            وضعیت نهایی زبان اموز</h6>
+                                    </div>
+                                    <div class="">
 
                                         <div class="row fadeInDown text-center">
 
                                             <div class="col-12">
-                                                <div class="counter" data-cp-percentage="{{ mean }}" data-cp-color="#00bfeb">
+                                                <div class="counter" data-cp-percentage="{{ mean }}"
+                                                     data-cp-color="#00bfeb">
                                                 </div>
 
                                             </div>
 
                                         </div>
                                     </div>
-</section>
+                                </section>
 
 
 

@@ -12,7 +12,7 @@ class Level(models.Model):
     image = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
 
     def get_absolute_url(self):
-        return f"/levels-detail/{self.id}/{self.title.replace(' ', '-')}"
+        return f"/levels-detail/{self.id}"
 
 
 

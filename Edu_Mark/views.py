@@ -9,7 +9,9 @@ from Edu_Mark.models import Mark
 from Edu_course.models import Course
 from Edu_teacher.models import TeacherClass
 from Edu_user.models import UserProfile, Student
-#test git
+
+
+# test git
 
 @login_required(login_url='/login')
 def enter_mark_page(request):
@@ -44,14 +46,13 @@ def enter_mark_page(request):
             context['mark_flag'] = True
             id_num = request.POST['student']
 
-
             mark_form = CreateMarkForm()
             student_name = Student.objects.get(id_num=id_num)
 
             context['full_name'] = f"{student_name.first_name} {student_name.last_name}"
             context['class_name'] = course_name.title
             x = Mark.objects.filter(student_name=student_name, course_name=course_name).exists()
-            if  x:
+            if x:
                 student = Student.objects.filter(course=course_name)
                 context['student'] = student
                 messages.info(request,
@@ -71,7 +72,6 @@ def enter_mark_page(request):
 
         if 'ارسال' in request.POST:
             mark_form = CreateMarkForm(request.POST)
-
 
             if mark_form.is_valid():
 
@@ -184,11 +184,9 @@ def view_student_report(request):
     return render(request, 'view_student_report.html', context)
 
 
-
-
 @login_required(login_url='/login')
 def edit_mark_page(request):
-    global course_name,id_num
+    global course_name, id_num
     if UserProfile.objects.get(user__username=request.user.username).role != 'Teacher':
         return redirect('/')
     context = {}
@@ -201,7 +199,7 @@ def edit_mark_page(request):
             course_id = request.POST['course']
 
             course_name = Course.objects.get(id=course_id)
-            student = Student.objects.filter(course__id=course_id )
+            student = Student.objects.filter(course__id=course_id)
 
             context['student'] = student
             context['student_flag'] = True
@@ -209,8 +207,6 @@ def edit_mark_page(request):
 
         if 'student' in request.POST:
             id_num = request.POST['student']
-
-
 
             marks = Mark.objects.filter(student_name__id_num=id_num, course_name=course_name).first()
 
@@ -244,7 +240,6 @@ def edit_mark_page(request):
         if 'ارسال' in request.POST:
 
             edit_mark_form = CreateMarkForm(request.POST)
-
 
             if edit_mark_form.is_valid():
                 class_activity = edit_mark_form.cleaned_data['class_activity']
@@ -289,14 +284,16 @@ def edit_mark_page(request):
 
 
 @login_required(login_url='/login')
-def final_report(request):
+def final_report(request, *args, **kwargs):
     if UserProfile.objects.get(user__username=request.user.username).role != 'Student':
         return redirect('/')
     context = {}
     id_num = request.user.username
-    course_name = Student.objects.filter(id_num=id_num).first().course
-    context['teacher'] = course_name.teacher
+    course_name = Course.objects.get(id=kwargs['course_id'])
+
     marks = Mark.objects.filter(student_name__id_num=id_num, course_name=course_name).first()
+    context['teacher'] = marks.teacher if marks.teacher is not None else course_name.teacher
+    pre_marks = Mark.objects.filter(student_name__id_num=id_num).order_by('course_name')
     if marks is not None:
         context['activity'] = get_mark_value(marks.activity)
         context['speaking'] = get_mark_value(marks.speaking)
@@ -317,6 +314,7 @@ def final_report(request):
         full_Name = UserProfile.objects.get(user=request.user).full_name
 
     context['full_name'] = full_Name
+    context['pre_marks'] = pre_marks
     return render(request, 'final_report.html', context)
 
 

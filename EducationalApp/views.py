@@ -24,9 +24,11 @@ def header(request, *args, **kwargs):
         if user_profile.role == 'Student':
             student_obj = Student.objects.get(id_num=user_id)
             course_name = student_obj.course
+            course_id = student_obj.course.id
             course_link = Course.objects.get(title__exact=course_name).online_class_link
             context['course_link'] = course_link
             context['course_name'] = course_name
+            context['course_id'] = course_id
             context['student'] = True
 
 

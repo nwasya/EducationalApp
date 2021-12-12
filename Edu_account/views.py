@@ -27,7 +27,9 @@ from Edu_teacher.models import TeacherClass
 from Edu_user.models import UserProfile, Student
 from .forms import LoginForm, CreateBooksForm, CreateStudentForm, CreateTeacherForm, \
     ChangePassForm, DeleteStudentForm, DeleteBookForm, \
-    EditTeacherForm,  EditBookForm, input_2
+    EditTeacherForm, EditBookForm, input_2
+
+from jdatetime import date
 
 
 def login_page(request):
@@ -149,9 +151,6 @@ def delete_book_page(request):
     return render(request, 'delete_book.html', context)
 
 
-
-
-
 @login_required(login_url='/login')
 def create_student_page(request):
     if UserProfile.objects.get(user__username=request.user.username).role != 'Manager':
@@ -168,17 +167,21 @@ def create_student_page(request):
             role = 'Student'
             course_obj = Course.objects.get(id=course)
             try:
-                Student.objects.create(first_name=first_name, last_name=last_name, id_num=id_num, course=course_obj
-                                       , role=role,
-                                       phone_number=phone_number)
+                Student.objects.create(first_name=first_name, last_name=last_name, id_num=id_num,
+                                                   course=course_obj
+                                                   , role=role,
+                                                   phone_number=phone_number)
+                st = Student.objects.get(id_num=id_num)
 
                 user = User.objects.create_user(username=id_num, password=id_num, first_name=first_name,
                                                 last_name=last_name)
                 UserProfile.objects.create(user=user, role=role, full_name=first_name + ' ' + last_name)
+                RegisteredStudent.objects.create(student=st, course=course_obj, price=course_obj.price,
+                                                 time=datetime.now(), rahgiri='000000')
                 messages.success(request, 'زبان آموز جدید با موفقیت ثبت شد')
             except:
-                messages.error(request,'خطایی در ثبت رخ داد')
 
+                messages.error(request, 'خطایی در ثبت رخ داد')
 
             return HttpResponseRedirect('/addstudent')
 
@@ -332,7 +335,6 @@ def change_password(request):
 li = []
 
 
-
 @login_required(login_url='/login')
 def unconfirmedcomments(request):
     if UserProfile.objects.get(user__username=request.user.username).role != 'Manager':
@@ -430,8 +432,6 @@ def confirm_comment(request, *args, **kwargs):
                 return redirect('/unconfirmedcomments')
         else:
             raise Http404
-
-
 
 
 li = []
@@ -650,11 +650,9 @@ def recent_orders(request):
             title = Product.objects.get(id_num=item.product.id_num).title
             payment_date = item.order.payment_date
 
-
             temp.append(item.count)
             temp.append(title)
             temp.append(payment_date)
-
 
             dic[item.product.id_num] = temp
 
@@ -692,11 +690,11 @@ def order_detail(request):
             else:
                 temp = []
                 li.append(detail.product.id_num)
-                title = Product.objects.get(id_num=detail.product.id_num).title
+                obj2 = Product.objects.get(id_num=detail.product.id_num)
 
                 temp.append(detail.count)
-                temp.append(title)
-
+                temp.append(obj2.title)
+                temp.append(obj2.price)
 
                 inner_dic[detail.product.id_num] = temp
 
@@ -710,10 +708,10 @@ def order_detail(request):
         temp.append(inner_dic)
         inner_dic = {}
         temp.append(serial_num)
-        temp.append(item.payment_date)
+        jdate = date.fromgregorian(date=item.payment_date)
+        temp.append(jdate)
         main_dic[counter] = temp
         counter += 1
-        print(main_dic)
 
     context = {
 
@@ -730,12 +728,13 @@ def recent_registration(request):
 
     obj = RegisteredStudent.objects.all().order_by('-time')
 
-
     for item in obj:
         if item.course is None:
             return Http404
 
-        dic[counter] = [f'{item.student.first_name} {item.student.last_name}', item.course, item.time, item.course.price]
+        jdate = date.fromgregorian(date=item.time)
+
+        dic[counter] = [f'{item.student.first_name} {item.student.last_name}', item.course, jdate, item.course.price]
         counter += 1
 
     context = {
@@ -772,11 +771,9 @@ def add_online_class_link(request):
     return render(request, 'add-online-class-link.html', context)
 
 
-
-
 @login_required(login_url='/login')
 def transfer_student(request):
-    global course_name,id_num,id_nums,des_course_id
+    global course_name, id_num, id_nums, des_course_id
     if UserProfile.objects.get(user__username=request.user.username).role != 'Manager':
         return redirect('/')
     context = {}
@@ -788,17 +785,15 @@ def transfer_student(request):
     if request.method == 'POST':
 
         if 'course' in request.POST:
-
             course_id = request.POST['course']
 
             course_id = Course.objects.get(id=course_id).id
-            student = Student.objects.filter(course__id=course_id )
+            student = Student.objects.filter(course__id=course_id)
 
             context['student'] = student
             context['student_flag'] = True
             context['course_flag'] = False
             context['des_course_flag'] = False
-
 
         if 'students' in request.POST:
             id_nums = request.POST.getlist('students')
@@ -808,8 +803,6 @@ def transfer_student(request):
             context['des_course_flag'] = True
             context['course_flag'] = False
 
-
-
         if 'des_course' in request.POST:
             des_course_id = request.POST['des_course']
 
@@ -818,8 +811,6 @@ def transfer_student(request):
                 x = Student.objects.get(id_num=student)
                 x.course = des_course_obj
                 x.save()
-
-
 
             messages.success(request, "کلاس دانش آموزان با موفیقیت انتقال یافت")
             return redirect('/transfer-student')

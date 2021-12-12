@@ -31,7 +31,6 @@ class CourseManager(models.Manager):
     def get_active_courses(self):
         return self.get_queryset().filter(active=True)
 
-
     def get_by_id(self, product_id):
         qs = self.get_queryset().filter(id=product_id)
         if qs.count() == 1:
@@ -48,17 +47,16 @@ class CourseManager(models.Manager):
 
     def search(self, query):
         lookup = (
-                Q(title__icontains=query)
+            Q(title__icontains=query)
 
         )
         return self.get_queryset().filter(lookup).distinct()
 
-    def search_adults(self, query1,query2):
+    def search_adults(self, query1, query2):
 
         lookup = (
                 Q(title__icontains=query1) |
                 Q(title__icontains=query2)
-
 
         )
         return self.get_queryset().filter(lookup).distinct()
@@ -67,21 +65,18 @@ class CourseManager(models.Manager):
 class Course(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField()
-    id_num = models.IntegerField(null=True,default=000)
+    id_num = models.IntegerField(null=True, default=000)
     price = models.IntegerField()
-    teacher = models.ForeignKey(TeacherClass,on_delete=models.SET_NULL,null=True)
+    teacher = models.ForeignKey(TeacherClass, on_delete=models.SET_NULL, null=True)
     image = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
     active = models.BooleanField(default=True)
     starting_date = models.CharField(null=False, max_length=10)
-
-    online_class_link = models.CharField(max_length=500,null=True)
-
+    online_class_link = models.CharField(max_length=500, null=True)
+    next_course = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
     objects = CourseManager()
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return f"/course-detail/{self.id}/{self.title.replace(' ', '-')}"
-
-
+        return f"/course-detail/{self.id}"

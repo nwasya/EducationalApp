@@ -11,7 +11,7 @@ urlpatterns = [
     path('courses/teen-agers', CourseListTeenAgers.as_view(), name='courses-teen-agers'),
     path('courses/adults', CourseListAdults.as_view(), name='courses-adults'),
     path('courses/active-courses', CourseListActives.as_view(), name='courses-active-courses'),
-    path('course-detail/<courseId>/<name>', course_detail),
+    path('course-detail/<courseId>', course_detail),
     path('addcourse', create_course_page, name='addcourse'),
     path('deletecourse', delete_course_page, name='deletecourse'),
     path('editcourse', edit_course_page, name='editcourse'),

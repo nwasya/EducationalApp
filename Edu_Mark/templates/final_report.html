@@ -36,7 +36,7 @@
   </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
       {% for mark in pre_marks %}
-    <a class="dropdown-item" href="/final-report/{{ mark.course_name.id }}">{{ mark.total_mark }} </a>
+    <a class="dropdown-item" href="/final-report/{{ mark.course_name.id }}">{{ mark.course_name.title }} </a>
     {% endfor %}
   </div>
 </div>

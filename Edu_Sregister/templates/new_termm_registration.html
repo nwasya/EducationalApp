@@ -9,7 +9,7 @@
 
         body {
             margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: yekan, Helvetica, sans-serif;
         }
     </style>
 
@@ -24,19 +24,53 @@
             <div class="row align-items-stretch no-gutters contact-wrap text-center mx-auto">
 
 
-                {% if course is None %}
+                {% if course == 'failed' %}
+                     <div class="card" style="margin-bottom: 300px">
+                        <div class="card-header" >
+                        عدم کسب نمره قبولی
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">شما نمره قبولی جهت ثبت نام برای ترم بعد را کسب ننموده اید</h5>
+                            <p class="card-text">
+توجه داشته باشید در صورت کسب نمره قبولی قادر به ثبت نام خواهید بود.
+                                لازم به ذکر است نمره قبولی برای گذراندن هر ترم حداقل 75 می باشد.
+                            در صورت هرگونه ابهام سوالات خود را با مدیریت در میان بگذارید.
 
+                            </p>
 
+                        </div>
+                    </div>
+
+                    {% elif course == 'undefined' %}
 
                     <div class="card" style="margin-bottom: 300px">
                         <div class="card-header" >
                             کلاسی برای ثبت نام یافت نشد.
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">کلاسی که برای شما تعریف گردیده است با موفقیت ثبت نام نموده اید.</h5>
+                            <h5 class="card-title">در حال حاضر هیچ کلاسی برای شما تعریف نگردیده است</h5>
+                            <p class="card-text">
+                               برای فعال شدن پنل ثبت نام لازم هست کلاس توسط مدیر وبسایت برای شما تعریف گردد. در صورت مشاهده این پیغام لطفا از مدیریت درخواست نمایید تا کلاس جدید برای شما تعریف گردد.
+                            </p>
+
+                        </div>
+                    </div>
+
+
+                    {% elif course == 'no-mark' %}
+
+
+
+                    <div class="card" style="margin-bottom: 300px">
+                        <div class="card-header" >
+                            نمره ای یافت نشد
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">                           در حال حاضر نمره شما توسط دبیر وارد سامانه نگردیده است
+</h5>
                             <p class="card-text">توجه داشته باشید برای فعال شدن پنل ثبت نام برای ترم جدید بایستی نمرات ترم توسط دبیر وارد سامانه گردد.
                                 در صورت کسب نمره قبولی قادر به ثبت نام خواهید بود.
-                                لازم به ذکر ات نمره قبولی برای گذراندن هر ترم حداقل 70 می باشد.
+                                لازم به ذکر است نمره قبولی برای گذراندن هر ترم حداقل 75 می باشد.
                             در صورت هرگونه ابهام سوالات خود را با مدیریت در میان بگذارید.
 
                             </p>

@@ -80,8 +80,7 @@ def new_term_registration(request):
     next_course = Course.objects.get(id=current_course.id).next_course
 
     if next_course is None:
-        print('no next course')
-        context['course'] = None
+        context['course'] = 'undefined'
     else:
         mark_obj = Mark.objects.filter(student_name__id_num=request.user.username,
 
@@ -95,12 +94,14 @@ def new_term_registration(request):
 
         else:
 
-            total_mark = 0
+            next_course = 'no-mark'
+            total_mark = -1
 
-        if  total_mark < 70:
-            next_course = None
+        if total_mark < 75 and total_mark != -1:
+            next_course = 'failed'
 
         context['course'] = next_course
+    print(context)
 
     return render(request, 'new_termm_registration.html', context)
 
@@ -113,7 +114,7 @@ def new_term_book_registration(request):
 
     course = Student.objects.get(id_num=request.user.username).course
     course_id_num = course.id_num
-    register_date = RegisteredStudent.objects.filter(course=course,student__id_num=request.user.username)
+    register_date = RegisteredStudent.objects.filter(course=course, student__id_num=request.user.username)
     if register_date.count() == 1:
         register_date = register_date.first().time
         register_date = register_date.replace(tzinfo=None)
@@ -122,7 +123,6 @@ def new_term_book_registration(request):
     else:
         dd = 200
 
-
     if dd < 7:
 
         next_term_books = Product.objects.filter(course__id_num=course_id_num, active=True)
@@ -130,8 +130,6 @@ def new_term_book_registration(request):
     else:
         next_term_books = None
         order_detail = []
-
-
 
     if next_term_books == None:
         context['main_products'] = None

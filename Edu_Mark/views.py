@@ -70,7 +70,7 @@ def enter_mark_page(request):
                 context['form'] = mark_form
                 return render(request, 'enter_mark.html', context)
 
-        if 'ارسال' in request.POST:
+        if 'send' in request.POST:
             mark_form = CreateMarkForm(request.POST)
 
             if mark_form.is_valid():

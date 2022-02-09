@@ -110,7 +110,7 @@ def new_term_registration(request):
 def new_term_book_registration(request):
     if UserProfile.objects.get(user__username=request.user.username).role != 'Student':
         return redirect('/')
-    context = {}
+    context = {'expire' : False}
 
     course = Student.objects.get(id_num=request.user.username).course
     course_id_num = course.id_num
@@ -129,6 +129,7 @@ def new_term_book_registration(request):
         order_detail = OrderDetail.objects.filter(order__owner__username=request.user.username, is_delivered=True)
     else:
         next_term_books = None
+        context['expire'] = True
         order_detail = []
 
     if next_term_books == None:

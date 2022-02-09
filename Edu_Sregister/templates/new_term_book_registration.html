@@ -16,28 +16,52 @@
                         <div class="form h-100 text-center">
 
 
-                            <div class="col d-flex flex-wrap text-uppercase justify-content-center" >
-            <h1 class="font-weight-bold align-self-center mx-1">خرید</h1>
-            <h1 class="section-title-special mx-1"> کتاب ترم جدید</h1>
-        </div>
-                          <br>
+                            <div class="col d-flex flex-wrap text-uppercase justify-content-center">
+                                <h1 class="font-weight-bold align-self-center mx-1">خرید</h1>
+                                <h1 class="section-title-special mx-1"> کتاب ترم جدید</h1>
+                            </div>
+                            <br>
+                            {% if expire %}
 
-                            {% if main_products is None %}
 
                                 <div class="card" style="margin-bottom: 300px">
-                        <div class="card-header" >
-                            کتابی برای این ترم یافت نشد.
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">شما کتاب هایی که برای ترم جاری تعریف شده اند را با موفقیت خریداری نموده اید.</h5>
-                            <p class="card-text">توجه داشته باشید برای فعال شدن پنل خرید کتاب باید ترم جدید ثبت نام نمایید.
-                               در صورت این که پس از ثبت نام کتابی برای شما نمایش داده نشده است بدین دلیل می تواند باشد که
-                                کتابی برای این ترم تعریف نشده است و نیازی به خرید کتاب جدید ندارید. لطفا جهت اطمینان وضعیت خرید کتاب را از مدیریت و یا دبیر خود پیگیری نمایید.
-                                در صورت بروز هرگونه خطا با مدیریت زبانکده در ارتباط باشید.
-                            </p>
 
-                        </div>
-                    </div>
+                                    <div class="card-header">
+                                        مهلت سفارش کتاب به اتمام رسیده است.
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">برای فعال شدن پنل خرید کتاب حداکثر ۷روز پس از ثبت نام فرصت
+                                            دارید تا سفارش خود را ثبت نمایید.
+                                            مشاهده این پیام بدین معنی است که شما پس از گذشت ۷ روز از ثبت نام برای خرید
+                                            کتاب اقدام کرده اید.
+                                            لطفا جهت اطمینان وضعیت خرید کتاب را از مدیریت و یا دبیر خود پیگیری نمایید.
+                                            در صورت بروز هرگونه خطا با مدیریت زبانکده در ارتباط باشید.
+                                        </p>
+
+                                    </div>
+                                </div>
+
+                            {% elif main_products is None %}
+
+                                <div class="card" style="margin-bottom: 300px">
+                                    <div class="card-header">
+                                        کتابی برای این ترم یافت نشد.
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">شما کتاب هایی که برای ترم جاری تعریف شده اند را با موفقیت
+                                            خریداری نموده اید.</h5>
+                                        <p class="card-text">توجه داشته باشید برای فعال شدن پنل خرید کتاب باید ترم جدید
+                                            ثبت نام نمایید.
+                                            در صورت این که پس از ثبت نام کتابی برای شما نمایش داده نشده است بدین دلیل می
+                                            تواند باشد که
+                                            کتابی برای این ترم تعریف نشده است و نیازی به خرید کتاب جدید ندارید. لطفا جهت
+                                            اطمینان وضعیت خرید کتاب را از مدیریت و یا دبیر خود پیگیری نمایید.
+                                            در صورت بروز هرگونه خطا با مدیریت زبانکده در ارتباط باشید.
+                                        </p>
+
+                                    </div>
+                                </div>
+
 
                             {% else %}
                                 <div class="row ">
@@ -46,10 +70,14 @@
                                     <div class="col-md-6">
                                         {% for product in minor_products %}
 
-
                                             <!-- Single Car -->
-                                            <div class=" my-3">
+                                            <div class="my-3">
                                                 <div class="card car-card">
+                                                    {% if  product.image %}
+                                                        <img src="{{ product.image.url }}" class="card-img-top car-img "
+                                                             alt="">
+
+                                                    {% endif %}
 
                                                     <!-- Card Body-->
                                                     <div class="card-body">
@@ -59,13 +87,16 @@
                                                                     تومان </h6>
 
                                                             </div>
-                                                            <h5 class=" align-self-center py-2 px-3">
+                                                            <h5 class="align-self-center py-2 px-3">
                                                                 <span class="font-weight-bold">{{ product.title }}</span>
                                                             </h5>
                                                         </div>
                                                     </div>
                                                     <!-- Footer -->
                                                     <div class="card-footer text-capitalize d-flex justify-content-between">
+
+                                                        <a class="btn-primary btn-lg fadeInDown"
+                                                           href="{{ product.get_absolute_url }}">جزئیات</a>
 
 
                                                         {% if product.id_num in order_cart %}
@@ -96,6 +127,7 @@
                                                 </div>
                                             </div>
                                             <!-- End Single Car -->
+
 
                                         {% endfor %}
                                     </div>
@@ -170,16 +202,19 @@
 
                                 <section style="padding-top: 20px">
 
-            <div class="service-box text-center ">
-                <div>
-                    <i class="row icon fas fa-bullhorn mx-auto "></i>
-                    <a class=" font-weight-bold align-self-center" href="/open-order" style="font-size:24px">برای نهایی کردن سفارش،اینجا کلیک کنید</a>
-                    <p style="margin-bottom: 15px">با کلیک بر روی لینک بالا،به سبد خریدتان هدایت خواهید شد. لطفا از صحیح بودن تعداد سفارشات اطمینان حاصل فرمایید.در صورت هرگونه مغایرت در قیمت محصولات  با آموزشگاه استقلال تماس حاصل فرمایید</p>
+                                    <div class="service-box text-center ">
+                                        <div>
+                                            <i class="row icon fas fa-bullhorn mx-auto "></i>
+                                            <a class=" font-weight-bold align-self-center" href="/open-order"
+                                               style="font-size:24px">برای نهایی کردن سفارش،اینجا کلیک کنید</a>
+                                            <p style="margin-bottom: 15px">با کلیک بر روی لینک بالا،به سبد خریدتان هدایت
+                                                خواهید شد. لطفا از صحیح بودن تعداد سفارشات اطمینان حاصل فرمایید.در صورت
+                                                هرگونه مغایرت در قیمت محصولات با آموزشگاه استقلال تماس حاصل فرمایید</p>
 
-                </div>
-            </div>
+                                        </div>
+                                    </div>
 
-        </section>
+                                </section>
 
                             {% endif %}
 
@@ -192,10 +227,7 @@
             </div>
 
 
-
-
         </div>
-
 
 
     </div>

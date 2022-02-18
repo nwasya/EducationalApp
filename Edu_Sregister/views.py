@@ -42,6 +42,14 @@ def verify_new_term_registration(request, *args, **kwargs):
             student_obj.course = course_obj
             student_obj.is_registered = True
             student_obj.save()
+            course_obj.active = True
+            course_obj.save()
+            x = Product.objects.filter(course=course_obj)
+            if x.exists():
+                for item in x:
+                    item.active = True
+                    item.save()
+
             return redirect(f"/payment-success/{result['RefID']}")
         else:
             # return HttpResponse('Transaction failed.\nStatus: ' + str(result.Status))

@@ -292,9 +292,10 @@ def final_report(request, *args, **kwargs):
     course_name = Course.objects.get(id=kwargs['course_id'])
 
     marks = Mark.objects.filter(student_name__id_num=id_num, course_name=course_name).first()
-    context['teacher'] = marks.teacher if marks.teacher is not None else course_name.teacher
+
     pre_marks = Mark.objects.filter(student_name__id_num=id_num).order_by('course_name')
     if marks is not None:
+        context['teacher'] = marks.teacher if marks.teacher is not None else course_name.teacher
         context['activity'] = get_mark_value(marks.activity)
         context['speaking'] = get_mark_value(marks.speaking)
         context['listening'] = get_mark_value(marks.listening)

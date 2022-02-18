@@ -76,7 +76,7 @@ def edit_news_page(request):
 
             li.append(news_id_num)
             context['news_id_num'] = news_id_num
-            news_obj = News.objects.get(pk=news_id_num)
+            news_obj = News.objects.get(id=news_id_num)
 
             edit_news_form = EditNewsForm(
                 initial={'title': news_obj.title,
@@ -111,7 +111,7 @@ def edit_news_page(request):
             else:
                 messages.error(request,'ویرایش خبر با خطا مواجه شد.توجه داشته باشید که موضوع خبر نباید بیش از 150 کاراکتر باشد')
 
-    news_list = News.objects.all().order_by('-id')
+    news_list = News.objects.filter(user_name=request.user.profile.full_name).order_by('-id')
 
     context['news_list'] = news_list
 
@@ -130,7 +130,8 @@ def delete_news_page(request):
     if request.method == 'POST':
         new = request.POST['dropdown']
 
-        News.objects.filter(title=new).delete()
+        News.objects.filter(id=new).delete()
+        messages.success(request, 'خبر با موفقیت حذف شد.')
 
     news_list = News.objects.filter(user_name=request.user.profile.full_name)
     context = {

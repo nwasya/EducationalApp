@@ -24,7 +24,7 @@
                                 <select name="dropdown">
                                     <option selected="selected" disabled>موضوع خبر :</option>
                                     {% for news in news_list %}
-                                        <option value="{{ news }}">{{ news }}</option>
+                                        <option value="{{ news.id }}">{{ news }}</option>
                                     {% endfor %}
                                 </select>
                                 <br>

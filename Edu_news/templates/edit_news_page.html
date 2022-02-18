@@ -14,23 +14,24 @@
                         <br>
 
 
-                        <form method="post" enctype="multipart/form-data" class="text-center">
+                        <form method="post" enctype="multipart/form-data" class="align-items-center text-center">
                             {% csrf_token %}
 
-                           <div class="custom-select" style="width: 200px">
+                           <div  style="width: 200px" class="align-items-center">
+
+
+
                                 <select name="dropdown">
-                                <option selected="selected" disabled>موضوع خبر :</option>
+                                <option class="dropdown-item" selected="selected" disabled>موضوع خبر :</option>
                                 {% for new in news_list %}
 
-                                    <option value="{{ new.pk }}"
-                                            {% ifequal news_id_num new.pk %}selected{% endifequal %}>{{ new.title }}</option>
+                                    <option class="dropdown-item" value="{{ new.id }}"
+                                            {% ifequal news_id_num new.id %}selected{% endifequal %}>{{ new.title }}</option>
                                 {% endfor %}
                             </select>
                            </div>
 
-                            <br>
-                            <br>
-                            <br>
+
 
                             <div class="form-group col-md-12 pull-right">
                                 <input type="submit" name="جستجو" class="btn btn-primary pull-right" value="جستجو">
@@ -50,8 +51,7 @@
                             {{ edit_form.text }}
                             <br>
 
-                            <br>
-                            <br>
+
 
                             {% if confirm is True %}
 

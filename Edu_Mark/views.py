@@ -335,6 +335,10 @@ def final_report(request, *args, **kwargs):
     return render(request, 'final_report.html', context)
 
 
+
+
+
+
 def get_mark_value(mark: str) -> int:
     if mark == 'Out_Standing':
         return 100

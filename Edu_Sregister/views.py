@@ -12,6 +12,10 @@ from Edu_order.models import OrderDetail
 from Edu_user.models import Student, UserProfile
 from django.http import HttpResponse
 from django.shortcuts import redirect
+
+import requests
+import json
+
 from zeep import Client
 
 MERCHANT = 'eef9f4c5-a94d-498c-a2d4-75e0bdadbad0'
@@ -21,7 +25,9 @@ email = 'Ehraghi.aysan@gmail.com'  # Optional
 mobile = '09337814796'  # Optional
 
 # client = Client('https://sandbox.zarinpal.com/pg/services/WebGate/wsdl')
-client = Client('https://zarinpal.com/pg/services/WebGate/wsdl')
+ZP_API_REQUEST = "https://api.zarinpal.com/pg/v4/payment/request.json"
+ZP_API_VERIFY = "https://api.zarinpal.com/pg/v4/payment/verify.json"
+ZP_API_STARTPAY = "https://www.zarinpal.com/pg/StartPay/{authority}"
 
 # CallbackURLregister = 'http://127.0.0.1:8000/verify_register'
 CallbackURLregister = 'http://sahand-esteglal.ir/verify_register'
@@ -32,45 +38,73 @@ def verify_new_term_registration(request, *args, **kwargs):
     course_obj = Course.objects.get(id=course_id)
     student_id = kwargs.get('student_id')
     student_obj = Student.objects.get(id_num=student_id)
+    t_status = request.GET.get('Status')
+    t_authority = request.GET['Authority']
 
     if request.GET.get('Status') == 'OK':
 
-        result = client.service.PaymentVerification(MERCHANT, request.GET['Authority'], course_obj.price)
-        if result.Status == 100 or result.Status == 101:
-            RegisteredStudent(student=student_obj, course=course_obj, price=course_obj.price, time=datetime.now(),
-                              rahgiri=result['RefID']).save()
-            student_obj.course = course_obj
-            student_obj.is_registered = True
-            student_obj.save()
-            course_obj.active = True
-            course_obj.save()
-            x = Product.objects.filter(course=course_obj)
-            if x.exists():
-                for item in x:
-                    item.active = True
-                    item.save()
+        req_header = {"accept": "application/json",
+                      "content-type": "application/json'"}
+        req_data = {
+            "merchant_id": MERCHANT,
+            "amount": course_obj.price,
+            "authority": t_authority
+        }
+        req = requests.post(url=ZP_API_VERIFY, data=json.dumps(req_data), headers=req_header)
 
-            return redirect(f"/payment-success/{result['RefID']}")
-        else:
-            # return HttpResponse('Transaction failed.\nStatus: ' + str(result.Status))
-            return redirect('/payment-error')
+        if len(req.json()['errors']) == 0:
+            t_status = req.json()['data']['code']
+            if t_status == 100:
+                RegisteredStudent(student=student_obj, course=course_obj, price=course_obj.price, time=datetime.now(),
+                                  rahgiri=req.json()['data']['ref_id']).save()
+                student_obj.course = course_obj
+                student_obj.is_registered = True
+                student_obj.save()
+                course_obj.active = True
+                course_obj.save()
+                x = Product.objects.filter(course=course_obj)
+                if x.exists():
+                    for item in x:
+                        item.active = True
+                        item.save()
+
+                return redirect(f"/payment-success/{req.json()['data']['ref_id']}")
+
+            elif t_status == 101:
+                return HttpResponse('Transaction submitted : ' + str(
+                    req.json()['data']['message']
+                ))
+
+            else:
+                # return HttpResponse('Transaction failed.\nStatus: ' + str(result.Status))
+                return redirect('/payment-error')
     else:
         return redirect('/payment-error')
-        # return HttpResponse('Transaction failed or canceled by user')
 
 
 def send_request_register(request, *args, **kwargs):
     course_id = kwargs.get('course_id')
     course_obj = Course.objects.get(id=course_id)
     student_id = request.user.username
-    result = client.service.PaymentRequest(
-        MERCHANT, course_obj.price, description, email, mobile, f"{CallbackURLregister}/{course_id}/{student_id}"
-    )
-    if result.Status == 100:
-        # return redirect('https://sandbox.zarinpal.com/pg/StartPay/' + str(result.Authority))
-        return redirect('https://zarinpal.com/pg/StartPay/' + str(result.Authority))
+    req_data = {
+        "merchant_id": MERCHANT,
+        "amount": course_obj.price,
+        "callback_url": f"{CallbackURLregister}/{course_id}/{student_id}",
+
+        "description": description,
+        "metadata": {"mobile": mobile, "email": email}
+    }
+    req_header = {"accept": "application/json",
+                  "content-type": "application/json'"}
+    req = requests.post(url=ZP_API_REQUEST, data=json.dumps(
+        req_data), headers=req_header)
+    authority = req.json()['data']['authority']
+    if len(req.json()['errors']) == 0:
+        return redirect(ZP_API_STARTPAY.format(authority=authority))
     else:
-        return HttpResponse('Error code: ' + str(result.Status))
+        e_code = req.json()['errors']['code']
+        e_message = req.json()['errors']['message']
+        return HttpResponse(f"Error code: {e_code}, Error Message: {e_message}")
 
 
 @login_required(login_url='/login')
@@ -118,7 +152,7 @@ def new_term_registration(request):
 def new_term_book_registration(request):
     if UserProfile.objects.get(user__username=request.user.username).role != 'Student':
         return redirect('/')
-    context = {'expire' : False}
+    context = {'expire': False}
 
     course = Student.objects.get(id_num=request.user.username).course
     course_id_num = course.id_num

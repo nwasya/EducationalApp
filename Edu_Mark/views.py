@@ -88,7 +88,7 @@ def enter_mark_page(request, *args, **kwargs):
             speaking = request.POST['speaking']
             activity = request.POST['activity']
             user_id = request.user.username
-            teacher = TeacherClass.objects.get(id_num=user_id).first()
+            teacher = TeacherClass.objects.get(id_num=user_id)
             x = Mark.objects.create(student_name=student_name, course_name=course_name,
                                     class_activity=class_activity,
                                     quizzes=quizzes, midterm=midterm, final=final,

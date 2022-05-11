@@ -103,7 +103,7 @@ def enter_mark_page(request, *args, **kwargs):
             student_name.save()
 
             messages.info(request, "نمره با موفقیت وارد شد")
-            return HttpResponseRedirect('/add-mark')
+            return redirect(f"/add-mark-cs/{course_id}")
         else:
             messages.error(request, 'خطا در ثبت نمره')
 

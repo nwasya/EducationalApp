@@ -53,9 +53,6 @@ wheels/
 *.spec
 
 
-assets
-assets/
-.assets
 static_cdn/
 .static_cdn
 static_cdn

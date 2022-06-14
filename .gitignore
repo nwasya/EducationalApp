@@ -63,13 +63,6 @@ migrations
 migrations/
 .migrations
 
-.manage
-/manage
 
-manage.py
-settings.py
-.settings
-/settings
-settings.py
 ..idea
 /idea

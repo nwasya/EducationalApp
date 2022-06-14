@@ -64,5 +64,9 @@ migrations/
 .migrations
 
 
+settings.py
+.settings
+/settings
+
 ..idea
 /idea

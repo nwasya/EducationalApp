@@ -127,53 +127,43 @@ body {
     animation-iteration-count: infinite;
 }
 
+.ma{
+    margin-top: 90px;
+    margin-bottom: 20px;
+}
+
 .news-bg {
-    background-image: url("../my-img/1558247.jpg"); /* The image used */
+    background: url("../my-img/1558247.jpg") center/cover fixed no-repeat; /* The image used */
     background-color: #cccccc; /* Used if the image is unavailable */
-    height: 700px; /* You must set a specified height */
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    background-size: cover; /* Resize the background image to cover the entire container */
+    height: 350px; /* You must set a specified height */
     padding-top: 35px;
 }
 
 .about-us-bg {
-    background-image: url("../img/about_us.png"); /* The image used */
+    background: url("../img/about_us.png") center/cover fixed no-repeat; /* The image used */
     background-color: white; /* Used if the image is unavailable */
-    height: 700px; /* You must set a specified height */
-    background-position: bottom; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    background-size: cover; /* Resize the background image to cover the entire container */
+    height: 350px; /* You must set a specified height */
     padding-top: 35px;
 }
 
 
 .order-bg {
-    background-image: url("../my-img/shopping-header.jpg"); /* The image used */
+    background: url("../my-img/shopping-header.jpg") center/cover fixed no-repeat; /* The image used */
     background-color: #cccccc; /* Used if the image is unavailable */
-    height: 700px; /* You must set a specified height */
-    background-position: bottom; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    background-size: cover; /* Resize the background image to cover the entire container */
+    height: 350px; /* You must set a specified height */
     padding-top: 35px;
 }
 .course-bg {
-    background-image: url("../my-img/green-chameleon-s9CC2SKySJM-unsplash.jpg"); /* The image used */
+    background: url("../my-img/green-chameleon-s9CC2SKySJM-unsplash.jpg") center/cover fixed no-repeat; /* The image used */
     background-color: #cccccc; /* Used if the image is unavailable */
-    height: 700px; /* You must set a specified height */
-    background-position: bottom; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    background-size: cover; /* Resize the background image to cover the entire container */
+    height: 350px; /* You must set a specified height */
     padding-top: 35px;
 }
 
 .product-img {
-    background-image: url("../my-img/eliott-reyna-kcT-7cirBEw-unsplash.jpg"); /* The image used */
+    background: url("../my-img/eliott-reyna-kcT-7cirBEw-unsplash.jpg") center/cover fixed no-repeat; /* The image used */
     background-color: #cccccc; /* Used if the image is unavailable */
-    height:700px; /* You must set a specified height */
-    background-position: bottom; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    background-size: cover; /* Resize the background image to cover the entire container */
+    height:350px; /* You must set a specified height */
     padding-top: 35px;
 }
 
@@ -469,12 +459,12 @@ body {
     position: fixed; /* Stay in place */
     z-index: 1; /* Stay on top */
     top: 0;
-    left: 0;
+    right: 0;
     font-size: 1.5rem;
     background-color: #2c2f3f; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 45px; /* Place content 60px from the top */
-    transition: 1s; /* 0.5 second transition effect to slide in the sidepanel */
+    transition: .4s; /* 0.5 second transition effect to slide in the sidepanel */
 }
 
 /* The sidepanel links */
@@ -484,7 +474,7 @@ body {
     font-size: 20px;
     color: #818181;
     display: block;
-    transition: 1s;
+    transition: .3s;
 }
 
 .sidepanel li {
@@ -514,10 +504,11 @@ body {
 .sidepanel .closebtn {
     position: absolute;
     top: 0;
-    right: 25px;
+    left: -15px;
     font-size: 36px;
-    margin-left: 50px;
-    padding-top: 50px;
+    margin-top: 8px;
+    /*margin-left: 5px;*/
+    padding-top: 55px;
 }
 
 /* Style the button that is used to open the sidepanel */
@@ -551,7 +542,9 @@ body {
     font-weight: 600;
     -moz-text-align-last: center;
     text-align-last: center;
-    font-family: "Poppins", sans-serif;
+    font-family: "Vazir", "tahoma", "Ubuntu" !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     color: whitesmoke;
 }
 
@@ -633,12 +626,12 @@ body {
 	pointer-events:none;
 }
 .panel>.panel-heading:after{
-	border-width:7px;
+	border-width:5px;
 	border-right-color:#f7f7f7;
 	margin-top:1px;
 	margin-left:2px;
 }
 .panel>.panel-heading:before{
 	border-right-color:#ddd;
-	border-width:8px;
+	border-width:5px;
 }

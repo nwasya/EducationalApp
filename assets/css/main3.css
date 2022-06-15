@@ -11,7 +11,9 @@ body {
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family: "Roboto", sans-serif;
+    font-family: "Vazir", "tahoma", "Ubuntu" !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     color: #000;
 }
 

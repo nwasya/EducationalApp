@@ -50,7 +50,9 @@
 
 
 body {
-    font-family: 'Manrope', sans-serif;
+    font-family: "Vazir", "tahoma", "Ubuntu" !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     background: #eee
 }
 

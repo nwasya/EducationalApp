@@ -1,5 +1,7 @@
 body {
-    font-family: "Roboto", sans-serif;
+    font-family: "Vazir", "tahoma", "Ubuntu" !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     background-color: #fff;
     line-height: 1.9;
     color: #8c8c8c;

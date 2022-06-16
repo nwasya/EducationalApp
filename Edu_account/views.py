@@ -156,34 +156,32 @@ def create_student_page(request):
     if UserProfile.objects.get(user__username=request.user.username).role != 'Manager':
         return redirect('/')
     if request.method == 'POST':
+        print(request.POST)
+        first_name = request.POST['name']
+        last_name = request.POST['last_name']
+        id_num =  request.POST['id_num']
+        phone_number =  request.POST['phone']
+        course = request.POST['course']
+        role = 'Student'
+        course_obj = Course.objects.get(id=course)
+        try:
+            Student.objects.create(first_name=first_name, last_name=last_name, id_num=id_num,
+                                                course=course_obj
+                                                , role=role,
+                                                phone_number=phone_number)
+            st = Student.objects.get(id_num=id_num)
 
-        student_form = CreateStudentForm(request.POST, request.FILES)
-        if student_form.is_valid():
-            first_name = student_form.cleaned_data.get('first_name')
-            last_name = student_form.cleaned_data.get('last_name')
-            id_num = student_form.cleaned_data.get('id_num')
-            phone_number = student_form.cleaned_data.get('phone_number')
-            course = request.POST['course']
-            role = 'Student'
-            course_obj = Course.objects.get(id=course)
-            try:
-                Student.objects.create(first_name=first_name, last_name=last_name, id_num=id_num,
-                                                   course=course_obj
-                                                   , role=role,
-                                                   phone_number=phone_number)
-                st = Student.objects.get(id_num=id_num)
+            user = User.objects.create_user(username=id_num, password=id_num, first_name=first_name,
+                                            last_name=last_name)
+            UserProfile.objects.create(user=user, role=role, full_name=first_name + ' ' + last_name)
+            RegisteredStudent.objects.create(student=st, course=course_obj, price=course_obj.price,
+                                                time=datetime.now(), rahgiri='000000')
+            messages.success(request, 'زبان آموز جدید با موفقیت ثبت شد')
+        except:
 
-                user = User.objects.create_user(username=id_num, password=id_num, first_name=first_name,
-                                                last_name=last_name)
-                UserProfile.objects.create(user=user, role=role, full_name=first_name + ' ' + last_name)
-                RegisteredStudent.objects.create(student=st, course=course_obj, price=course_obj.price,
-                                                 time=datetime.now(), rahgiri='000000')
-                messages.success(request, 'زبان آموز جدید با موفقیت ثبت شد')
-            except:
+            messages.error(request, 'خطایی در ثبت رخ داد')
 
-                messages.error(request, 'خطایی در ثبت رخ داد')
-
-            return HttpResponseRedirect('/addstudent')
+        return HttpResponseRedirect('/addstudent')
 
     student_form = CreateStudentForm()
     course_list = Course.objects.filter(active=True)

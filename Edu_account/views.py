@@ -683,42 +683,44 @@ def order_detail(request):
     for item in orders:
 
         id_num = item.owner.username
-        order_details = OrderDetail.objects.filter(order__id=item.id).reverse()
-
-        for detail in order_details:
-
-            if detail.product.id_num in li:
-                temp = []
-                temp = inner_dic[detail.product.id_num]
-                temp[0] += detail.count
-                inner_dic[detail.product.id_num] = temp
+        order_details = OrderDetail.objects.filter(order_id=item.id).reverse()
+        if order_details is not None:
 
 
-            else:
-                temp = []
-                li.append(detail.product.id_num)
-                obj2 = Product.objects.get(id_num=detail.product.id_num)
+            for detail in order_details:
 
-                temp.append(detail.count)
-                temp.append(obj2.title)
-                temp.append(obj2.price)
+                if detail.product.id_num in li:
+                    temp = []
+                    temp = inner_dic[detail.product.id_num]
+                    temp[0] += detail.count
+                    inner_dic[detail.product.id_num] = temp
 
-                inner_dic[detail.product.id_num] = temp
 
-        temp = []
-        li = []
+                else:
+                    temp = []
+                    li.append(detail.product.id_num)
+                    obj2 = Product.objects.get(id_num=detail.product.id_num)
 
-        name = f'{item.owner.first_name} {item.owner.last_name}'
+                    temp.append(detail.count)
+                    temp.append(obj2.title)
+                    temp.append(obj2.price)
 
-        serial_num = item.seril_num
-        temp.append(name)
-        temp.append(inner_dic)
-        inner_dic = {}
-        temp.append(serial_num)
-        jdate = date.fromgregorian(date=item.payment_date)
-        temp.append(jdate)
-        main_dic[counter] = temp
-        counter += 1
+                    inner_dic[detail.product.id_num] = temp
+
+            temp = []
+            li = []
+
+            name = f'{item.owner.first_name} {item.owner.last_name}'
+
+            serial_num = item.seril_num
+            temp.append(name)
+            temp.append(inner_dic)
+            inner_dic = {}
+            temp.append(serial_num)
+            jdate = date.fromgregorian(date=item.payment_date)
+            temp.append(jdate)
+            main_dic[counter] = temp
+            counter += 1
 
     context = {
 

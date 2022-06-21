@@ -684,7 +684,7 @@ def order_detail(request):
 
         id_num = item.owner.username
         order_details = OrderDetail.objects.filter(order_id=item.id).reverse()
-        if order_details is not None:
+        if order_details:
 
 
             for detail in order_details:
@@ -721,7 +721,9 @@ def order_detail(request):
             temp.append(jdate)
             main_dic[counter] = temp
             counter += 1
-
+        temp = []
+        li = []
+        inner_dic = {}
     context = {
 
         'dic': main_dic,

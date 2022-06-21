@@ -215,6 +215,25 @@
                                         </div>
                                     </div>
 <br>
+<strong class="fadeInDown">مهارت خواندن</strong>
+                                    <div class=" fadeInDown text-center mx-5">
+                                        <div class="progress" style="height:30px">
+                                            <div class="progress-bar
+                                            {% if reading == 100 %}
+                                            bg-success
+                                            {% elif reading == 75 %}
+                                            bg-primary
+                                            {% elif reading == 50 %}
+                                            bg-warning
+                                            {% else %}
+                                            bg-danger
+                                            {% endif %}"
+                                                 role="progressbar" style="width: {{ reading }}%;height:30px"
+                                                 aria-valuenow="{{ reading }}" aria-valuemin="0"
+                                                 aria-valuemax="100">{{ reading }}</div>
+                                        </div>
+                                    </div>
+                                    <br>
                                     <strong class="fadeInDown">تکالیف</strong>
                                     <div class=" fadeInDown text-center mx-5">
                                         <div class="progress" style="height:30px">

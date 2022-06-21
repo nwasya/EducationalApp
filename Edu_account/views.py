@@ -156,7 +156,12 @@ def create_student_page(request):
     if UserProfile.objects.get(user__username=request.user.username).role != 'Manager':
         return redirect('/')
     if request.method == 'POST':
-        print(request.POST)
+        if 'course' not in request.POST:
+            messages.warning(request,"لطفا کلاس را زبان آموز را انتخاب کنید")
+            return HttpResponseRedirect('/addstudent')
+
+
+
         first_name = request.POST['name']
         last_name = request.POST['last_name']
         id_num =  request.POST['id_num']
@@ -229,19 +234,23 @@ def create_teacher_page(request):
 
         teacher_form = CreateTeacherForm(request.POST, request.FILES)
         if teacher_form.is_valid():
-            first_name = teacher_form.cleaned_data.get('first_name')
-            last_name = teacher_form.cleaned_data.get('last_name')
-            id_num = teacher_form.cleaned_data.get('id_num')
-            phone_number = teacher_form.cleaned_data.get('phone_number')
-            role = 'Teacher'
-            TeacherClass.objects.create(first_name=first_name, last_name=last_name, id_num=id_num, role=role,
-                                        phone_number=phone_number)
+            try:
 
-            user = User.objects.create_user(username=id_num, password=id_num, first_name=first_name,
-                                            last_name=last_name)
-            UserProfile.objects.create(user=user, role=role, full_name=first_name + ' ' + last_name)
+                first_name = teacher_form.cleaned_data.get('first_name')
+                last_name = teacher_form.cleaned_data.get('last_name')
+                id_num = teacher_form.cleaned_data.get('id_num')
+                phone_number = teacher_form.cleaned_data.get('phone_number')
+                role = 'Teacher'
+                TeacherClass.objects.create(first_name=first_name, last_name=last_name, id_num=id_num, role=role,
+                                            phone_number=phone_number)
 
-            return HttpResponseRedirect('/addteacher')
+                user = User.objects.create_user(username=id_num, password=id_num, first_name=first_name,
+                                                last_name=last_name)
+                UserProfile.objects.create(user=user, role=role, full_name=first_name + ' ' + last_name)
+                messages.success(request,"دبیر با موفقیت اضافه شد")
+                return HttpResponseRedirect('/addteacher')
+            except:
+                messages.error(request,"ٔخطایی رخ داد")
 
     teacher_form = CreateTeacherForm()
 
@@ -674,7 +683,7 @@ def order_detail(request):
     for item in orders:
 
         id_num = item.owner.username
-        order_details = OrderDetail.objects.filter(order__owner__username=id_num).reverse()
+        order_details = OrderDetail.objects.filter(order__id=item.id).reverse()
 
         for detail in order_details:
 

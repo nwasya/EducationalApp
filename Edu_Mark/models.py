@@ -26,6 +26,8 @@ class Mark(models.Model):
     writing = models.CharField(max_length=15, choices=RESULT,default='Out_Standing')
     listening = models.CharField(max_length=15, choices=RESULT,default='Out_Standing')
     speaking = models.CharField(max_length=15, choices=RESULT,default='Out_Standing')
+    reading = models.CharField(max_length=15, choices=RESULT,default='Out_Standing',null=True)
+
     activity = models.CharField(max_length=15, choices=RESULT,default='Out_Standing')
     description = models.TextField(max_length=500,null=True)
     teacher = models.ForeignKey(TeacherClass, on_delete=models.SET_NULL, null=True)

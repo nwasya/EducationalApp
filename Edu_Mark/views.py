@@ -86,6 +86,7 @@ def enter_mark_page(request, *args, **kwargs):
             homework = request.POST['homework']
             listening = request.POST['listening']
             speaking = request.POST['speaking']
+            reading = request.POST['reading']
             activity = request.POST['activity']
             user_id = request.user.username
             teacher = TeacherClass.objects.get(id_num=user_id)
@@ -95,7 +96,7 @@ def enter_mark_page(request, *args, **kwargs):
                                     extra_mark=extra_mark, total_mark=total_mark,
                                     total_work=total_work,
                                     description=description, activity=activity,
-                                    speaking=speaking, listening=listening,
+                                    speaking=speaking,reading=reading, listening=listening,
                                     writing=writing, homework=homework,teacher=teacher
                                     )
             x.save()
@@ -202,6 +203,7 @@ def edit_mark_page(request, *args, **kwargs):
             writing = request.POST['writing']
             homework = request.POST['homework']
             listening = request.POST['listening']
+            reading = request.POST['reading']
             speaking = request.POST['speaking']
             activity = request.POST['activity']
             student_name = Student.objects.get(id=student_id)
@@ -214,7 +216,7 @@ def edit_mark_page(request, *args, **kwargs):
                                     class_activity=class_activity,
                                     quizzes=quizzes, midterm=midterm, final=final,
                                     extra_mark=extra_mark, total_mark=total_mark,
-                                    total_work=total_work,
+                                    total_work=total_work, reading=reading,
                                     description=description, activity=activity,
                                     speaking=speaking, listening=listening,
                                     writing=writing, homework=homework,teacher=teacher
@@ -273,6 +275,7 @@ def view_student_report(request):
                 context['speaking'] = get_mark_value(marks.speaking)
                 context['listening'] = get_mark_value(marks.listening)
                 context['writing'] = get_mark_value(marks.writing)
+                context['reading'] = get_mark_value(marks.reading)
                 context['homework'] = get_mark_value(marks.homework)
 
                 context['total_work'] = get_mark_value(marks.total_work)
@@ -315,6 +318,7 @@ def final_report(request, *args, **kwargs):
         context['activity'] = get_mark_value(marks.activity)
         context['speaking'] = get_mark_value(marks.speaking)
         context['listening'] = get_mark_value(marks.listening)
+        context['reading'] = get_mark_value(marks.reading)
         context['writing'] = get_mark_value(marks.writing)
         context['homework'] = get_mark_value(marks.homework)
 

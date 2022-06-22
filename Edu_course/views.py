@@ -1,4 +1,5 @@
 import itertools
+from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponseRedirect
@@ -248,6 +249,9 @@ def edit_course_page(request):
                 course_obj.id_num = id_num
                 course_obj.active = is_active
                 course_obj.save()
+                messages.success(request,"دوره با موفقیت ویرایش شد")
+
+
                 return redirect('/editcourse')
 
     context['form'] = input
@@ -277,6 +281,7 @@ def create_course_page(request):
                                   active=True, teacher=teacher_obj, id_num=id_num, starting_date=date, price=price)
 
             course_model.save()
+            messages.success(request,"دوره با موفقیت افزوده شد")
             return HttpResponseRedirect('addcourse')
 
     course_form = CreateCourseForm()

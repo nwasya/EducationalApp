@@ -173,7 +173,8 @@ def create_student_page(request):
             Student.objects.create(first_name=first_name, last_name=last_name, id_num=id_num,
                                                 course=course_obj
                                                 , role=role,
-                                                phone_number=phone_number)
+                                                phone_number=phone_number,
+                                                is_registered=True)
             st = Student.objects.get(id_num=id_num)
 
             user = User.objects.create_user(username=id_num, password=id_num, first_name=first_name,
@@ -827,3 +828,42 @@ def transfer_student(request):
             return redirect('/transfer-student')
 
     return render(request, 'transfer_student.html', context)
+
+
+
+@login_required(login_url='/')
+def registration_detail(request):
+    registered = Student.objects.filter(is_registered=True)
+    unregistered = Student.objects.filter(is_registered=False)
+
+    main_dic = {}
+    
+
+    for stu in registered:
+        
+        tmp = {"name" : f"{stu.first_name} {stu.last_name}" , "id_num" : stu.id_num , "price" : stu.course.price , "is_registered" : stu.is_registered}
+            
+        if stu.course.title not in main_dic:
+            main_dic[stu.course.title] = [tmp]
+        else:
+            current_students : list = main_dic[stu.course.title]
+            current_students.append(tmp)
+
+
+    for stu in unregistered:
+        tmp = {"name" : f"{stu.first_name} {stu.last_name}" , "id_num" : stu.id_num , "price" : stu.course.next_course.price , "is_registered" : stu.is_registered}
+        if stu.course.next_course.title not in main_dic:
+            main_dic[stu.course.next_course.title] = [tmp]
+        else:
+            current_students : list = main_dic[stu.course.next_course.title]
+            current_students.append(tmp)
+            main_dic[stu.course.next_course.title] = current_students
+
+
+    context = {
+        "dic" : main_dic
+    }
+
+    return render(request, 'registration_detail.html', context)
+    
+

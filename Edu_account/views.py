@@ -51,7 +51,8 @@ def login_page(request):
                 first_name = request.user.first_name
                 last_name = request.user.last_name
 
-                messages.info(request, f" {first_name} {last_name} عزیز ، به وبسایت آموزشی استقلال خوش آمدید .")
+                messages.info(
+                    request, f" {first_name} {last_name} عزیز ، به وبسایت آموزشی استقلال خوش آمدید .")
                 return redirect('/')
             else:
                 login_form.add_error('password', 'رمز نا معتبر است.')
@@ -157,31 +158,29 @@ def create_student_page(request):
         return redirect('/')
     if request.method == 'POST':
         if 'course' not in request.POST:
-            messages.warning(request,"لطفا کلاس را زبان آموز را انتخاب کنید")
+            messages.warning(request, "لطفا کلاس را زبان آموز را انتخاب کنید")
             return HttpResponseRedirect('/addstudent')
-
-
 
         first_name = request.POST['name']
         last_name = request.POST['last_name']
-        id_num =  request.POST['id_num']
-        phone_number =  request.POST['phone']
+        id_num = request.POST['id_num']
+        phone_number = request.POST['phone']
         course = request.POST['course']
         role = 'Student'
         course_obj = Course.objects.get(id=course)
         try:
             Student.objects.create(first_name=first_name, last_name=last_name, id_num=id_num,
-                                                course=course_obj
-                                                , role=role,
-                                                phone_number=phone_number,
-                                                is_registered=True)
+                                   course=course_obj, role=role,
+                                   phone_number=phone_number,
+                                   is_registered=True)
             st = Student.objects.get(id_num=id_num)
 
             user = User.objects.create_user(username=id_num, password=id_num, first_name=first_name,
                                             last_name=last_name)
-            UserProfile.objects.create(user=user, role=role, full_name=first_name + ' ' + last_name)
+            UserProfile.objects.create(
+                user=user, role=role, full_name=first_name + ' ' + last_name)
             RegisteredStudent.objects.create(student=st, course=course_obj, price=course_obj.price,
-                                                time=datetime.now(), rahgiri='000000')
+                                             time=datetime.now(), rahgiri='000000')
             messages.success(request, 'زبان آموز جدید با موفقیت ثبت شد')
         except:
 
@@ -234,12 +233,12 @@ def create_teacher_page(request):
     if request.method == 'POST':
 
         teacher_form = CreateTeacherForm(request.POST, request.FILES)
-        
+
         try:
 
             first_name = request.POST['name']
             last_name = request.POST['last_name']
-            id_num =request.POST['id_num']
+            id_num = request.POST['id_num']
             phone_number = request.POST['phone']
             role = 'Teacher'
             TeacherClass.objects.create(first_name=first_name, last_name=last_name, id_num=id_num, role=role,
@@ -247,11 +246,12 @@ def create_teacher_page(request):
 
             user = User.objects.create_user(username=id_num, password=id_num, first_name=first_name,
                                             last_name=last_name)
-            UserProfile.objects.create(user=user, role=role, full_name=first_name + ' ' + last_name)
-            messages.success(request,"دبیر با موفقیت اضافه شد")
+            UserProfile.objects.create(
+                user=user, role=role, full_name=first_name + ' ' + last_name)
+            messages.success(request, "دبیر با موفقیت اضافه شد")
             return HttpResponseRedirect('/addteacher')
         except:
-            messages.error(request,"ٔخطایی رخ داد")
+            messages.error(request, "ٔخطایی رخ داد")
 
     teacher_form = CreateTeacherForm()
 
@@ -276,7 +276,8 @@ def delete_teacher_page(request):
         last_name = x.last_name
 
         TeacherClass.objects.filter(id_num=teacher).delete()
-        UserProfile.objects.filter(full_name=first_name + ' ' + last_name).delete()
+        UserProfile.objects.filter(
+            full_name=first_name + ' ' + last_name).delete()
 
     teacher_list = TeacherClass.objects.all()
     context = {
@@ -485,7 +486,8 @@ def edit_teacher_page(request):
             if edit_teacher_form.is_valid():
                 first_name = edit_teacher_form.cleaned_data.get('first_name')
                 last_name = edit_teacher_form.cleaned_data.get('last_name')
-                phone_number = edit_teacher_form.cleaned_data.get('phone_number')
+                phone_number = edit_teacher_form.cleaned_data.get(
+                    'phone_number')
 
                 teacher_obj.first_name = first_name
                 teacher_obj.last_name = last_name
@@ -640,6 +642,8 @@ def edit_book_page(request):
 
 @login_required(login_url='/')
 def recent_orders(request):
+    if UserProfile.objects.get(user__username=request.user.username).role != 'Manager':
+        return redirect('/')
     obj = OrderDetail.objects.all().order_by('-order__payment_date')
     li = []
     dic = {}
@@ -674,6 +678,8 @@ def recent_orders(request):
 
 @login_required(login_url='/')
 def order_detail(request):
+    if UserProfile.objects.get(user__username=request.user.username).role != 'Manager':
+        return redirect('/')
     li = []
     main_dic = {}
     inner_dic = {}
@@ -686,7 +692,6 @@ def order_detail(request):
         order_details = OrderDetail.objects.filter(order_id=item.id).reverse()
         if order_details:
 
-
             for detail in order_details:
 
                 if detail.product.id_num in li:
@@ -694,7 +699,6 @@ def order_detail(request):
                     temp = inner_dic[detail.product.id_num]
                     temp[0] += detail.count
                     inner_dic[detail.product.id_num] = temp
-
 
                 else:
                     temp = []
@@ -719,6 +723,7 @@ def order_detail(request):
             temp.append(serial_num)
             jdate = date.fromgregorian(date=item.payment_date)
             temp.append(jdate)
+            temp.append(item.total_price)
             main_dic[counter] = temp
             counter += 1
         temp = []
@@ -734,6 +739,8 @@ def order_detail(request):
 
 @login_required(login_url='/')
 def recent_registration(request):
+    if UserProfile.objects.get(user__username=request.user.username).role != 'Manager':
+        return redirect('/')
     dic = {}
     counter = 0
 
@@ -745,7 +752,8 @@ def recent_registration(request):
 
         jdate = date.fromgregorian(date=item.time)
 
-        dic[counter] = [f'{item.student.first_name} {item.student.last_name}', item.course, jdate, item.course.price]
+        dic[counter] = [f'{item.student.first_name} {item.student.last_name}',
+                        item.course, jdate, item.course.price]
         counter += 1
 
     context = {
@@ -784,6 +792,8 @@ def add_online_class_link(request):
 
 @login_required(login_url='/login')
 def transfer_student(request):
+    if UserProfile.objects.get(user__username=request.user.username).role != 'Manager':
+        return redirect('/')
     global course_name, id_num, id_nums, des_course_id
     if UserProfile.objects.get(user__username=request.user.username).role != 'Manager':
         return redirect('/')
@@ -823,46 +833,83 @@ def transfer_student(request):
                 x.course = des_course_obj
                 x.save()
 
-            messages.success(request, "کلاس دانش آموزان با موفیقیت انتقال یافت")
+            messages.success(
+                request, "کلاس دانش آموزان با موفیقیت انتقال یافت")
             return redirect('/transfer-student')
 
     return render(request, 'transfer_student.html', context)
 
 
-
 @login_required(login_url='/')
 def registration_detail(request):
-    registered = Student.objects.filter(is_registered=True)
-    unregistered = Student.objects.filter(is_registered=False)
+    if UserProfile.objects.get(user__username=request.user.username).role != 'Manager':
+        return redirect('/')
+    registered = Student.objects.all().order_by('course__title')
 
     main_dic = {}
-    
 
     for stu in registered:
-        
-        tmp = {"name" : f"{stu.first_name} {stu.last_name}" , "id_num" : stu.id_num , "price" : stu.course.price , "is_registered" : stu.is_registered}
-            
-        if stu.course.title not in main_dic:
-            main_dic[stu.course.title] = [tmp]
+
+        if stu.is_registered:
+
+
+            tmp = {"name": f"{stu.first_name} {stu.last_name}", "id_num": stu.id_num,
+                "price": stu.course.price, "is_registered": stu.is_registered}
+            course=stu.course
+            show = False
         else:
-            current_students : list = main_dic[stu.course.title]
-            current_students.append(tmp)
+            tmp = {"name": f"{stu.first_name} {stu.last_name}", "id_num": stu.id_num,
+               "price": stu.course.next_course.price, "is_registered": stu.is_registered}
+            course = stu.course.next_course
+            show = True
+
+        if course:
 
 
-    for stu in unregistered:
-        tmp = {"name" : f"{stu.first_name} {stu.last_name}" , "id_num" : stu.id_num , "price" : stu.course.next_course.price , "is_registered" : stu.is_registered}
-        if stu.course.next_course.title not in main_dic:
-            main_dic[stu.course.next_course.title] = [tmp]
-        else:
-            current_students : list = main_dic[stu.course.next_course.title]
-            current_students.append(tmp)
-            main_dic[stu.course.next_course.title] = current_students
+            if course.title not in main_dic:
+                main_dic[course.title] = {
+                    "students" : [tmp],
+                    "show" : show
+                }
+            else:
+                current_students: list = main_dic["students"][course.title]
+                current_students.append(tmp)
+                main_dic[course.title] = {
+                    "students" : current_students,
+                    "show" : False if not main_dic["show"] else True
+                }
 
+
+
+    # cc = {'کلاس اول':
+    #       {
+    #           "student": [{'name': 'پسر خوب ثبت نام کرده', 'id_num': '852741','price': 6500, 'is_registered': True}],
+    #           "show": False
+    #       },
+    #       'کلاس دوم':
+    #       {
+    #           "student": [{'name': 'بی تربیت ثبت نام نکرده', 'id_num': '741258', 'price': 9800, 'is_registered': False}],
+    #           "show": True
+    #       },
+    #       'کلاس سوم':
+    #       {
+    #           "student": [{'name': 'بی تربیت ثبت نام نکرده', 'id_num': '741258', 'price': 9800, 'is_registered': True}],
+    #           "show": False
+    #       },
+    #       'کلاس چهارم':
+    #       {
+    #           "student": [{'name': 'بی تربیت ثبت نام نکرده', 'id_num': '741258', 'price': 9800, 'is_registered': False}],
+    #           "show": True
+    #       },
+    #       'کلاس پنجم':
+    #       {
+    #           "student": [{'name': 'بی تربیت ثبت نام نکرده', 'id_num': '741258', 'price': 9800, 'is_registered': False}],
+    #           "show": True
+    #       }
+    #       }
 
     context = {
-        "dic" : sorted(main_dic)
+        "dic": main_dic
     }
 
     return render(request, 'registration_detail.html', context)
-    
-

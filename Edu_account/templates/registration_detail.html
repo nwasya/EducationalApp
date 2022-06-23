@@ -4,15 +4,20 @@
 {% block content %}
 
     <div class="container">
+
+
+      <h2 class="text-center" style="padding-top:150px">گزارش ثبت نام به تفکیک دوره</h2>
+      <hr>
+      <br>
        
 
 
 
-        <div class="accordion pb-5" style="padding-top: 170px " id="accordionExample">
+        <div class="accordion pb-5" style="padding-top: 20px " id="accordionExample">
 
             {% for key, value in dic.items %}
             <div class="card">
-              <div {% if forloop.counter|divisibleby:2 %} style='background-color: #F4E06D'{% endif %} class="card-header" id="headingOne">
+              <div {% if value.show %} style='background-color: #F4E06D'{% endif %} class="card-header" id="headingOne">
                 <h5 class="mb-0">
                   <button style="color : black; font-size:24px" class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{ forloop.counter }}" aria-expanded="false" aria-controls="{{ forloop.counter }}">
                     {{ key }}
@@ -20,7 +25,11 @@
                 </h5>
               </div>
           
-              <div id="{{ forloop.counter }}" class="collapse show"  aria-labelledby="headingOne" data-parent="#accordionExample">
+              <div id="{{ forloop.counter }}" class="collapse 
+              
+              {% if value.show %} show {% endif %}
+              
+              "  aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
 
                     <table class="table table-hover">
@@ -35,7 +44,7 @@
                         </thead>
                         <tbody>
 
-                            {% for stu in value %}
+                            {% for stu in value.students %}
                           <tr>
                             <th scope="row">{{forloop.counter}}</th>
                             <td >{{stu.name}}</td>

@@ -35,9 +35,10 @@
                                 <th>قیمت</th>
                                 <th>تعداد سفارش</th>
 
-                                <th>کد محصول</th>
+                                {% comment %} <th>کد محصول</th> {% endcomment %}
                                 <th>کد پیگیری</th>
                                 <th class="table-success">تاریخ پرداخت</th>
+                                <th>مجموع  پرداخت شده</th>
 
 
                             </tr>
@@ -84,19 +85,10 @@
                                         {% endfor %}
                                     </td>
 
-                                    <td>
-                                        {% for key1, value1 in value.1.items %}
-                                            <table class="table table-hover table-striped m-0">
-                                                <tr>
-                                                    <td>{{ key1 }}</td>
-
-                                                </tr>
-
-                                            </table>
-                                        {% endfor %}
-                                    </td>
+                                    
                                     <td>{{ value.2 }}</td>
                                     <td>{{ value.3 }}</td>
+                                    <td>{{ value.4 }}</td>
 
 
 

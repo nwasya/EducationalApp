@@ -12,15 +12,15 @@
 
             {% for key, value in dic.items %}
             <div class="card">
-              <div class="card-header" id="headingOne">
+              <div {% if forloop.counter|divisibleby:2 %} style='background-color: #F4E06D'{% endif %} class="card-header" id="headingOne">
                 <h5 class="mb-0">
-                  <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{ forloop.counter }}" aria-expanded="true" aria-controls="{{ forloop.counter }}">
+                  <button style="color : black; font-size:24px" class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{ forloop.counter }}" aria-expanded="false" aria-controls="{{ forloop.counter }}">
                     {{ key }}
                   </button>
                 </h5>
               </div>
           
-              <div id="{{ forloop.counter }}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+              <div id="{{ forloop.counter }}" class="collapse show"  aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
 
                     <table class="table table-hover">
@@ -30,7 +30,7 @@
                             <th scope="col">نام و نام خانوادگی</th>
                             <th scope="col">کد ملی</th>
                             <th scope="col">هزینه ثبت نام</th>
-                            <th scope="col">ثبت نام کرده/نکرده</th>
+                            <th scope="col">وضعیت ثبت نام</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -38,10 +38,15 @@
                             {% for stu in value %}
                           <tr>
                             <th scope="row">{{forloop.counter}}</th>
-                            <td>{{stu.name}}</td>
+                            <td >{{stu.name}}</td>
                             <td>{{stu.id_num}}</td>
                             <td>{{stu.price}}</td>
-                            <td>{{stu.price}}</td>
+                            <td class="">{% if stu.is_registered %} 
+                              <i class="fa fa-check " aria-hidden="true" style="color : green"></i>
+                              {% else %}
+                              <i class=" fa fa-times" aria-hidden="true" style="color : red"></i>
+                              {% endif %}
+                            </td>
                           </tr>
                           {% endfor %}
                           

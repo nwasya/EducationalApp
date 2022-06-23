@@ -234,24 +234,24 @@ def create_teacher_page(request):
     if request.method == 'POST':
 
         teacher_form = CreateTeacherForm(request.POST, request.FILES)
-        if teacher_form.is_valid():
-            try:
+        
+        try:
 
-                first_name = teacher_form.cleaned_data.get('first_name')
-                last_name = teacher_form.cleaned_data.get('last_name')
-                id_num = teacher_form.cleaned_data.get('id_num')
-                phone_number = teacher_form.cleaned_data.get('phone_number')
-                role = 'Teacher'
-                TeacherClass.objects.create(first_name=first_name, last_name=last_name, id_num=id_num, role=role,
-                                            phone_number=phone_number)
+            first_name = request.POST['name']
+            last_name = request.POST['last_name']
+            id_num =request.POST['id_num']
+            phone_number = request.POST['phone']
+            role = 'Teacher'
+            TeacherClass.objects.create(first_name=first_name, last_name=last_name, id_num=id_num, role=role,
+                                        phone_number=phone_number)
 
-                user = User.objects.create_user(username=id_num, password=id_num, first_name=first_name,
-                                                last_name=last_name)
-                UserProfile.objects.create(user=user, role=role, full_name=first_name + ' ' + last_name)
-                messages.success(request,"دبیر با موفقیت اضافه شد")
-                return HttpResponseRedirect('/addteacher')
-            except:
-                messages.error(request,"ٔخطایی رخ داد")
+            user = User.objects.create_user(username=id_num, password=id_num, first_name=first_name,
+                                            last_name=last_name)
+            UserProfile.objects.create(user=user, role=role, full_name=first_name + ' ' + last_name)
+            messages.success(request,"دبیر با موفقیت اضافه شد")
+            return HttpResponseRedirect('/addteacher')
+        except:
+            messages.error(request,"ٔخطایی رخ داد")
 
     teacher_form = CreateTeacherForm()
 
@@ -506,7 +506,7 @@ def edit_book_page(request):
         return redirect('/')
     context = {}
 
-    input = input_form()
+    input = input_2()
 
     if request.method == 'POST':
 
@@ -683,7 +683,6 @@ def order_detail(request):
 
     for item in orders:
 
-        id_num = item.owner.username
         order_details = OrderDetail.objects.filter(order_id=item.id).reverse()
         if order_details:
 
@@ -861,7 +860,7 @@ def registration_detail(request):
 
 
     context = {
-        "dic" : main_dic
+        "dic" : sorted(main_dic)
     }
 
     return render(request, 'registration_detail.html', context)

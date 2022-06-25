@@ -844,69 +844,43 @@ def transfer_student(request):
 def registration_detail(request):
     if UserProfile.objects.get(user__username=request.user.username).role != 'Manager':
         return redirect('/')
-    registered = Student.objects.all().order_by('course__title')
+    registered = Student.objects.filter(course__active=True).order_by('course__title')
 
     main_dic = {}
 
     for stu in registered:
 
-        if stu.is_registered:
+        if stu.course and stu.course.next_course:
+            if stu.is_registered:
 
 
-            tmp = {"name": f"{stu.first_name} {stu.last_name}", "id_num": stu.id_num,
-                "price": stu.course.price, "is_registered": stu.is_registered}
-            course=stu.course
-            show = False
-        else:
-            tmp = {"name": f"{stu.first_name} {stu.last_name}", "id_num": stu.id_num,
-               "price": stu.course.next_course.price, "is_registered": stu.is_registered}
-            course = stu.course.next_course
-            show = True
-
-        if course:
-
-
-            if course.title not in main_dic:
-                main_dic[course.title] = {
-                    "students" : [tmp],
-                    "show" : show
-                }
+                tmp = {"name": f"{stu.first_name} {stu.last_name}", "id_num": stu.id_num,
+                    "price": stu.course.price,"sid" : stu.id}
+                course=stu.course
+                show = False
             else:
-                current_students: list = main_dic["students"][course.title]
-                current_students.append(tmp)
-                main_dic[course.title] = {
-                    "students" : current_students,
-                    "show" : False if not main_dic["show"] else True
-                }
+                tmp = {"name": f"{stu.first_name} {stu.last_name}", "id_num": stu.id_num,
+                "price": stu.course.next_course.price  ,"sid" : stu.id}
+                course = stu.course.next_course
+                show = True
+
+            if course:
 
 
+                if course.title not in main_dic:
+                    main_dic[course.title] = {
+                        "students" : [tmp],
+                        "show" : show
+                    }
+                else:
+                    current_students: list = main_dic[course.title]["students"]
+                    current_students.append(tmp)
+                    main_dic[course.title] = {
+                        "students" : current_students,
+                        "show" : False if not main_dic[course.title]["show"] else True
+                    }
 
-    # cc = {'کلاس اول':
-    #       {
-    #           "student": [{'name': 'پسر خوب ثبت نام کرده', 'id_num': '852741','price': 6500, 'is_registered': True}],
-    #           "show": False
-    #       },
-    #       'کلاس دوم':
-    #       {
-    #           "student": [{'name': 'بی تربیت ثبت نام نکرده', 'id_num': '741258', 'price': 9800, 'is_registered': False}],
-    #           "show": True
-    #       },
-    #       'کلاس سوم':
-    #       {
-    #           "student": [{'name': 'بی تربیت ثبت نام نکرده', 'id_num': '741258', 'price': 9800, 'is_registered': True}],
-    #           "show": False
-    #       },
-    #       'کلاس چهارم':
-    #       {
-    #           "student": [{'name': 'بی تربیت ثبت نام نکرده', 'id_num': '741258', 'price': 9800, 'is_registered': False}],
-    #           "show": True
-    #       },
-    #       'کلاس پنجم':
-    #       {
-    #           "student": [{'name': 'بی تربیت ثبت نام نکرده', 'id_num': '741258', 'price': 9800, 'is_registered': False}],
-    #           "show": True
-    #       }
-    #       }
+
 
     context = {
         "dic": main_dic

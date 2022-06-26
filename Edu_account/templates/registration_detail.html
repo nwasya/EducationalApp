@@ -15,14 +15,9 @@
     {% for key, value in dic.items %}
     <div class="card">
       <div
-        {%
-        if
-        value.show
-        %}
+        {% if value.show %}
         style="background-color: #f4e06d"
-        {%
-        endif
-        %}
+        {% endif %}
         class="card-header"
         id="headingOne"
       >
@@ -32,17 +27,17 @@
             class="btn btn-link"
             type="button"
             data-toggle="collapse"
-            data-target="#{{ forloop.counter }}"
+            data-target="#C{{ forloop.counter }}"
             aria-expanded="false"
-            aria-controls="{{ forloop.counter }}"
+            aria-controls="C{{ forloop.counter }}"
           >
-            {{ key }}
+            {{ value.course.title }}
           </button>
         </h5>
       </div>
 
       <div
-        id="{{ forloop.counter }}"
+        id="C{{ forloop.counter }}"
         class="collapse {% if value.show %} show {% endif %}"
         aria-labelledby="headingOne"
         data-parent="#accordionExample"
@@ -60,10 +55,11 @@
             </thead>
             <tbody>
               {% for stu in value.students %}
+             
               <tr id="R{{stu.id_num}}"  data-toggle="modal" data-target='#M' onClick=show(event) >
                 <th scope="row">{{forloop.counter}}</th>
-                <td class="row-data" value={{stu.name}} >  {{stu.name}} </td>
-                <td class="row-data" value={{stu.sid}}>{{stu.id_num}}</td>
+                <td class="row-data" value='{{stu.cid}}' >  {{stu.name}} </td>
+                <td class="row-data">{{stu.id_num}}</td>
                 <td class="row-data">{{stu.price}}</td>
                 <td class="row-data">
                   {% if stu.is_registered %}
@@ -95,26 +91,39 @@
   </div>
 
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" id="submit">
-  Launch demo modal
-</button>
 
 <!-- Modal -->
 <div class="modal fade" id='M' tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLongTitle">ویرایش اطلاعات</h5>
+        <button style="position:fixed;left:25px" type="button" class="close text-left" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="padding: 1rem 3rem 3rem 3rem ">
         {% comment %} <h6 id="modal_body"></h6> {% endcomment %}
 
-        <input id="Ifull_name"  class="form-control" type="text" placeholder="Readonly input here…" readonly>
+  
 
+        <label >نام و نام خانوادگی :</label>
+        <input style="width : 100%" id="Ifull_name"  class="form-control" type="text" placeholder="Readonly input here…" readonly>
+
+        <div class="form-group mt-2 text-right"   >
+          <label for="exampleFormControlSelect1">کلاس :</label>
+          <select class="form-control" id="ICourseSelect" value='{{ courses }}' >
+            
+          </select>
+        </div>
+
+
+        <div class="form-check text-center pt-2">
+          <input class="form-check-input" type="checkbox" value="" id="IIsRegistered">
+          <label class="form-check-label" for="defaultCheck1">
+            ثبت نام کرده است؟
+          </label>
+        </div>
 
 
 
@@ -122,8 +131,8 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">لغو</button>
+        <button type="button" class="btn btn-success mr-3">ذخیره اطلاعات</button>
       </div>
     </div>
   </div>

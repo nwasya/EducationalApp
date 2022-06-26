@@ -1,5 +1,5 @@
-window.addEventListener('load',()=> document.querySelector('.preloader')
-.classList.add('hidePreloader'));
+// window.addEventListener('load',()=> document.querySelector('.preloader')
+// .classList.add('hidePreloader'));
 
 
 /* Set the width of the sidebar to 250px (show it) */

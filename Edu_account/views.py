@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 
 from django.contrib.auth import authenticate, login, logout
 
@@ -853,37 +854,52 @@ def registration_detail(request):
         if stu.course and stu.course.next_course:
             if stu.is_registered:
 
+                course=stu.course
 
                 tmp = {"name": f"{stu.first_name} {stu.last_name}", "id_num": stu.id_num,
-                    "price": stu.course.price,"sid" : stu.id}
-                course=stu.course
+                    "price": stu.course.price,"sid" : stu.id, "cid" : course.id }
                 show = False
             else:
-                tmp = {"name": f"{stu.first_name} {stu.last_name}", "id_num": stu.id_num,
-                "price": stu.course.next_course.price  ,"sid" : stu.id}
                 course = stu.course.next_course
+
+
+                tmp ={"name": f"{stu.first_name} {stu.last_name}", "id_num": stu.id_num,
+                "price": stu.course.next_course.price  ,"sid" : stu.id , "cid" : course.id }
                 show = True
 
             if course:
 
 
-                if course.title not in main_dic:
-                    main_dic[course.title] = {
+                if course.id not in main_dic:
+                    main_dic[course.id] = {
                         "students" : [tmp],
-                        "show" : show
+                        "show" : show,
+                        "course" : course
                     }
                 else:
-                    current_students: list = main_dic[course.title]["students"]
+                    current_students: list = main_dic[course.id]["students"]
                     current_students.append(tmp)
-                    main_dic[course.title] = {
+                    main_dic[course.id] = {
                         "students" : current_students,
-                        "show" : False if not main_dic[course.title]["show"] else True
+                        "show" : False if not main_dic[course.id]["show"] else True,
+                        "course" : course
                     }
+
+    courses = Course.objects.filter(active=True)
+    cc = []
+    for course in courses:
+        tmp = {"title" : course.title,
+        "cid" : course.id}
+        cc.append(tmp)
+
 
 
 
     context = {
-        "dic": main_dic
+        "dic": main_dic,
+        "courses" : json.dumps(cc)
+        
+
     }
 
     return render(request, 'registration_detail.html', context)

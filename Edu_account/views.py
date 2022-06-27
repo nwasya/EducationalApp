@@ -903,3 +903,40 @@ def registration_detail(request):
     }
 
     return render(request, 'registration_detail.html', context)
+
+
+
+
+@login_required(login_url='/')
+def edit_student_via_modal(request):
+    if UserProfile.objects.get(user__username=request.user.username).role != 'Manager':
+        return redirect('/')
+
+    if request.method == 'POST':
+        pass
+        sid = request.POST['sid']
+        cid = request.POST['course']
+        is_registered = True if "is_registered" in request.POST else False
+
+        s_obj = Student.objects.get(id=sid)
+        c_obj = Course.objects.get(id=cid)
+        s_obj.course = c_obj
+        s_obj.is_registered = is_registered
+        s_obj.save()
+        
+
+    
+    print("hi")
+
+
+    return render(request, 'registration_detail.html')
+    
+
+    
+
+    
+
+
+
+
+    # return redirect('/registration_detail')

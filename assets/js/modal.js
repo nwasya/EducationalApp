@@ -19,28 +19,31 @@ function show(event) {
               "row-data" class within the row with given id*/
 
   var fullName = data[0].innerHTML;
-  var cid = data[0].getAttribute('value')
-  var sid = data[1].getAttribute("value");
-  var select = document.getElementById("ICourseSelect")
-  var courses = JSON.parse(select.getAttribute("value"))
-
-  console.log(cid)
+  var cid = data[1].getAttribute("value");
+  var sid = data[2].getAttribute("value");
+  var is_registered = data[3].getAttribute("value");
+  var select = document.getElementById("ICourseSelect");
+  var registered_elem = document.getElementById("IIsRegistered");
+  var courses = JSON.parse(select.getAttribute("value"));
+  console.log(typeof is_registered,is_registered)
+  if (is_registered !== "True") {
+    registered_elem.checked = true;
+  } else {
+    registered_elem.checked = false;
+  }
 
   document.getElementById("Ifull_name").placeholder = fullName;
+  document.getElementById("Isid").value = sid;
 
   for (element in courses) {
-    console.log(courses);
     var opt = document.createElement("option");
     opt.value = courses[element]["cid"];
-    
+
     opt.innerHTML = courses[element]["title"];
-    if(cid === opt.value){
-
-      opt.selected = true
-
+    if (cid === opt.value) {
+      opt.selected = true;
     }
-    
-    
+
     // whatever property it has
 
     // then append it to the select element

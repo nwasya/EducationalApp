@@ -23,6 +23,10 @@ class UserProfile(models.Model):
 
 
 class Student(models.Model):
+    is_active = models.BooleanField(default=True)
+
+
+
     first_name = models.CharField(max_length=100, null=True)
     last_name = models.CharField(max_length=100, null=True)
     role = models.CharField(null=False, max_length=20)
@@ -31,7 +35,6 @@ class Student(models.Model):
     phone_number = models.CharField(max_length=12, null=False)
     is_registered = models.BooleanField(default=False)
     registered_date = models.DateTimeField(null=True)
-    is_active = models.BooleanField(default=True)
 
 
 

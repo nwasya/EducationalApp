@@ -881,9 +881,17 @@ def registration_detail(request):
                 else:
                     current_students: list = main_dic[course.id]["students"]
                     current_students.append(tmp)
+                    show = main_dic[course.id]["show"]
+
+                    # if show :
+                    #     show = True
+                    
+                    # else:
+                    #     show = not stu.is_registered
+
                     main_dic[course.id] = {
                         "students" : current_students,
-                        "show" : False if not main_dic[course.id]["show"] else True, #check ittttt
+                        "show" : True if main_dic[course.id]["show"] else not stu.is_registered,
                         "course" : course
                     }
 

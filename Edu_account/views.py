@@ -939,7 +939,7 @@ def edit_student_via_modal(request):
         
 
     
-    print("hi")
+    print("hi git is ok !!")
 
 
     return render(request, 'registration_detail.html')

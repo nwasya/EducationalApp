@@ -929,11 +929,13 @@ def edit_student_via_modal(request):
             pre_course = Course.objects.filter(next_course=c_obj).first()
             s_obj.course = pre_course
 
+
+
         s_obj.save()
         messages.success(request,"اطلاعات با موفقیت ویرایش شد")
         return redirect('/registration_detail')
 
-        
+
         
 
     

@@ -31,6 +31,7 @@ class Student(models.Model):
     phone_number = models.CharField(max_length=12, null=False)
     is_registered = models.BooleanField(default=False)
     registered_date = models.DateTimeField(null=True)
+    is_active = models.BooleanField(default=True)
 
 
 

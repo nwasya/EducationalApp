@@ -173,7 +173,8 @@ def create_student_page(request):
             Student.objects.create(first_name=first_name, last_name=last_name, id_num=id_num,
                                    course=course_obj, role=role,
                                    phone_number=phone_number,
-                                   is_registered=True)
+                                   is_registered=True,
+                                   is_active = True)
             st = Student.objects.get(id_num=id_num)
 
             user = User.objects.create_user(username=id_num, password=id_num, first_name=first_name,
@@ -857,14 +858,14 @@ def registration_detail(request):
                 course=stu.course
 
                 tmp = {"name": f"{stu.first_name} {stu.last_name}", "id_num": stu.id_num,
-                    "price": stu.course.price,"sid" : stu.id, "cid" : course.id }
-                show = False
+                    "price": stu.course.price,"sid" : stu.id, "cid" : course.id , "is_registered" : True }
+                show = False 
             else:
                 course = stu.course.next_course
 
 
                 tmp ={"name": f"{stu.first_name} {stu.last_name}", "id_num": stu.id_num,
-                "price": stu.course.next_course.price  ,"sid" : stu.id , "cid" : course.id }
+                "price": stu.course.next_course.price  ,"sid" : stu.id , "cid" : course.id , "is_registered" : False }
                 show = True
 
             if course:
@@ -874,6 +875,7 @@ def registration_detail(request):
                     main_dic[course.id] = {
                         "students" : [tmp],
                         "show" : show,
+
                         "course" : course
                     }
                 else:
@@ -881,7 +883,7 @@ def registration_detail(request):
                     current_students.append(tmp)
                     main_dic[course.id] = {
                         "students" : current_students,
-                        "show" : False if not main_dic[course.id]["show"] else True,
+                        "show" : False if not main_dic[course.id]["show"] else True, #check ittttt
                         "course" : course
                     }
 
@@ -922,7 +924,14 @@ def edit_student_via_modal(request):
         c_obj = Course.objects.get(id=cid)
         s_obj.course = c_obj
         s_obj.is_registered = is_registered
+
+        if not is_registered:
+            pre_course = Course.objects.filter(next_course=c_obj).first()
+            s_obj.course = pre_course
+
         s_obj.save()
+        messages.success(request,"اطلاعات با موفقیت ویرایش شد")
+        return redirect('/registration_detail')
         
 
     

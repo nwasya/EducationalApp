@@ -62,8 +62,8 @@
                 <td class="row-data" >  {{stu.name}} </td>
                 <td class="row-data" value='{{stu.cid}}'>{{stu.id_num}}</td>
                 <td class="row-data"  value='{{stu.sid}}'>{{stu.price}}</td>
-                <td class="row-data" value='{{value.show}}'> 
-                  {% if not value.show %}
+                <td class="row-data" value='{{stu.is_registered}}'> 
+                  {% if stu.is_registered %}
                   <i
                     class="fa fa-check"
                     aria-hidden="true"

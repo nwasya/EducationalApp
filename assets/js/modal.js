@@ -23,10 +23,11 @@ function show(event) {
   var sid = data[2].getAttribute("value");
   var is_registered = data[3].getAttribute("value");
   var select = document.getElementById("ICourseSelect");
+  var length = select.options.length;
+
   var registered_elem = document.getElementById("IIsRegistered");
   var courses = JSON.parse(select.getAttribute("value"));
-  console.log(typeof is_registered,is_registered)
-  if (is_registered !== "True") {
+  if (is_registered == "True") {
     registered_elem.checked = true;
   } else {
     registered_elem.checked = false;
@@ -34,7 +35,9 @@ function show(event) {
 
   document.getElementById("Ifull_name").placeholder = fullName;
   document.getElementById("Isid").value = sid;
-
+  for (i = length - 1; i >= 0; i--) {
+    select.options[i] = null;
+  }
   for (element in courses) {
     var opt = document.createElement("option");
     opt.value = courses[element]["cid"];

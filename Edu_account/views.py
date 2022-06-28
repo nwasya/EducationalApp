@@ -932,6 +932,8 @@ def edit_student_via_modal(request):
         s_obj.save()
         messages.success(request,"اطلاعات با موفقیت ویرایش شد")
         return redirect('/registration_detail')
+
+        
         
 
     

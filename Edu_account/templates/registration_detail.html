@@ -1,8 +1,5 @@
-{% extends 'shared/_MainLayout.html' %}
- {% load render_partial %} 
-{% load static %} 
-{% block content %}
-
+{% extends 'shared/_MainLayout.html' %} {% load render_partial %} {% load static
+%} {% block content %}
 
 <div class="container">
   <h2 class="text-center" style="padding-top: 150px">
@@ -15,12 +12,16 @@
     {% for key, value in dic.items %}
     <div class="card">
       <div
-        {% if value.show %}
+        {%
+        if
+        value.show
+        %}
         style="background-color: #f4e06d"
-        {% endif %}
+        {%
+        endif
+        %}
         class="card-header"
-        id="headingOne"
-      >
+        id="headingOne">
         <h5 class="mb-0">
           <button
             style="color: black; font-size: 24px"
@@ -32,7 +33,29 @@
             aria-controls="C{{ forloop.counter }}"
           >
             {{ value.course.title }}
-          </button>
+          </button
+          style="color: black; font-size: 24px "
+            class="btn btn-link"
+            type="button"
+          
+          >
+
+          دبیر : {{value.course.teacher.last_name}}
+
+
+          <i
+          style = "color: black; margin-top : 10px;cursor : pointer; font-size: 24px ; background-color : transparent ; position : absolute ;left : 15px"
+          class="fa fa-pen"
+
+          id="R{{stu.id_num}}"
+                data-toggle="modal"
+                data-target="#P"
+                onClick="show(event)">
+        
+        </i>
+
+
+
         </h5>
       </div>
 
@@ -55,14 +78,18 @@
             </thead>
             <tbody>
               {% for stu in value.students %}
-             
-              <tr id="R{{stu.id_num}}"  data-toggle="modal" data-target='#M' onClick=show(event) >
-                
+
+              <tr
+                id="R{{stu.id_num}}"
+                data-toggle="modal"
+                data-target="#M"
+                onClick="show(event)"
+              >
                 <th scope="row">{{forloop.counter}}</th>
-                <td class="row-data" >  {{stu.name}} </td>
-                <td class="row-data" value='{{stu.cid}}'>{{stu.id_num}}</td>
-                <td class="row-data"  value='{{stu.sid}}'>{{stu.price}}</td>
-                <td class="row-data" value='{{stu.is_registered}}'> 
+                <td class="row-data">{{stu.name}}</td>
+                <td class="row-data" value="{{stu.cid}}">{{stu.id_num}}</td>
+                <td class="row-data" value="{{stu.sid}}">{{stu.price}}</td>
+                <td class="row-data" value="{{stu.is_registered}}">
                   {% if stu.is_registered %}
                   <i
                     class="fa fa-check"
@@ -79,8 +106,6 @@
                 </td>
               </tr>
 
-
-              
               {% endfor %}
             </tbody>
           </table>
@@ -92,63 +117,10 @@
   </div>
 
 
+{%  include 'shared/student_modal.html' %}
 
-<!-- Modal -->
-<div class="modal fade" id='M' tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">ویرایش اطلاعات</h5>
-        <button style="position:fixed;left:25px" type="button" class="close text-left" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" style="padding: 1rem 3rem 3rem 3rem ">
-        {% comment %} <h6 id="modal_body"></h6> {% endcomment %}
+{%  include 'shared/course_modal.html' %}
 
-          <form method='post'  action="/edit_student_via_modal">
-
-            {% csrf_token %}
-
-
-
-
-            <label >نام و نام خانوادگی :</label>
-            <input  style="width : 100%" id="Ifull_name"  class="form-control" type="text"  readonly>
-            <input name="sid" style="width : 100%" id="Isid"  class="form-control" type="hidden">
-    
-            <div class="form-group mt-2 text-right"   >
-              <label for="exampleFormControlSelect1">کلاس :</label>
-              <select name='course' class="form-control" id="ICourseSelect" value='{{courses}}' >
-                
-              </select>
-            </div>
-    
-    
-            <div class="form-check text-center pt-2">
-              <input name='is_registered' class="form-check-input" type="checkbox"  id="IIsRegistered">
-              <label class="form-check-label" for="defaultCheck1">
-                ثبت نام کرده است؟
-              </label>
-            </div>
-    
-
-<div class="modal-footer pt-3">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">لغو</button>
-        <button type="submit" class="btn btn-success mr-3">ذخیره اطلاعات</button>
-      </div>
-
-          </form>
-
-
-
-
-      </div>
-      
-    </div>
-  </div>
-</div>
-  
 </div>
 
 {% endblock %}

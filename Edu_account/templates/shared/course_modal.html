@@ -1,63 +1,68 @@
- <!-- Modal COURSE -->
- <div
- class="modal fade"
- id="P"
- tabindex="-1"
- role="dialog"
- aria-labelledby="exampleModalCenterTitle"
- aria-hidden="true" >
- <div class="modal-dialog modal-dialog-centered" role="document">
-   <div class="modal-content">
-     <div class="modal-header">
-       <h5 class="modal-title" id="exampleModalLongTitle">ویرایش اطلاعات</h5>
-       <button
-         style="position: fixed; left: 25px"
-         type="button"
-         class="close text-left"
-         data-dismiss="modal"
-         aria-label="Close"
-       >
-         <span aria-hidden="true">&times;</span>
-       </button>
-     </div>
-     <div class="modal-body" style="padding: 1rem 3rem 3rem 3rem">
+<!-- Modal COURSE -->
+<div
+  class="modal fade"
+  id="P"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">ویرایش اطلاعات</h5>
+        <button
+          style="position: fixed; left: 25px"
+          type="button"
+          class="close text-left"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 1rem 3rem 3rem 3rem">
+        <form action="/" method="POST">
+          <input id="c_name" class="form-control" readonly value="کلاس" />
 
-      
-    
+          <div class="form-group mt-3 text-right">
+            <label for="exampleFormControlSelect1">کد کلاس :</label>
 
-<form action="/"
-method="POST">
-<label>کلاس</label>
-<input class="form-control" readonly placeholder="کلاس"/>
+            <input id="c_id" class="form-control" value="55" />
+          </div>
 
+          <div class="form-group mt-2 text-right">
+            <label for="exampleFormControlSelect1">دبیر :</label>
+            <select
+              name="teacher"
+              class="form-control"
+              id="ITeacherSelect"
+             
+            ></select>
+          </div>
 
-<select class="form-control pt-3">
-<option value="#">1</option>
-<option value="#">1</option>
-<option value="#">1</option>
-<option value="#">1</option>
+          <div class="form-check text-center pt-2">
+            <input
+              name="is_registered"
+              class="form-check-input"
+              type="checkbox"
+              id="IIsActive"
+            />
+            <label class="form-check-label pb-2" for="defaultCheck1">
+              کلاس فعال هست؟
+            </label>
+          </div>
 
-</select>
-
-<div class="form-check text-center pt-2">
-  <input class="form-control" type="checkbox" />
-  <label> آیا کلاس فعال می باشد؟</label>
-
-</div>
-
-
-
-<div class="row">
-  <button type="submit" class="btn btn-success">ثبت</button>
-  <button type="submit" class="btn btn-danger" style="padding-right: 20px;">لغو</button>
-
-</div>
-</form>
-
-
-      
-
-     </div>
-   </div>
- </div>
+          <div class="modal-footer text-left pt-3">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              لغو
+            </button>
+            <button type="submit" class="btn btn-success mr-3">
+              ذخیره اطلاعات
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,5 +1,4 @@
-{% extends 'shared/_MainLayout.html' %} {% load render_partial %} {% load static
-%} {% block content %}
+{% extends 'shared/_MainLayout.html' %} {% load render_partial %} {% load static %} {% block content %}
 
 <div class="container">
   <h2 class="text-center" style="padding-top: 150px">
@@ -7,64 +6,40 @@
   </h2>
   <hr />
   <br />
-
   <div class="accordion pb-5" style="padding-top: 20px" id="accordionExample">
     {% for key, value in dic.items %}
-    <div class="card">
-      <div
-        {%
-        if
-        value.show
-        %}
-        style="background-color: #f4e06d"
-        {%
-        endif
-        %}
-        class="card-header"
-        id="headingOne">
+
+
+    <div class="card mt-2">
+      <div {% if value.show %} style="background-color: #f4e06d" {% endif %} class="card-header" id="heading{{key}}">
         <h5 class="mb-0">
-          <button
-            style="color: black; font-size: 24px"
-            class="btn btn-link"
-            type="button"
-            data-toggle="collapse"
-            data-target="#C{{ forloop.counter }}"
-            aria-expanded="false"
-            aria-controls="C{{ forloop.counter }}"
-          >
+          <button style="color: black; font-size: 24px" class="btn btn-link" type="button" data-toggle="collapse"
+            data-target="#C{{ forloop.counter }}" aria-expanded="false" aria-controls="C{{ forloop.counter }}">
             {{ value.course.title }}
-          </button
-          style="color: black; font-size: 24px "
-            class="btn btn-link"
-            type="button"
-          
-          >
+          </button>
 
           دبیر : {{value.course.teacher.last_name}}
 
 
-          <i
-          style = "color: black; margin-top : 10px;cursor : pointer; font-size: 24px ; background-color : transparent ; position : absolute ;left : 15px"
-          class="fa fa-pen"
+          <button style="color: black;cursor : pointer; font-size: 20px ; background-color : transparent ; position : absolute ;left : 15px"
+            class="btn btn-outline-danger" data-toggle="modal" data-target="#P" onClick="show2(event)" value="{{key}}" id="R{{key}}">
+ویرایش
+          </button>
 
-          id="R{{stu.id_num}}"
-                data-toggle="modal"
-                data-target="#P"
-                onClick="show(event)">
-        
-        </i>
+
+          <input class="course-data" hidden id="courseId" value={{key}} />
+          <input class="course-data" hidden id="courseName" value="{{value.course.title}}" />
+          <input class="course-data" hidden id="teachers" value="{{teachers}}" />
+          <input class="course-data" hidden id="isActive" value="{{value.course.active}}" />
+          <input class="course-data" hidden id="tid" value="{{value.course.teacher.id}}" />
 
 
 
         </h5>
       </div>
 
-      <div
-        id="C{{ forloop.counter }}"
-        class="collapse {% if value.show %} show {% endif %}"
-        aria-labelledby="headingOne"
-        data-parent="#accordionExample"
-      >
+      <div id="C{{ forloop.counter }}" class="collapse {% if value.show %} show {% endif %}"
+        aria-labelledby="heading{{key}}" data-parent="#accordionExample">
         <div class="card-body">
           <table class="table table-hover">
             <thead>
@@ -79,29 +54,16 @@
             <tbody>
               {% for stu in value.students %}
 
-              <tr
-                id="R{{stu.id_num}}"
-                data-toggle="modal"
-                data-target="#M"
-                onClick="show(event)"
-              >
+              <tr id="R{{stu.id_num}}" data-toggle="modal" data-target="#M" onClick="show(event)">
                 <th scope="row">{{forloop.counter}}</th>
                 <td class="row-data">{{stu.name}}</td>
                 <td class="row-data" value="{{stu.cid}}">{{stu.id_num}}</td>
                 <td class="row-data" value="{{stu.sid}}">{{stu.price}}</td>
                 <td class="row-data" value="{{stu.is_registered}}">
                   {% if stu.is_registered %}
-                  <i
-                    class="fa fa-check"
-                    aria-hidden="true"
-                    style="color: green"
-                  ></i>
+                  <i class="fa fa-check" aria-hidden="true" style="color: green"></i>
                   {% else %}
-                  <i
-                    class="fa fa-times"
-                    aria-hidden="true"
-                    style="color: red"
-                  ></i>
+                  <i class="fa fa-times" aria-hidden="true" style="color: red"></i>
                   {% endif %}
                 </td>
               </tr>
@@ -112,14 +74,14 @@
         </div>
       </div>
     </div>
+  
+  {% endfor %}
 
-    {% endfor %}
   </div>
 
+  {% include 'shared/student_modal.html' %}
 
-{%  include 'shared/student_modal.html' %}
-
-{%  include 'shared/course_modal.html' %}
+  {% include 'shared/course_modal.html' %}
 
 </div>
 

@@ -854,33 +854,28 @@ def registration_detail(request):
 
         if stu.course and stu.course.next_course:
             if stu.is_registered:
-
                 course=stu.course
-
-                tmp = {"name": f"{stu.first_name} {stu.last_name}", "id_num": stu.id_num,
-                    "price": stu.course.price,"sid" : stu.id, "cid" : course.id , "is_registered" : True }
                 show = False 
             else:
                 course = stu.course.next_course
 
 
-                tmp ={"name": f"{stu.first_name} {stu.last_name}", "id_num": stu.id_num,
-                "price": stu.course.next_course.price  ,"sid" : stu.id , "cid" : course.id , "is_registered" : False }
                 show = True
 
             if course:
+                
 
 
                 if course.id not in main_dic:
                     main_dic[course.id] = {
-                        "students" : [tmp],
+                        "students" : [stu],
                         "show" : show,
 
                         "course" : course
                     }
                 else:
                     current_students: list = main_dic[course.id]["students"]
-                    current_students.append(tmp)
+                    current_students.append(stu)
                     show = main_dic[course.id]["show"]
 
                     # if show :
@@ -902,12 +897,19 @@ def registration_detail(request):
         "cid" : course.id}
         cc.append(tmp)
 
+    teachers = TeacherClass.objects.all()
+    tt = []
+    for teacher in teachers:
+        tmp = {"last_name" : teacher.last_name,
+        "tid" : teacher.id}
+        tt.append(tmp)
 
 
 
     context = {
         "dic": main_dic,
-        "courses" : json.dumps(cc)
+        "courses" : json.dumps(cc),
+        "teachers" : json.dumps(tt)
         
 
     }

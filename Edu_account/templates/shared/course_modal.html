@@ -22,8 +22,10 @@
         </button>
       </div>
       <div class="modal-body" style="padding: 1rem 3rem 3rem 3rem">
-        <form action="/" method="POST">
-          <input id="c_name" class="form-control" readonly value="کلاس" />
+        <form action="{% url 'edit_course_via_modal' %}" method="POST">
+          {% csrf_token %}
+
+          <input id="c_name" class="form-control" />
 
           <div class="form-group mt-3 text-right">
             <label for="exampleFormControlSelect1">کد کلاس :</label>
@@ -41,9 +43,20 @@
             ></select>
           </div>
 
+
+          <div class="form-group mt-2 text-right">
+            <label for="exampleFormControlSelect1">کلاس بعدی :</label>
+            <select
+              name="next_course"
+              class="form-control"
+              id="INextCourse"
+             
+            ></select>
+          </div>
+
           <div class="form-check text-center pt-2">
             <input
-              name="is_registered"
+              name="is_active"
               class="form-check-input"
               type="checkbox"
               id="IIsActive"

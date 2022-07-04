@@ -13,16 +13,19 @@ function show2(event) {
     var teachers = JSON.parse(data[2].getAttribute("value"))
     var isActive = data[3].getAttribute("value")
     var tid = data[4].getAttribute("value")
- 
-    var select = document.getElementById("ITeacherSelect");
     var isActiveElem = document.getElementById("IIsActive")
-    var length = select.options.length;
-    
+
     document.getElementById("c_name").value = courseName
     document.getElementById("c_id").value = courseId
+//###############################################################################33
+    var Tselect = document.getElementById("ITeacherSelect");
+    
+    var Tlength = Tselect.options.length;
+    
+    
 
-    for (i = length - 1; i >= 0; i--) {
-        select.options[i] = null;
+    for (i = Tlength - 1; i >= 0; i--) {
+        Tselect.options[i] = null;
     }
 
     for (element in teachers) {
@@ -30,13 +33,31 @@ function show2(event) {
         opt.value = teachers[element]["tid"];
 
         opt.innerHTML = teachers[element]["last_name"];
-        select.appendChild(opt)
+        Tselect.appendChild(opt)
         if (tid === opt.value) {
             opt.selected = true;
         }
+// ################################################################################
+
+var Cselect = document.getElementById("ITeacherSelect");
+    
+var Clength = Cselect.options.length;
 
 
 
+for (i = Clength - 1; i >= 0; i--) {
+    Cselect.options[i] = null;
+}
+
+for (element in teachers) {
+    var opt = document.createElement("option");
+    opt.value = teachers[element]["tid"];
+
+    opt.innerHTML = teachers[element]["last_name"];
+    Cselect.appendChild(opt)
+    if (ncid === opt.value) {
+        opt.selected = true;
+    }
 }
 if (isActive == "True") {
     isActiveElem.checked = true;

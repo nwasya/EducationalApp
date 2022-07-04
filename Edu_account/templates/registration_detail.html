@@ -32,6 +32,7 @@
           <input class="course-data" hidden id="teachers" value="{{teachers}}" />
           <input class="course-data" hidden id="isActive" value="{{value.course.active}}" />
           <input class="course-data" hidden id="tid" value="{{value.course.teacher.id}}" />
+          <input class="course-data" hidden id="ncid" value="{{value.course.next_course.id}}" />
 
 
 
@@ -56,9 +57,9 @@
 
               <tr id="R{{stu.id_num}}" data-toggle="modal" data-target="#M" onClick="show(event)">
                 <th scope="row">{{forloop.counter}}</th>
-                <td class="row-data">{{stu.name}}</td>
-                <td class="row-data" value="{{stu.cid}}">{{stu.id_num}}</td>
-                <td class="row-data" value="{{stu.sid}}">{{stu.price}}</td>
+                <td class="row-data">{{stu.first_name}} {{stu.last_name}}</td>
+                <td class="row-data" value="{{value.course.id}}">{{stu.id_num}}</td>
+                <td class="row-data" value="{{stu.id}}">{{value.course.price}}</td>
                 <td class="row-data" value="{{stu.is_registered}}">
                   {% if stu.is_registered %}
                   <i class="fa fa-check" aria-hidden="true" style="color: green"></i>

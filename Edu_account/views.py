@@ -946,20 +946,38 @@ def edit_student_via_modal(request):
         return redirect('/registration_detail')
 
 
+
+
+
+    return redirect('/')
+    
+
+    
+
+@login_required(login_url='/')
+def edit_course_via_modal(request):
+    if UserProfile.objects.get(user__username=request.user.username).role != 'Manager':
+        return redirect('/')
+
+    if request.method == 'POST':
         
+        cid = request.POST['c_id']
+        tid = request.POST['teacher']
+        name = request.POST['c_name']
+        is_active = True if "is_active" in request.POST else False
 
-    
-    print("hi git is ok !!")
+        
+        course_obj = Course.objects.get(id=cid)
+        teacher_obj = TeacherClass.objects.get(id=tid)
+        course_obj.teacher = teacher_obj
+        course_obj.title = name
+        course_obj.is_active = is_active
+        course_obj.save()
+        messages.success(request,"اطلاعات با موفقیت ویرایش شد")
+        return redirect('/registration_detail')
 
 
-    return render(request, 'registration_detail.html')
-    
-
-    
-
-    
 
 
 
-
-    # return redirect('/registration_detail')
+    return redirect('/')

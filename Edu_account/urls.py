@@ -4,7 +4,7 @@ from Edu_account.views import login_page, log_out, registration_detail, user_acc
     create_teacher_page, ShowContactsInfo, ShowRegistrationRequests, \
     change_password, delete_teacher_page, delete_student_page, \
     delete_book_page, unconfirmedcomments, confirmedcomments, delete_comment, \
-    confirm_comment, edit_teacher_page, edit_student_via_modal, \
+    confirm_comment, edit_teacher_page, edit_student_via_modal,edit_course_via_modal, \
     edit_book_page, recent_orders, order_detail, recent_registration, add_online_class_link, transfer_student
 from django.contrib.auth.decorators import login_required
 
@@ -36,4 +36,5 @@ urlpatterns = [
     path('transfer-student', transfer_student, name='transfer_student'),
     path('registration_detail', registration_detail, name='registration_detail'),
     path('edit_student_via_modal', edit_student_via_modal, name='edit_student_via_modal'),
+    path('edit_course_via_modal', edit_course_via_modal, name='edit_course_via_modal'),
 ]

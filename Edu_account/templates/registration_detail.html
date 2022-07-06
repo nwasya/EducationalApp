@@ -21,10 +21,19 @@
           دبیر : {{value.course.teacher.last_name}}
 
 
-          <button style="color: black;cursor : pointer; font-size: 20px ; background-color : transparent ; position : absolute ;left : 15px"
-            class="btn btn-outline-danger" data-toggle="modal" data-target="#P" onClick="show2(event)" value="{{key}}" id="R{{key}}">
-ویرایش
-          </button>
+
+         
+
+<button style="color: black;cursor : pointer; font-size: 20px ; background-color : transparent ; position : absolute ;left : 15px"
+class="btn " data-toggle="collapse"
+data-target="#C{{ forloop.counter }}" aria-expanded="false" aria-controls="C{{ forloop.counter }}" >
+<i class="fa fa-chevron-down"></i>
+</button>
+
+<button style="color: black;cursor : pointer; font-size: 20px ; background-color : transparent ; position : absolute ;left : 50px"
+class="btn " data-toggle="modal" data-target="#P" onClick="show2(event)" value="{{key}}" id="R{{key}}">
+<i class="fa fa-pen"></i>
+</button>
 
 
           <input class="course-data" hidden id="courseId" value={{key}} />
@@ -33,6 +42,7 @@
           <input class="course-data" hidden id="isActive" value="{{value.course.active}}" />
           <input class="course-data" hidden id="tid" value="{{value.course.teacher.id}}" />
           <input class="course-data" hidden id="ncid" value="{{value.course.next_course.id}}" />
+          <input class="course-data" hidden id="nextCourses" value="{{courses}}" />
 
 
 

@@ -25,12 +25,12 @@
         <form action="{% url 'edit_course_via_modal' %}" method="POST">
           {% csrf_token %}
 
-          <input id="c_name" class="form-control" />
+          <input name="c_name" id="c_name" class="form-control" />
 
           <div class="form-group mt-3 text-right">
             <label for="exampleFormControlSelect1">کد کلاس :</label>
 
-            <input id="c_id" class="form-control" value="55" />
+            <input name="c_id" id="c_id" class="form-control" value="55" />
           </div>
 
           <div class="form-group mt-2 text-right">
@@ -50,6 +50,7 @@
               name="next_course"
               class="form-control"
               id="INextCourse"
+              value="{{courses}}"
              
             ></select>
           </div>

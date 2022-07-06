@@ -13,8 +13,12 @@ function show2(event) {
     var teachers = JSON.parse(data[2].getAttribute("value"))
     var isActive = data[3].getAttribute("value")
     var tid = data[4].getAttribute("value")
+    var next_course_select = document.getElementById("INextCourse")
+    var courses = JSON.parse(next_course_select.getAttribute("value"))
     var isActiveElem = document.getElementById("IIsActive")
+    var ncid = data[5].getAttribute("value")
 
+    console.log(ncid)
     document.getElementById("c_name").value = courseName
     document.getElementById("c_id").value = courseId
 //###############################################################################33
@@ -39,22 +43,22 @@ function show2(event) {
         }
 // ################################################################################
 
-var Cselect = document.getElementById("ITeacherSelect");
+
     
-var Clength = Cselect.options.length;
+var Clength = next_course_select.options.length;
 
 
 
 for (i = Clength - 1; i >= 0; i--) {
-    Cselect.options[i] = null;
+    next_course_select.options[i] = null;
 }
 
-for (element in teachers) {
+for (element in courses) {
     var opt = document.createElement("option");
-    opt.value = teachers[element]["tid"];
+    opt.value = courses[element]["cid"];
 
-    opt.innerHTML = teachers[element]["last_name"];
-    Cselect.appendChild(opt)
+    opt.innerHTML = courses[element]["title"];
+    next_course_select.appendChild(opt)
     if (ncid === opt.value) {
         opt.selected = true;
     }
@@ -65,4 +69,4 @@ if (isActive == "True") {
     isActiveElem.checked = false;
   }
 
-}
+}}

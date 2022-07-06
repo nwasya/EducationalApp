@@ -925,7 +925,7 @@ def edit_student_via_modal(request):
         return redirect('/')
 
     if request.method == 'POST':
-        pass
+        
         sid = request.POST['sid']
         cid = request.POST['course']
         is_registered = True if "is_registered" in request.POST else False
@@ -937,12 +937,17 @@ def edit_student_via_modal(request):
 
         if not is_registered:
             pre_course = Course.objects.filter(next_course=c_obj).first()
-            s_obj.course = pre_course
+            if not pre_course:
+                messages.warning(request,"هنگام انتقال دانش اموز به کلاس دیگر در حالیکه ثبت نام نکرده است باید کلاس مقصد خود به عنوان کلاس بعدی تعریف شده باشد.لطفا به تنظیات کلاس قبلی رفته و کلاس مقصد انتخاب شده را به عنوان کلاس بعدی تعریف نمایید . برای مثال اگر کلاس  (ب) را به عنوان کلاس مقصد انتخاب نموده اید به تنظیمات کلاس (الف) رفته و کلاس (ب) را به عنوان کلاس بعدی تعریف نمایید",)
+            else:
+                s_obj.course = pre_course
+                s_obj.save()
 
 
 
-        s_obj.save()
-        messages.success(request,"اطلاعات با موفقیت ویرایش شد")
+        else:
+            s_obj.save()
+            messages.success(request,"اطلاعات با موفقیت ویرایش شد")
         return redirect('/registration_detail')
 
 
@@ -964,14 +969,17 @@ def edit_course_via_modal(request):
         cid = request.POST['c_id']
         tid = request.POST['teacher']
         name = request.POST['c_name']
+        next_course = request.POST["next_course"]
         is_active = True if "is_active" in request.POST else False
 
         
         course_obj = Course.objects.get(id=cid)
+        next_course_obj = Course.objects.get(id=next_course)
         teacher_obj = TeacherClass.objects.get(id=tid)
         course_obj.teacher = teacher_obj
         course_obj.title = name
         course_obj.is_active = is_active
+        course_obj.next_course = next_course_obj
         course_obj.save()
         messages.success(request,"اطلاعات با موفقیت ویرایش شد")
         return redirect('/registration_detail')

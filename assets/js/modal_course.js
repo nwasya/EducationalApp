@@ -1,12 +1,14 @@
 function show2(event) {
-    var headingId = event.target.parentNode.parentNode.id;
+    var heading = event.target.closest("div");
     
 
 
    
         //this gives id of tr whose button was clicked
+   
+    
 
-    var data = document.getElementById(headingId).querySelectorAll(".course-data");
+    var data = heading.querySelectorAll(".course-data");
     
     var courseId = data[0].getAttribute("value")
     var courseName = data[1].getAttribute("value")
@@ -17,10 +19,12 @@ function show2(event) {
     var courses = JSON.parse(next_course_select.getAttribute("value"))
     var isActiveElem = document.getElementById("IIsActive")
     var ncid = data[5].getAttribute("value")
+    var cid_num = data[6].getAttribute("value")
 
-    console.log(ncid)
-    document.getElementById("c_name").value = courseName
-    document.getElementById("c_id").value = courseId
+    document.getElementById("Ic_name").value = courseName
+    document.getElementById("Icid_num").value = cid_num
+    document.getElementById("course-idd").value = courseId
+    console.log(courseId)
 //###############################################################################33
     var Tselect = document.getElementById("ITeacherSelect");
     

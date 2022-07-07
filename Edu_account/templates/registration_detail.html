@@ -3,46 +3,57 @@
 <div class="container">
   <h2 class="text-center" style="padding-top: 150px">
     گزارش ثبت نام به تفکیک دوره
+    
+
+
   </h2>
+  <button class="btn btn-outline-secondary" >
+    
+
+    
+  
+  
+ </button>
   <hr />
   <br />
   <div class="accordion pb-5" style="padding-top: 20px" id="accordionExample">
     {% for key, value in dic.items %}
 
 
-    <div class="card mt-2">
-      <div {% if value.show %} style="background-color: #f4e06d" {% endif %} class="card-header" id="heading{{key}}">
+    <div class="card  mt-2">
+      <div class=".parent-heading py-2" {% if value.show %}  style="background-color: #f4e06d" {% endif %} class="card-header" id="heading{{key}}">
         <h5 class="mb-0">
           <button style="color: black; font-size: 24px" class="btn btn-link" type="button" data-toggle="collapse"
             data-target="#C{{ forloop.counter }}" aria-expanded="false" aria-controls="C{{ forloop.counter }}">
             {{ value.course.title }}
           </button>
 
-          دبیر : {{value.course.teacher.last_name}}
+          ( {{value.course.teacher.last_name}} )
 
 
 
-         
 
-<button style="color: black;cursor : pointer; font-size: 20px ; background-color : transparent ; position : absolute ;left : 15px"
-class="btn " data-toggle="collapse"
-data-target="#C{{ forloop.counter }}" aria-expanded="false" aria-controls="C{{ forloop.counter }}" >
-<i class="fa fa-chevron-down"></i>
-</button>
+          <button
+            style="color: black;cursor : pointer; font-size: 20px ; background-color : transparent ; position : absolute ;left : 15px"
+            class="btn " data-toggle="collapse" data-target="#C{{ forloop.counter }}" aria-expanded="false"
+            aria-controls="C{{ forloop.counter }}">
+            <i class="fa fa-chevron-down"></i>
+          </button>
 
-<button style="color: black;cursor : pointer; font-size: 20px ; background-color : transparent ; position : absolute ;left : 50px"
-class="btn " data-toggle="modal" data-target="#P" onClick="show2(event)" value="{{key}}" id="R{{key}}">
-<i class="fa fa-pen"></i>
-</button>
+          <button
+            style="color: black;cursor : pointer; font-size: 20px ; background-color : transparent ; position : absolute ;left : 50px"
+            class="btn " data-toggle="modal" data-target="#P" onClick="show2(event)" value="{{key}}" id="R{{key}}">
+            <i class="fa fa-pen"></i>
+          </button>
 
 
-          <input class="course-data" hidden id="courseId" value={{key}} />
-          <input class="course-data" hidden id="courseName" value="{{value.course.title}}" />
-          <input class="course-data" hidden id="teachers" value="{{teachers}}" />
-          <input class="course-data" hidden id="isActive" value="{{value.course.active}}" />
-          <input class="course-data" hidden id="tid" value="{{value.course.teacher.id}}" />
-          <input class="course-data" hidden id="ncid" value="{{value.course.next_course.id}}" />
-          <input class="course-data" hidden id="nextCourses" value="{{courses}}" />
+          <input class="course-data" hidden  value={{key}} />
+          <input class="course-data" hidden  value="{{value.course.title}}" />
+          <input class="course-data" hidden  value="{{teachers}}" />
+          <input class="course-data" hidden  value="{{value.course.active}}" />
+          <input class="course-data" hidden  value="{{value.course.teacher.id}}" />
+          <input class="course-data" hidden  value="{{value.course.next_course.id}}" />
+          <input class="course-data" hidden  value="{{value.course.id_num}}" />
 
 
 
@@ -85,8 +96,8 @@ class="btn " data-toggle="modal" data-target="#P" onClick="show2(event)" value="
         </div>
       </div>
     </div>
-  
-  {% endfor %}
+
+    {% endfor %}
 
   </div>
 

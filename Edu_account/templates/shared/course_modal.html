@@ -25,12 +25,13 @@
         <form action="{% url 'edit_course_via_modal' %}" method="POST">
           {% csrf_token %}
 
-          <input name="c_name" id="c_name" class="form-control" />
+          <input name="c_name" id="Ic_name" class="form-control" />
+          <input name="c_id" id="course-idd" hidden class="form-control" />
 
           <div class="form-group mt-3 text-right">
             <label for="exampleFormControlSelect1">کد کلاس :</label>
 
-            <input name="c_id" id="c_id" class="form-control" value="55" />
+            <input name="cid_num" id="Icid_num" class="form-control" />
           </div>
 
           <div class="form-group mt-2 text-right">

@@ -843,13 +843,15 @@ def transfer_student(request):
 
 
 @login_required(login_url='/')
-def registration_detail(request):
+def registration_detail(request,*args,**kwargs):
     if UserProfile.objects.get(user__username=request.user.username).role != 'Manager':
         return redirect('/')
-    registered = Student.objects.filter(course__active=True).order_by('course__title')
+    
 
     main_dic = {}
-
+    
+    is_active = True if kwargs.get('is_active') == 'true' else False
+    registered = Student.objects.filter(course__active=is_active).order_by('course__title')
     for stu in registered:
 
         if stu.course and stu.course.next_course:
@@ -967,6 +969,7 @@ def edit_course_via_modal(request):
     if request.method == 'POST':
         
         cid = request.POST['c_id']
+        course_idnum = request.POST['cid_num']
         tid = request.POST['teacher']
         name = request.POST['c_name']
         next_course = request.POST["next_course"]
@@ -978,14 +981,21 @@ def edit_course_via_modal(request):
         teacher_obj = TeacherClass.objects.get(id=tid)
         course_obj.teacher = teacher_obj
         course_obj.title = name
-        course_obj.is_active = is_active
+        course_obj.active = is_active
         course_obj.next_course = next_course_obj
-        course_obj.save()
-        messages.success(request,"اطلاعات با موفقیت ویرایش شد")
-        return redirect('/registration_detail')
+        course_obj.id_num = course_idnum
+        try:
+            
+            course_obj.save()
+            messages.success(request,"اطلاعات با موفقیت ویرایش شد")
+            return redirect('/registration_detail')
+        except:
+            messages.error(request,"کد کلاس وارد شده تکراری می باشد")
+            
+            
 
 
 
 
 
-    return redirect('/')
+    return redirect('/registration_detail')

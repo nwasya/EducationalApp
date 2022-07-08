@@ -34,7 +34,7 @@ urlpatterns = [
     path('recent_registration', recent_registration, name='recent_registration'),
     path('add_online_class_link', add_online_class_link, name='add_online_class_link'),
     path('transfer-student', transfer_student, name='transfer_student'),
-    path('registration_detail/<is_active>', registration_detail),
+    path('registration_detail/<is_active>', registration_detail ,name="registration_detail"),
     path('edit_student_via_modal', edit_student_via_modal, name='edit_student_via_modal'),
     path('edit_course_via_modal', edit_course_via_modal, name='edit_course_via_modal'),
 ]

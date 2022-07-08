@@ -1,6 +1,6 @@
 from datetime import datetime
 import json
-
+from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 
 from django.contrib.auth.decorators import login_required
@@ -843,15 +843,20 @@ def transfer_student(request):
 
 
 @login_required(login_url='/')
-def registration_detail(request,*args,**kwargs):
+def registration_detail(request,is_active):
     if UserProfile.objects.get(user__username=request.user.username).role != 'Manager':
         return redirect('/')
     
 
     main_dic = {}
+    is_active = True if is_active in ['true' , 'True'] else False
+
+    query = (Q(is_registered=False) & Q(course__next_course__active=is_active) | Q(is_registered=True) & Q(course__active=is_active))
+   
     
-    is_active = True if kwargs.get('is_active') == 'true' else False
-    registered = Student.objects.filter(course__active=is_active).order_by('course__title')
+    registered = Student.objects.filter(
+      query
+    ).order_by('course__title')
     for stu in registered:
 
         if stu.course and stu.course.next_course:
@@ -950,7 +955,7 @@ def edit_student_via_modal(request):
         else:
             s_obj.save()
             messages.success(request,"اطلاعات با موفقیت ویرایش شد")
-        return redirect('/registration_detail')
+        return redirect(f"/registration_detail/true")
 
 
 
@@ -988,7 +993,6 @@ def edit_course_via_modal(request):
             
             course_obj.save()
             messages.success(request,"اطلاعات با موفقیت ویرایش شد")
-            return redirect('/registration_detail')
         except:
             messages.error(request,"کد کلاس وارد شده تکراری می باشد")
             
@@ -997,5 +1001,5 @@ def edit_course_via_modal(request):
 
 
 
-
-    return redirect('/registration_detail')
+    is_active = 'true' if is_active else 'false'
+    return redirect(f"/registration_detail/{is_active}")

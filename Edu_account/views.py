@@ -797,8 +797,7 @@ def transfer_student(request):
     if UserProfile.objects.get(user__username=request.user.username).role != 'Manager':
         return redirect('/')
     global course_name, id_num, id_nums, des_course_id
-    if UserProfile.objects.get(user__username=request.user.username).role != 'Manager':
-        return redirect('/')
+  
     context = {}
     context['course_flag'] = True
     context['des_course_flag'] = False
@@ -833,6 +832,7 @@ def transfer_student(request):
             for student in id_nums:
                 x = Student.objects.get(id_num=student)
                 x.course = des_course_obj
+                x.is_registered = True
                 x.save()
 
             messages.success(
